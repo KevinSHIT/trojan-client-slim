@@ -133,10 +133,8 @@ namespace TrojanClientSlim
             RunTrojan();
             if (isHttp.Checked == true)
             {
-                
                 RunPivoxy();
                 Proxy.SetProxy("127.0.0.1:54392");
-
             }
             MessageBox.Show("Trojan run successfully!", "Success!", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
@@ -167,7 +165,6 @@ namespace TrojanClientSlim
             p.StartInfo.CreateNoWindow = true;
             p.Start();
             p.Dispose();
-
         }
 
         private void RunPivoxy()
@@ -222,5 +219,10 @@ namespace TrojanClientSlim
             return isPortUsed;
         }
 
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Proxy.UnsetProxy();
+            KillProcess();
+        }
     }
 }
