@@ -121,7 +121,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 72);
+            this.label3.Location = new System.Drawing.Point(12, 75);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(59, 12);
             this.label3.TabIndex = 8;
@@ -142,7 +142,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 103);
+            this.label4.Location = new System.Drawing.Point(12, 102);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(41, 12);
             this.label4.TabIndex = 11;
@@ -212,6 +212,7 @@
             this.Controls.Add(this.Stop);
             this.Controls.Add(this.Exit);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "TCS v1.0 by Kevin";
             this.Load += new System.EventHandler(this.Form1_Load);
