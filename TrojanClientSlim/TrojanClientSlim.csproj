@@ -79,5 +79,14 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="privoxy\config.txt" />
+    <Content Include="privoxy\mgwz.dll" />
+    <Content Include="privoxy\privoxy.exe" />
+    <Content Include="trojan\libcrypto-1_1.dll" />
+    <Content Include="trojan\libmariadb.dll" />
+    <Content Include="trojan\libssl-1_1.dll" />
+    <Content Include="trojan\trojan.exe" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
