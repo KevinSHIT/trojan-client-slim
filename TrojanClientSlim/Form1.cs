@@ -106,6 +106,7 @@ namespace TrojanClientSlim
         private void Cancle_Click(object sender, EventArgs e)
         {
             Proxy.UnsetProxy();
+            KillProcess();
             System.Environment.Exit(0);
         }
 
@@ -158,7 +159,7 @@ namespace TrojanClientSlim
             Process p = new Process();
             p.StartInfo.FileName = @"trojan\trojan.exe";
             p.StartInfo.Arguments = @"-c trojan.conf";
-            p.StartInfo.UseShellExecute = false;
+            p.StartInfo.UseShellExecute = true;
             //p.StartInfo.RedirectStandardInput = true;
             p.StartInfo.RedirectStandardOutput = true;
             p.StartInfo.RedirectStandardError = true;
