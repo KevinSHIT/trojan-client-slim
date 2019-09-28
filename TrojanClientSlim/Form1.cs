@@ -159,13 +159,13 @@ namespace TrojanClientSlim
             Process p = new Process();
             p.StartInfo.FileName = @"trojan\trojan.exe";
             p.StartInfo.Arguments = @"-c trojan.conf";
+#if DEBUG
             p.StartInfo.UseShellExecute = true;
-            //p.StartInfo.RedirectStandardInput = true;
-            p.StartInfo.RedirectStandardOutput = true;
-            p.StartInfo.RedirectStandardError = true;
+#else
+            p.StartInfo.UseShellExecute = false;
             p.StartInfo.CreateNoWindow = true;
+#endif
             p.Start();
-            p.Dispose();
         }
 
         private void RunPivoxy()
@@ -176,10 +176,6 @@ namespace TrojanClientSlim
             //pc.StartInfo.Arguments = $"start {path}\\privoxy\\privoxy.exe {path}\\privoxy\\config.txt";
             p.StartInfo.Arguments = "/c START /MIN privoxy\\privoxy.exe privoxy\\config.txt";
             p.StartInfo.UseShellExecute = false;
-            //p.StartInfo.RedirectStandardInput = true;
-            p.StartInfo.RedirectStandardOutput = true;
-            p.StartInfo.RedirectStandardError = true;
-            p.StartInfo.CreateNoWindow = true;
             p.Start();
             p.Dispose();
         }
