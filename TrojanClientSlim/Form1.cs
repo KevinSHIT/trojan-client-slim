@@ -59,7 +59,9 @@ namespace TrojanClientSlim
             {
                 File.Create("conf");
             }
-
+#if DEBUG
+            this.Text = "[DEBUG]" + this.Text;
+#endif
         }
 
         private void Stop_Click(object sender, EventArgs e)
