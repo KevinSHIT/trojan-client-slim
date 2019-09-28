@@ -60,7 +60,7 @@ namespace TrojanClientSlim
                 File.Create("conf");
             }
 #if DEBUG
-            this.Text = "[DEBUG]" + this.Text;
+            this.Text = "[D]" + this.Text;
 #endif
         }
 
@@ -178,6 +178,7 @@ namespace TrojanClientSlim
             //pc.StartInfo.Arguments = $"start {path}\\privoxy\\privoxy.exe {path}\\privoxy\\config.txt";
             p.StartInfo.Arguments = "/c START /MIN privoxy\\privoxy.exe privoxy\\config.txt";
             p.StartInfo.UseShellExecute = false;
+            p.StartInfo.CreateNoWindow = true;
             p.Start();
             p.Dispose();
         }
