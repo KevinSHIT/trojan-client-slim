@@ -176,7 +176,18 @@ namespace TrojanClientSlim
             Process p = new Process();
             p.StartInfo.FileName = "cmd.exe";
             //pc.StartInfo.Arguments = $"start {path}\\privoxy\\privoxy.exe {path}\\privoxy\\config.txt";
-            p.StartInfo.Arguments = "/c START /MIN privoxy\\privoxy.exe privoxy\\config.txt";
+            if (Global.Checked)
+            {
+                p.StartInfo.Arguments = "/c START /MIN privoxy\\privoxy.exe privoxy\\config.txt";
+            }
+            if(GFWList.Checked)
+            {
+                p.StartInfo.Arguments = "/c cd privoxy && START /MIN privoxy.exe config_gfw.txt";
+            }
+            if(CNList.Checked)
+            {
+                p.StartInfo.Arguments = "/c START /MIN privoxy\\privoxy.exe privoxy\\config_cn.txt";
+            }
             p.StartInfo.UseShellExecute = false;
             p.StartInfo.CreateNoWindow = true;
             p.Start();

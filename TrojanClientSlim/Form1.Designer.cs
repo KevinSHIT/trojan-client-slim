@@ -43,11 +43,15 @@
             this.isVerifyCert = new System.Windows.Forms.CheckBox();
             this.isVerifyHostname = new System.Windows.Forms.CheckBox();
             this.Run = new System.Windows.Forms.Button();
+            this.Global = new System.Windows.Forms.RadioButton();
+            this.GFWList = new System.Windows.Forms.RadioButton();
+            this.CNList = new System.Windows.Forms.RadioButton();
+            this.label6 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // Exit
             // 
-            this.Exit.Location = new System.Drawing.Point(214, 158);
+            this.Exit.Location = new System.Drawing.Point(216, 218);
             this.Exit.Name = "Exit";
             this.Exit.Size = new System.Drawing.Size(75, 23);
             this.Exit.TabIndex = 1;
@@ -57,7 +61,7 @@
             // 
             // Stop
             // 
-            this.Stop.Location = new System.Drawing.Point(110, 158);
+            this.Stop.Location = new System.Drawing.Point(112, 218);
             this.Stop.Name = "Stop";
             this.Stop.Size = new System.Drawing.Size(75, 23);
             this.Stop.TabIndex = 2;
@@ -183,7 +187,7 @@
             // 
             // Run
             // 
-            this.Run.Location = new System.Drawing.Point(12, 158);
+            this.Run.Location = new System.Drawing.Point(12, 218);
             this.Run.Name = "Run";
             this.Run.Size = new System.Drawing.Size(75, 23);
             this.Run.TabIndex = 15;
@@ -191,12 +195,58 @@
             this.Run.UseVisualStyleBackColor = true;
             this.Run.Click += new System.EventHandler(this.Run_Click);
             // 
+            // Global
+            // 
+            this.Global.AutoSize = true;
+            this.Global.Location = new System.Drawing.Point(108, 158);
+            this.Global.Name = "Global";
+            this.Global.Size = new System.Drawing.Size(59, 16);
+            this.Global.TabIndex = 16;
+            this.Global.TabStop = true;
+            this.Global.Text = "Global";
+            this.Global.UseVisualStyleBackColor = true;
+            // 
+            // GFWList
+            // 
+            this.GFWList.AutoSize = true;
+            this.GFWList.Location = new System.Drawing.Point(193, 158);
+            this.GFWList.Name = "GFWList";
+            this.GFWList.Size = new System.Drawing.Size(65, 16);
+            this.GFWList.TabIndex = 17;
+            this.GFWList.TabStop = true;
+            this.GFWList.Text = "GFWList";
+            this.GFWList.UseVisualStyleBackColor = true;
+            // 
+            // CNList
+            // 
+            this.CNList.AutoSize = true;
+            this.CNList.Location = new System.Drawing.Point(108, 180);
+            this.CNList.Name = "CNList";
+            this.CNList.Size = new System.Drawing.Size(59, 16);
+            this.CNList.TabIndex = 18;
+            this.CNList.TabStop = true;
+            this.CNList.Text = "CNList";
+            this.CNList.UseVisualStyleBackColor = true;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(13, 161);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(35, 12);
+            this.label6.TabIndex = 19;
+            this.label6.Text = "Type:";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(303, 201);
+            this.ClientSize = new System.Drawing.Size(303, 266);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.CNList);
+            this.Controls.Add(this.GFWList);
+            this.Controls.Add(this.Global);
             this.Controls.Add(this.Run);
             this.Controls.Add(this.isVerifyHostname);
             this.Controls.Add(this.label5);
@@ -240,6 +290,10 @@
         private System.Windows.Forms.CheckBox isVerifyCert;
         private System.Windows.Forms.CheckBox isVerifyHostname;
         private System.Windows.Forms.Button Run;
+        private System.Windows.Forms.RadioButton Global;
+        private System.Windows.Forms.RadioButton GFWList;
+        private System.Windows.Forms.RadioButton CNList;
+        private System.Windows.Forms.Label label6;
     }
 }
 
