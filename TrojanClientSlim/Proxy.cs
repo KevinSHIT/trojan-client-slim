@@ -79,7 +79,7 @@ namespace TrojanClientSlim
                 Marshal.FreeCoTaskMem(ipcoListPtr);
                 if (returnvalue > 0)
                 {  // throw the error codes, they might be helpful
-                   //throw new Win32Exception(Marshal.GetLastWin32Error());
+                   throw new Win32Exception(Marshal.GetLastWin32Error());
                 }
 
                 return (returnvalue < 0);
@@ -161,29 +161,5 @@ namespace TrojanClientSlim
                 public static extern bool InternetSetOption(IntPtr hInternet, InternetOption dwOption, IntPtr lpBuffer, int dwBufferLength);
             }
 
-            //判断是否使用代理
-            public static bool UsedProxy()
-            {
-                RegistryKey rk = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Internet Settings", true);
-                if (rk.GetValue("ProxyEnable").ToString() == "1")
-                {
-                    rk.Close();
-                    return true;
-                }
-                else
-                {
-                    rk.Close();
-                    return false;
-                }
-            }
-            //获得代理的IP和端口
-            public static string GetProxyProxyServer()
-            {
-                RegistryKey rk = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Internet Settings", true);
-                string ProxyServer = rk.GetValue("ProxyServer").ToString();
-                rk.Close();
-                return ProxyServer;
-
-            }
         }
 }
