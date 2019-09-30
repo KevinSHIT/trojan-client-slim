@@ -66,6 +66,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="privoxy\gfwlist.action" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -81,7 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="privoxy\config.txt" />
-    <Content Include="privoxy\mgwz.dll" />
+    <Content Include="privoxy\config_gfw.txt" />
     <Content Include="privoxy\privoxy.exe" />
     <Content Include="trojan\libcrypto-1_1.dll" />
     <Content Include="trojan\libmariadb.dll" />
