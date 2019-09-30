@@ -45,13 +45,13 @@
             this.Run = new System.Windows.Forms.Button();
             this.Global = new System.Windows.Forms.RadioButton();
             this.GFWList = new System.Windows.Forms.RadioButton();
-            this.CNList = new System.Windows.Forms.RadioButton();
             this.label6 = new System.Windows.Forms.Label();
+            this.ShowPassword = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // Exit
             // 
-            this.Exit.Location = new System.Drawing.Point(216, 218);
+            this.Exit.Location = new System.Drawing.Point(213, 179);
             this.Exit.Name = "Exit";
             this.Exit.Size = new System.Drawing.Size(75, 23);
             this.Exit.TabIndex = 1;
@@ -61,7 +61,7 @@
             // 
             // Stop
             // 
-            this.Stop.Location = new System.Drawing.Point(112, 218);
+            this.Stop.Location = new System.Drawing.Point(112, 179);
             this.Stop.Name = "Stop";
             this.Stop.Size = new System.Drawing.Size(75, 23);
             this.Stop.TabIndex = 2;
@@ -119,7 +119,7 @@
             this.PasswordBox.Location = new System.Drawing.Point(113, 69);
             this.PasswordBox.Name = "PasswordBox";
             this.PasswordBox.PasswordChar = '*';
-            this.PasswordBox.Size = new System.Drawing.Size(175, 21);
+            this.PasswordBox.Size = new System.Drawing.Size(151, 21);
             this.PasswordBox.TabIndex = 9;
             // 
             // label3
@@ -187,7 +187,7 @@
             // 
             // Run
             // 
-            this.Run.Location = new System.Drawing.Point(12, 218);
+            this.Run.Location = new System.Drawing.Point(12, 179);
             this.Run.Name = "Run";
             this.Run.Size = new System.Drawing.Size(75, 23);
             this.Run.TabIndex = 15;
@@ -198,53 +198,55 @@
             // Global
             // 
             this.Global.AutoSize = true;
-            this.Global.Location = new System.Drawing.Point(108, 158);
+            this.Global.Checked = true;
+            this.Global.Location = new System.Drawing.Point(113, 150);
             this.Global.Name = "Global";
             this.Global.Size = new System.Drawing.Size(59, 16);
             this.Global.TabIndex = 16;
             this.Global.TabStop = true;
             this.Global.Text = "Global";
             this.Global.UseVisualStyleBackColor = true;
+            this.Global.CheckedChanged += new System.EventHandler(this.Global_CheckedChanged);
             // 
             // GFWList
             // 
             this.GFWList.AutoSize = true;
-            this.GFWList.Location = new System.Drawing.Point(193, 158);
+            this.GFWList.Location = new System.Drawing.Point(216, 150);
             this.GFWList.Name = "GFWList";
             this.GFWList.Size = new System.Drawing.Size(65, 16);
             this.GFWList.TabIndex = 17;
-            this.GFWList.TabStop = true;
             this.GFWList.Text = "GFWList";
             this.GFWList.UseVisualStyleBackColor = true;
-            // 
-            // CNList
-            // 
-            this.CNList.AutoSize = true;
-            this.CNList.Location = new System.Drawing.Point(108, 180);
-            this.CNList.Name = "CNList";
-            this.CNList.Size = new System.Drawing.Size(59, 16);
-            this.CNList.TabIndex = 18;
-            this.CNList.TabStop = true;
-            this.CNList.Text = "CNList";
-            this.CNList.UseVisualStyleBackColor = true;
+            this.GFWList.CheckedChanged += new System.EventHandler(this.GFWList_CheckedChanged);
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(13, 161);
+            this.label6.Location = new System.Drawing.Point(12, 152);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(35, 12);
             this.label6.TabIndex = 19;
             this.label6.Text = "Type:";
+            // 
+            // ShowPassword
+            // 
+            this.ShowPassword.Location = new System.Drawing.Point(270, 69);
+            this.ShowPassword.Name = "ShowPassword";
+            this.ShowPassword.Size = new System.Drawing.Size(18, 21);
+            this.ShowPassword.TabIndex = 20;
+            this.ShowPassword.Text = "*";
+            this.ShowPassword.UseVisualStyleBackColor = true;
+            this.ShowPassword.MouseLeave += new System.EventHandler(this.ShowPassword_MouseLeave);
+            this.ShowPassword.MouseHover += new System.EventHandler(this.ShowPassword_MouseHover);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(306, 256);
+            this.ClientSize = new System.Drawing.Size(306, 220);
+            this.Controls.Add(this.ShowPassword);
             this.Controls.Add(this.label6);
-            this.Controls.Add(this.CNList);
             this.Controls.Add(this.GFWList);
             this.Controls.Add(this.Global);
             this.Controls.Add(this.Run);
@@ -292,8 +294,8 @@
         private System.Windows.Forms.Button Run;
         private System.Windows.Forms.RadioButton Global;
         private System.Windows.Forms.RadioButton GFWList;
-        private System.Windows.Forms.RadioButton CNList;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button ShowPassword;
     }
 }
 

@@ -194,10 +194,6 @@ namespace TrojanClientSlim
             {
                 p.StartInfo.Arguments = "/c cd privoxy && START /MIN privoxy.exe config_gfw.txt";
             }
-            if(CNList.Checked)
-            {
-                p.StartInfo.Arguments = "/c START /MIN privoxy\\privoxy.exe privoxy\\config_cn.txt";
-            }
             p.StartInfo.UseShellExecute = false;
             p.StartInfo.CreateNoWindow = true;
             p.Start();
@@ -244,6 +240,32 @@ namespace TrojanClientSlim
         {
             Proxy.UnsetProxy();
             KillProcess();
+        }
+
+        private void GFWList_CheckedChanged(object sender, EventArgs e)
+        {
+            if (GFWList.Checked == true)
+                Global.Checked = false;
+            else
+                Global.Checked = true;
+        }
+
+        private void Global_CheckedChanged(object sender, EventArgs e)
+        {
+            if(Global.Checked == true)
+                GFWList.Checked = false;
+            else
+                GFWList.Checked = true;
+        }
+
+        private void ShowPassword_MouseHover(object sender, EventArgs e)
+        {
+            PasswordBox.PasswordChar = new char();
+        }
+
+        private void ShowPassword_MouseLeave(object sender, EventArgs e)
+        {
+            PasswordBox.PasswordChar = '*';
         }
     }
 }
