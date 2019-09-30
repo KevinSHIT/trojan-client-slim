@@ -58,7 +58,7 @@ namespace TrojanClientSlim
             }
             else
             {
-                File.Create("conf");
+                File.Create("conf").Dispose();
             }
 #if DEBUG
             this.Text = "[D]" + this.Text;
@@ -71,11 +71,11 @@ namespace TrojanClientSlim
             try
             {
                 KillProcess();
-                MessageBox.Show("Kill trojan process successfully!", "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Kill process successfully!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch
             {
-                MessageBox.Show("Kill trojan process failed!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("FATAL ERROR: Kill process failed!", "FATAL ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -133,6 +133,7 @@ namespace TrojanClientSlim
             catch
             {
                 MessageBox.Show("FATAL ERROR: Conf file written failed!", "FATAL ERROR",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                goto final;
             }
             try
             {
@@ -150,6 +151,7 @@ namespace TrojanClientSlim
                 Proxy.SetProxy("127.0.0.1:54392");
             }
             MessageBox.Show("Trojan run successfully!", "Success!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        final:;
         }
 
 
