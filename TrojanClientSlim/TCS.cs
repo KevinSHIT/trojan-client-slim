@@ -1,10 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Runtime.InteropServices;
+using Microsoft.Win32;
 
 namespace TrojanClientSlim
 {
@@ -116,15 +124,15 @@ namespace TrojanClientSlim
             {
                 ch += "h";
             }
-
-
+            
+                
             try
             {
                 File.WriteAllText("conf", Encrypt.Base64($"{RemoteAddressBox.Text}:{RemotePortBox.Text}:{PasswordBox.Text}:{isHttp.Checked}:{ch}"));
             }
             catch
             {
-                MessageBox.Show("FATAL ERROR: Conf file written failed!", "FATAL ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("FATAL ERROR: Conf file written failed!", "FATAL ERROR",MessageBoxButtons.OK,MessageBoxIcon.Error);
             }
             try
             {
@@ -174,7 +182,7 @@ namespace TrojanClientSlim
 
         private void RunPivoxy()
         {
-
+            
             Process p = new Process();
             p.StartInfo.FileName = "cmd.exe";
             //pc.StartInfo.Arguments = $"start {path}\\privoxy\\privoxy.exe {path}\\privoxy\\config.txt";
@@ -182,7 +190,7 @@ namespace TrojanClientSlim
             {
                 p.StartInfo.Arguments = "/c START /MIN privoxy\\privoxy.exe privoxy\\config.txt";
             }
-            if (GFWList.Checked)
+            if(GFWList.Checked)
             {
                 p.StartInfo.Arguments = "/c cd privoxy && START /MIN privoxy.exe config_gfw.txt";
             }
@@ -244,7 +252,7 @@ namespace TrojanClientSlim
 
         private void Global_CheckedChanged(object sender, EventArgs e)
         {
-            if (Global.Checked == true)
+            if(Global.Checked == true)
                 GFWList.Checked = false;
             else
                 GFWList.Checked = true;
