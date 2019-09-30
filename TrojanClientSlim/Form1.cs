@@ -11,6 +11,7 @@ using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Runtime.InteropServices;
 using Microsoft.Win32;
 
 namespace TrojanClientSlim
@@ -123,14 +124,23 @@ namespace TrojanClientSlim
             {
                 ch += "h";
             }
-            File.WriteAllText("conf", Encrypt.Base64($"{RemoteAddressBox.Text}:{RemotePortBox.Text}:{PasswordBox.Text}:{isHttp.Checked}:{ch}"));
+            
+                
+            try
+            {
+                File.WriteAllText("conf", Encrypt.Base64($"{RemoteAddressBox.Text}:{RemotePortBox.Text}:{PasswordBox.Text}:{isHttp.Checked}:{ch}"));
+            }
+            catch
+            {
+                MessageBox.Show("FATAL ERROR: Conf file written failed!", "FATAL ERROR",MessageBoxButtons.OK,MessageBoxIcon.Error);
+            }
             try
             {
                 KillProcess();
             }
             catch
             {
-                MessageBox.Show("Kill trojan process failed!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("FATAL ERROR: Kill process failed!", "FATAL ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             GeneralTrojanConf();
             RunTrojan();
@@ -196,8 +206,8 @@ namespace TrojanClientSlim
 
         private void GeneralTrojanConf()
         {
-            //if (File.Exists("trojan.conf"))
-            //{
+            try
+            {
                 File.WriteAllText("trojan.conf", "{\"run_type\": \"client\", \"local_addr\": \"127.0.0.1\", \"local_port\": 1080, \"remote_addr\":\"" +
                     RemoteAddressBox.Text + "\", \"remote_port\": " + RemotePortBox.Text + ", \"password\": [\"" + PasswordBox.Text + "\"], \"log_level\": 1, \"ssl\": { \"verify\": " +
                     isVerifyCert.Checked.ToString().ToLower() + ",\"verify_hostname\": " + isVerifyHostname.Checked.ToString().ToLower() + ", \"cert\": \"\", \"cipher\": \"ECDHE - ECDSA - AES128 - GCM - SHA256:" +
@@ -205,11 +215,11 @@ namespace TrojanClientSlim
                     "ECDHE - RSA - CHACHA20 - POLY1305:ECDHE - RSA - AES128 - SHA:ECDHE - RSA - AES256 - SHA:RSA - AES128 - GCM - SHA256:RSA - AES256 - GCM - SHA384:" +
                     "RSA - AES128 - SHA:RSA - AES256 - SHA:RSA - 3DES - EDE - SHA\", \"sni\": \"\", \"alpn\": [ \"http / 1.1\" ], \"reuse_session\": true, \"session_ticket\": false," +
                     " \"curves\": \"\" }, \"tcp\": { \"no_delay\": true, \"keep_alive\": true, \"fast_open\": false, \"fast_open_qlen\": 20 } }");
-            //}
-            //else
-            //{
-                //File.Create("")
-            //}
+            }
+            catch
+            {
+                MessageBox.Show("FATAL ERROR: Conf file written failed!", "FATAL ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
 
@@ -235,5 +245,7 @@ namespace TrojanClientSlim
             Proxy.UnsetProxy();
             KillProcess();
         }
+
+
     }
 }

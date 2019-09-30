@@ -242,7 +242,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(303, 266);
+            this.ClientSize = new System.Drawing.Size(391, 280);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.CNList);
             this.Controls.Add(this.GFWList);
