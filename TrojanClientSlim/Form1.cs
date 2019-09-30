@@ -245,7 +245,5 @@ namespace TrojanClientSlim
             Proxy.UnsetProxy();
             KillProcess();
         }
-
-
     }
 }
