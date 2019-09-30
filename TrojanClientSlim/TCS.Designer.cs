@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TCS));
             this.Exit = new System.Windows.Forms.Button();
             this.Stop = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -265,6 +266,7 @@
             this.Controls.Add(this.Stop);
             this.Controls.Add(this.Exit);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "TCS";
             this.Text = "TCS v2.0.1 by Kevin";
