@@ -22,7 +22,7 @@ namespace TrojanClientSlim
             Process instance = RunningInstance();
             if (instance == null)
             {
-                Application.Run(new Form1());
+                Application.Run(new TCS());
             }
             else
             {

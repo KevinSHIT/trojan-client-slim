@@ -1,6 +1,6 @@
 ﻿namespace TrojanClientSlim
 {
-    partial class Form1
+    partial class TCS
     {
         /// <summary>
         /// 必需的设计器变量。
@@ -239,7 +239,7 @@
             this.ShowPassword.MouseLeave += new System.EventHandler(this.ShowPassword_MouseLeave);
             this.ShowPassword.MouseHover += new System.EventHandler(this.ShowPassword_MouseHover);
             // 
-            // Form1
+            // TCS
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -266,10 +266,10 @@
             this.Controls.Add(this.Exit);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
-            this.Name = "Form1";
-            this.Text = "TCS v1.0.2 by Kevin";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
-            this.Load += new System.EventHandler(this.Form1_Load);
+            this.Name = "TCS";
+            this.Text = "TCS v2.0 by Kevin";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TCS_FormClosing);
+            this.Load += new System.EventHandler(this.TCS_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

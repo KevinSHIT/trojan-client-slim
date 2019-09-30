@@ -16,14 +16,14 @@ using Microsoft.Win32;
 
 namespace TrojanClientSlim
 {
-    public partial class Form1 : Form
+    public partial class TCS : Form
     {
-        public Form1()
+        public TCS()
         {
             InitializeComponent();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void TCS_Load(object sender, EventArgs e)
         {
             if (isPortUsed(1080))
             {
@@ -236,7 +236,7 @@ namespace TrojanClientSlim
             return isPortUsed;
         }
 
-        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        private void TCS_FormClosing(object sender, FormClosingEventArgs e)
         {
             Proxy.UnsetProxy();
             KillProcess();
