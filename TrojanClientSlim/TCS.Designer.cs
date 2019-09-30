@@ -267,7 +267,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "TCS";
-            this.Text = "TCS v2.0 by Kevin";
+            this.Text = "TCS v2.0.1 by Kevin";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TCS_FormClosing);
             this.Load += new System.EventHandler(this.TCS_Load);
             this.ResumeLayout(false);
