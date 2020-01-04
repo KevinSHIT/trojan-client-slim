@@ -29,4 +29,4 @@ TCS(Trojan Client Slim) is a slim and easy client for Trojan-G*W.
 - Smart G*WList updator
 
 ## Screenshot(s)
-![TCS2.2.0](https:/github.com/KevinZonda/trojan-client-slim/blob/master/Screenshots/TCS00.png?raw=true)
+![TCS2.2.0](https://github.com/KevinZonda/trojan-client-slim/blob/master/Screenshots/TCS00.png?raw=true)
