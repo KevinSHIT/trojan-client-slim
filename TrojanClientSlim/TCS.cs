@@ -62,40 +62,55 @@ namespace TrojanClientSlim
 
         private void Run_Click(object sender, EventArgs e) => RunTrojan();
 
+        private bool IsConfigValid()
+        {
+            if (RemoteAddressBox.Text.Trim() != "" && RemotePortBox.Text.Trim() != "" && PasswordBox.Text.Trim() != "")
+                return true;
+            else
+                return false;
+        }
+
         private void RunTrojan()
         {
-            string ch = string.Empty;
-            if (isVerifyCert.Checked == true)
-                ch += "c";
-            if (isVerifyHostname.Checked == true)
-                ch += "h";
+            if (IsConfigValid())
+            {
+                string ch = string.Empty;
+                if (isVerifyCert.Checked == true)
+                    ch += "c";
+                if (isVerifyHostname.Checked == true)
+                    ch += "h";
 
-            try
-            {
-                File.WriteAllText("conf", Encrypt.Base64($"{RemoteAddressBox.Text}:{RemotePortBox.Text}:{PasswordBox.Text}:{isHttp.Checked}:{ch}"));
+                try
+                {
+                    File.WriteAllText("conf", Encrypt.Base64($"{RemoteAddressBox.Text}:{RemotePortBox.Text}:{PasswordBox.Text}:{isHttp.Checked}:{ch}"));
+                }
+                catch
+                {
+                    MessageBox.Show("FATAL ERROR: Conf file written failed!", "FATAL ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    goto final;
+                }
+                try
+                {
+                    KillProcess();
+                }
+                catch
+                {
+                    MessageBox.Show("FATAL ERROR: Kill process failed!", "FATAL ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                GenerateTrojanConf();
+                RunTrojanCommand();
+                if (isHttp.Checked == true)
+                {
+                    RunPivoxyCommand();
+                    Proxy.SetProxy("127.0.0.1:54392");
+                }
+                MessageBox.Show("Run Trojan succeeded!", "INFO", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                final:;
             }
-            catch
+            else
             {
-                MessageBox.Show("FATAL ERROR: Conf file written failed!", "FATAL ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                goto final;
+                MessageBox.Show("Config invalid! Please enter current trojan information.", "FATAL ERROR", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            try
-            {
-                KillProcess();
-            }
-            catch
-            {
-                MessageBox.Show("FATAL ERROR: Kill process failed!", "FATAL ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            GenerateTrojanConf();
-            RunTrojanCommand();
-            if (isHttp.Checked == true)
-            {
-                RunPivoxyCommand();
-                Proxy.SetProxy("127.0.0.1:54392");
-            }
-            MessageBox.Show("Run Trojan succeeded!", "INFO", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            final:;
         }
 
         private void KillProcess()
