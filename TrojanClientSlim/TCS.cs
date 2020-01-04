@@ -1,38 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Runtime.InteropServices;
-using Microsoft.Win32;
 
 namespace TrojanClientSlim
 {
     public partial class TCS : Form
     {
-        public TCS()
-        {
-            InitializeComponent();
-        }
+        public TCS() => InitializeComponent();
 
         private void TCS_Load(object sender, EventArgs e)
         {
             if (IsPortUsed(1080))
-            {
-                MessageBox.Show("Port 1080 is in use!\r\nTrojan may failure to work.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
+                MessageBox.Show("Port 1080 is in use!\r\nTrojan may fail to work.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             if (IsPortUsed(54392))
-            {
-                MessageBox.Show("Port 54392 is in use!\r\nPrivoxy may failure to work.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-            }
+                MessageBox.Show("Port 54392 is in use!\r\nPrivoxy may fail to work.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             if (File.Exists("conf"))
             {
                 string[] conf = Encrypt.DeBase64(File.ReadAllText("conf")).Split(':');
@@ -42,23 +26,15 @@ namespace TrojanClientSlim
                     this.RemotePortBox.Text = conf[1];
                     this.PasswordBox.Text = conf[2];
                     if (conf[3].ToLower() == "true")
-                    {
                         isHttp.Checked = true;
-                    }
                     if (conf[4].ToLower().Contains("c"))
-                    {
                         isVerifyCert.Checked = true;
-                    }
                     if (conf[4].ToLower().Contains("h"))
-                    {
                         isVerifyHostname.Checked = true;
-                    }
                 }
             }
             else
-            {
                 File.Create("conf").Dispose();
-            }
 #if DEBUG
             this.Text = "[D]" + this.Text;
 #endif
@@ -66,44 +42,41 @@ namespace TrojanClientSlim
 
         private void Stop_Click(object sender, EventArgs e)
         {
-            Proxy.UnsetProxy();
-            try
-            {
-                KillProcess();
-                MessageBox.Show("Kill process successfully!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            catch
-            {
-                MessageBox.Show("FATAL ERROR: Kill process failed!", "FATAL ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            StopTrojan();
+            MessageBox.Show("Stop Trojan succeeded!", "INFO", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private void Cancle_Click(object sender, EventArgs e)
+        private void Cancle_Click(object sender, EventArgs e) => ExitTCS();
+
+        private void ExitTCS()
         {
-            Proxy.UnsetProxy();
-            KillProcess();
+            StopTrojan();
             System.Environment.Exit(0);
         }
 
-        private void Run_Click(object sender, EventArgs e)
+        private void StopTrojan()
+        {
+            Proxy.UnsetProxy();
+            KillProcess();
+        }
+
+        private void Run_Click(object sender, EventArgs e) => RunTrojan();
+
+        private void RunTrojan()
         {
             string ch = string.Empty;
             if (isVerifyCert.Checked == true)
-            {
                 ch += "c";
-            }
             if (isVerifyHostname.Checked == true)
-            {
                 ch += "h";
-            }
-             
+
             try
             {
                 File.WriteAllText("conf", Encrypt.Base64($"{RemoteAddressBox.Text}:{RemotePortBox.Text}:{PasswordBox.Text}:{isHttp.Checked}:{ch}"));
             }
             catch
             {
-                MessageBox.Show("FATAL ERROR: Conf file written failed!", "FATAL ERROR",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                MessageBox.Show("FATAL ERROR: Conf file written failed!", "FATAL ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 goto final;
             }
             try
@@ -114,17 +87,16 @@ namespace TrojanClientSlim
             {
                 MessageBox.Show("FATAL ERROR: Kill process failed!", "FATAL ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            GeneralTrojanConf();
-            RunTrojan();
+            GenerateTrojanConf();
+            RunTrojanCommand();
             if (isHttp.Checked == true)
             {
-                RunPivoxy();
+                RunPivoxyCommand();
                 Proxy.SetProxy("127.0.0.1:54392");
             }
-            MessageBox.Show("Trojan run successfully!", "Success!", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        final:;
+            MessageBox.Show("Run Trojan succeeded!", "INFO", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            final:;
         }
-
 
         private void KillProcess()
         {
@@ -139,7 +111,7 @@ namespace TrojanClientSlim
             }
         }
 
-        private void RunTrojan()
+        private void RunTrojanCommand()
         {
             Process p = new Process();
             p.StartInfo.FileName = @"trojan\trojan.exe";
@@ -153,9 +125,9 @@ namespace TrojanClientSlim
             p.Start();
         }
 
-        private void RunPivoxy()
+        private void RunPivoxyCommand()
         {
-            
+
             Process p = new Process();
             p.StartInfo.FileName = "cmd.exe";
             //pc.StartInfo.Arguments = $"start {path}\\privoxy\\privoxy.exe {path}\\privoxy\\config.txt";
@@ -163,7 +135,7 @@ namespace TrojanClientSlim
             {
                 p.StartInfo.Arguments = "/c START /MIN privoxy\\privoxy.exe privoxy\\config.txt";
             }
-            if(GFWList.Checked)
+            if (GFWList.Checked)
             {
                 p.StartInfo.Arguments = "/c cd privoxy && START /MIN privoxy.exe config_gfw.txt";
             }
@@ -173,7 +145,7 @@ namespace TrojanClientSlim
             p.Dispose();
         }
 
-        private void GeneralTrojanConf()
+        private void GenerateTrojanConf()
         {
             try
             {
@@ -190,8 +162,6 @@ namespace TrojanClientSlim
                 MessageBox.Show("FATAL ERROR: Conf file written failed!", "FATAL ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
-
 
         private static bool IsPortUsed(int port)
         {
@@ -225,25 +195,19 @@ namespace TrojanClientSlim
 
         private void Global_CheckedChanged(object sender, EventArgs e)
         {
-            if(Global.Checked == true)
+            if (Global.Checked == true)
                 GFWList.Checked = false;
             else
                 GFWList.Checked = true;
         }
 
-        private void ShowPassword_MouseHover(object sender, EventArgs e)
-        {
-            PasswordBox.PasswordChar = new char();
-        }
+        private void ShowPassword_MouseHover(object sender, EventArgs e) => PasswordBox.PasswordChar = new char();
 
-        private void ShowPassword_MouseLeave(object sender, EventArgs e)
-        {
-            PasswordBox.PasswordChar = '*';
-        }
+        private void ShowPassword_MouseLeave(object sender, EventArgs e) => PasswordBox.PasswordChar = '*';
 
         private void TCS_SizeChanged(object sender, EventArgs e)
         {
-            if(WindowState == FormWindowState.Minimized)
+            if (WindowState == FormWindowState.Minimized)
             {
                 this.ShowInTaskbar = false;
                 notifyIcon.Visible = true;
@@ -260,5 +224,11 @@ namespace TrojanClientSlim
                 notifyIcon.Visible = false;
             }
         }
+
+        private void RunToolStripMenuItem_Click(object sender, EventArgs e) => RunTrojan();
+
+        private void StopToolStripMenuItem_Click(object sender, EventArgs e) => StopTrojan();
+
+        private void ExitToolStripMenuItem_Click(object sender, EventArgs e) => ExitTCS();
     }
 }
