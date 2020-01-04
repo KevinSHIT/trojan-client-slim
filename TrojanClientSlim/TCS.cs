@@ -8,7 +8,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
@@ -25,11 +24,11 @@ namespace TrojanClientSlim
 
         private void TCS_Load(object sender, EventArgs e)
         {
-            if (isPortUsed(1080))
+            if (IsPortUsed(1080))
             {
                 MessageBox.Show("Port 1080 is in use!\r\nTrojan may failure to work.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
-            if (isPortUsed(54392))
+            if (IsPortUsed(54392))
             {
                 MessageBox.Show("Port 54392 is in use!\r\nPrivoxy may failure to work.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
@@ -79,33 +78,6 @@ namespace TrojanClientSlim
             }
         }
 
-        public class Encrypt
-        {
-            public static string Base64(string str)
-            {
-                try
-                {
-                    return Convert.ToBase64String((byte[])Encoding.Default.GetBytes(str));
-                }
-                catch
-                {
-                    throw new InvalidCastException();
-                }
-            }
-
-            public static string DeBase64(string str)
-            {
-                try
-                {
-                    return Encoding.Default.GetString((byte[])Convert.FromBase64String(str));
-                }
-                catch
-                {
-                    throw new InvalidCastException();
-                }
-            }
-        }
-
         private void Cancle_Click(object sender, EventArgs e)
         {
             Proxy.UnsetProxy();
@@ -124,8 +96,7 @@ namespace TrojanClientSlim
             {
                 ch += "h";
             }
-            
-                
+             
             try
             {
                 File.WriteAllText("conf", Encrypt.Base64($"{RemoteAddressBox.Text}:{RemotePortBox.Text}:{PasswordBox.Text}:{isHttp.Checked}:{ch}"));
@@ -222,7 +193,7 @@ namespace TrojanClientSlim
 
 
 
-        private static bool isPortUsed(int port)
+        private static bool IsPortUsed(int port)
         {
             bool isPortUsed = false;
             IPGlobalProperties ipProperties = IPGlobalProperties.GetIPGlobalProperties();
@@ -268,6 +239,26 @@ namespace TrojanClientSlim
         private void ShowPassword_MouseLeave(object sender, EventArgs e)
         {
             PasswordBox.PasswordChar = '*';
+        }
+
+        private void TCS_SizeChanged(object sender, EventArgs e)
+        {
+            if(WindowState == FormWindowState.Minimized)
+            {
+                this.ShowInTaskbar = false;
+                notifyIcon.Visible = true;
+            }
+        }
+
+        private void notifyIcon_DoubleClick(object sender, EventArgs e)
+        {
+            if (WindowState == FormWindowState.Minimized)
+            {
+                WindowState = FormWindowState.Normal;
+                this.Activate();
+                this.ShowInTaskbar = true;
+                notifyIcon.Visible = false;
+            }
         }
     }
 }

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TCS));
             this.Exit = new System.Windows.Forms.Button();
             this.Stop = new System.Windows.Forms.Button();
@@ -48,6 +49,7 @@
             this.GFWList = new System.Windows.Forms.RadioButton();
             this.label6 = new System.Windows.Forms.Label();
             this.ShowPassword = new System.Windows.Forms.Button();
+            this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.SuspendLayout();
             // 
             // Exit
@@ -240,6 +242,13 @@
             this.ShowPassword.MouseLeave += new System.EventHandler(this.ShowPassword_MouseLeave);
             this.ShowPassword.MouseHover += new System.EventHandler(this.ShowPassword_MouseHover);
             // 
+            // notifyIcon
+            // 
+            this.notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon.Icon")));
+            this.notifyIcon.Text = "TCS";
+            this.notifyIcon.Visible = true;
+            this.notifyIcon.DoubleClick += new System.EventHandler(this.notifyIcon_DoubleClick);
+            // 
             // TCS
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -272,6 +281,7 @@
             this.Text = "TCS v2.0.1 by Kevin";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TCS_FormClosing);
             this.Load += new System.EventHandler(this.TCS_Load);
+            this.SizeChanged += new System.EventHandler(this.TCS_SizeChanged);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -298,6 +308,7 @@
         private System.Windows.Forms.RadioButton GFWList;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button ShowPassword;
+        private System.Windows.Forms.NotifyIcon notifyIcon;
     }
 }
 
