@@ -62,13 +62,7 @@ namespace TrojanClientSlim
 
         private void Run_Click(object sender, EventArgs e) => RunTrojan();
 
-        private bool IsConfigValid()
-        {
-            if (RemoteAddressBox.Text.Trim() != "" && RemotePortBox.Text.Trim() != "" && PasswordBox.Text.Trim() != "")
-                return true;
-            else
-                return false;
-        }
+        private bool IsConfigValid() => (RemoteAddressBox.Text.Trim() != "" && RemotePortBox.Text.Trim() != "" && PasswordBox.Text.Trim() != "");
 
         private void RunTrojan()
         {
