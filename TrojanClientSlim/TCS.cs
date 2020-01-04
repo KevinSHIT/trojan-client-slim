@@ -151,11 +151,12 @@ namespace TrojanClientSlim
             {
                 File.WriteAllText("trojan.conf", "{\"run_type\": \"client\", \"local_addr\": \"127.0.0.1\", \"local_port\": 1080, \"remote_addr\":\"" +
                     RemoteAddressBox.Text + "\", \"remote_port\": " + RemotePortBox.Text + ", \"password\": [\"" + PasswordBox.Text + "\"], \"log_level\": 1, \"ssl\": { \"verify\": " +
-                    isVerifyCert.Checked.ToString().ToLower() + ",\"verify_hostname\": " + isVerifyHostname.Checked.ToString().ToLower() + ", \"cert\": \"\", \"cipher\": \"ECDHE - ECDSA - AES128 - GCM - SHA256:" +
-                    "ECDHE - RSA - AES128 - GCM - SHA256:ECDHE - ECDSA - AES256 - GCM - SHA384:ECDHE - RSA - AES256 - GCM - SHA384:ECDHE - ECDSA - CHACHA20 - POLY1305:" +
-                    "ECDHE - RSA - CHACHA20 - POLY1305:ECDHE - RSA - AES128 - SHA:ECDHE - RSA - AES256 - SHA:RSA - AES128 - GCM - SHA256:RSA - AES256 - GCM - SHA384:" +
-                    "RSA - AES128 - SHA:RSA - AES256 - SHA:RSA - 3DES - EDE - SHA\", \"sni\": \"\", \"alpn\": [ \"http / 1.1\" ], \"reuse_session\": true, \"session_ticket\": false," +
-                    " \"curves\": \"\" }, \"tcp\": { \"no_delay\": true, \"keep_alive\": true, \"fast_open\": false, \"fast_open_qlen\": 20 } }");
+                    isVerifyCert.Checked.ToString().ToLower() + ",\"verify_hostname\": " + isVerifyHostname.Checked.ToString().ToLower() + ", \"cert\": \"\", \"cipher\": \"ECDHE-ECDSA-" +
+                    "AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:" +
+                    "ECDHE-RSA-AES128-SHA:ECDHE-RSA-AES256-SHA:RSA-AES128-GCM-SHA256:RSA-AES256-GCM-SHA384:RSA-AES128-SHA:RSA-AES256-SHA:RSA-3DES-EDE-SHA\", " +
+                    "\"cipher_tls13\":\"TLS_AES_128_GCM_SHA256:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_256_GCM_SHA384\", "+
+                    "\"sni\": \"\", \"alpn\": [ \"h2\", \"http/1.1\" ], \"reuse_session\": true, \"session_ticket\": false," +
+                    " \"curves\": \"\" }, \"tcp\": { \"no_delay\": true, \"keep_alive\": true, \"reuse_port\": false, \"fast_open\": false, \"fast_open_qlen\": 20 } }");
             }
             catch
             {
