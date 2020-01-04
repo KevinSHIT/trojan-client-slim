@@ -109,7 +109,7 @@ namespace TrojanClientSlim
             }
             else
             {
-                MessageBox.Show("Config invalid! Please enter current trojan information.", "FATAL ERROR", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Config invalid! Please enter current trojan information.", "FATAL ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
