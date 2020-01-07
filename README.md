@@ -25,8 +25,9 @@ TCS(Trojan Client Slim) is a slim and easy client for Trojan-G*W.
 
 ## TODO
 
+- Use Clash instead of Privoxy
 - Node list
-- Smart G*WList updator
+- ~Smart G*WList updator~
 
 ## Screenshot(s)
 ![TCS2.2.0](https://github.com/KevinZonda/trojan-client-slim/blob/master/Screenshots/TCS00.png?raw=true)
