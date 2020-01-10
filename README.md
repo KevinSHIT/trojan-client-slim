@@ -1,10 +1,10 @@
 # TCS
 
-A slim cilent for trojan.
+A slim cilent for Trojan-GFW.
 
 ## What's TCS?
 
-TCS(Trojan Client Slim) is a slim and easy client for Trojan-G*W. 
+TCS(Trojan Client Slim) is a slim and easy client for Trojan-GFW. 
 
 > TIPS: TCS only gives the most basic functions. If you need full-feature experience, please configure Trojan-G*W manually.
 
@@ -21,14 +21,19 @@ TCS(Trojan Client Slim) is a slim and easy client for Trojan-G*W.
 
 - [TCS](https://github.com/KevinZonda/trojan-client-slim) **(2.2.0)** **no-license**
 - [Privoxy](https://www.privoxy.org/) **(3.0.28.0)** **GPLv2**
-- [Trojan-G*W](https://github.com/trojan-gfw/trojan) **(1.14.0)** **GPLv3**
+- [Trojan-GFW](https://github.com/trojan-gfw/trojan) **(1.14.0)** **GPLv3**
 
 
 ## TODO
 
 - Use Clash instead of Privoxy
+- Local Port settings
 - Node list
-- ~Smart G*WList updator~
+- ~Smart GFWList updator~
 
 ## Screenshot(s)
 ![TCS2.2.0](https://github.com/KevinZonda/trojan-client-slim/blob/master/Screenshots/TCS00.png?raw=true)
+
+## One more thing
+
+Welcome to use Telegram to communicate with us. Our group link is https://t.me/trojangfwcs
