@@ -156,7 +156,7 @@ namespace TrojanClientSlim
                     isVerifyCert.Checked.ToString().ToLower() + ",\"verify_hostname\": " + isVerifyHostname.Checked.ToString().ToLower() + ", \"cert\": \"\", \"cipher\": \"ECDHE-ECDSA-" +
                     "AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:" +
                     "ECDHE-RSA-AES128-SHA:ECDHE-RSA-AES256-SHA:RSA-AES128-GCM-SHA256:RSA-AES256-GCM-SHA384:RSA-AES128-SHA:RSA-AES256-SHA:RSA-3DES-EDE-SHA\", " +
-                    "\"cipher_tls13\":\"TLS_AES_128_GCM_SHA256:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_256_GCM_SHA384\", "+
+                    "\"cipher_tls13\":\"TLS_AES_128_GCM_SHA256:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_256_GCM_SHA384\", " +
                     "\"sni\": \"\", \"alpn\": [ \"h2\", \"http/1.1\" ], \"reuse_session\": true, \"session_ticket\": false," +
                     " \"curves\": \"\" }, \"tcp\": { \"no_delay\": true, \"keep_alive\": true, \"reuse_port\": false, \"fast_open\": false, \"fast_open_qlen\": 20 } }");
             }
@@ -236,7 +236,7 @@ namespace TrojanClientSlim
 
         private void EnableShareLink_CheckedChanged(object sender, EventArgs e)
         {
-            if(EnableShareLink.Checked)
+            if (EnableShareLink.Checked)
             {
                 ShareLinkBox.ReadOnly = false;
             }
@@ -247,7 +247,7 @@ namespace TrojanClientSlim
         }
 
         private string GenerateShareLink(string remoteAddress, string remotePort, string password) => "tcs://" + Encrypt.Base64(Encrypt.Base64(remoteAddress) + ":" + Encrypt.Base64(remotePort) + ":" + Encrypt.Base64(password));
-    
+
         private void Conf2ShareLink() => ShareLinkBox.Text = GenerateShareLink(RemoteAddressBox.Text, RemotePortBox.Text, PasswordBox.Text);
 
         #region TextChanged
@@ -269,7 +269,6 @@ namespace TrojanClientSlim
         {
             if (ShareLinkBox.Text.StartsWith("TCS://") || ShareLinkBox.Text.StartsWith("tcs://"))
             {
-                Debug.WriteLine("TRY", ShareLinkBox.Text.Substring(6));
                 try
                 {
                     string[] shareLink = Encrypt.DeBase64(ShareLinkBox.Text.Substring(6)).Split(':');
@@ -284,5 +283,83 @@ namespace TrojanClientSlim
             }
         }
 
+        private string[] ConvertShareToTrojanConf(string tcsShareLink)
+        {
+            if (tcsShareLink.Substring(0, 6).ToLower() == "tcs://")
+            {
+                try
+                {
+                    String[] tmp = Encrypt.DeBase64(tcsShareLink.Substring(6)).Split(':');
+                    for (int i = 0; i < tmp.Length; i++)
+                    {
+                        tmp[i] = Encrypt.DeBase64(tmp[i]);
+                    }
+                    if (int.Parse(tmp[1]) > 65535 || int.Parse(tmp[1]) < 0)
+                    {
+                        return null;
+                    }
+                    else
+                    {
+                        return tmp;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return null;
+                }
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        private void shareStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetText(ShareLinkBox.Text);
+            MessageBox.Show("TCS share link has copied to clipboard!", "INFO", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void importStripMenuItem_Click(object sender, EventArgs e)
+        {
+            bool count = false;
+            IDataObject iData = Clipboard.GetDataObject();
+            if (iData.GetDataPresent(DataFormats.Text))
+            {
+                string[] clipboardLines = ((string)iData.GetData(DataFormats.Text)).Split(new string[] { "\r\n" }, StringSplitOptions.None);
+                foreach (string clipboardLine in clipboardLines)
+                {
+                    string[] tmp = ConvertShareToTrojanConf(clipboardLine);
+                    if (tmp != null)
+                    {
+                        RemoteAddressBox.Text = tmp[0];
+                        RemotePortBox.Text = tmp[1];
+                        PasswordBox.Text = tmp[2];
+                        count = true;
+                        goto finish;
+                    }
+
+                }
+            }
+            finish:;
+            if (count)
+            {
+                if (WindowState == FormWindowState.Minimized)
+                {
+                    WindowState = FormWindowState.Normal;
+                    this.Activate();
+                    this.ShowInTaskbar = true;
+                    notifyIcon.Visible = false;
+                }
+            }
+        }
+
+        private void ShareLinkBox_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == System.Windows.Forms.MouseButtons.Left)
+            {
+                ((TextBox)sender).SelectAll();
+            }
+        }
     }
 }

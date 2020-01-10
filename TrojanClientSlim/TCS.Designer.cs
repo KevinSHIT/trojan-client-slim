@@ -57,6 +57,10 @@
             this.label7 = new System.Windows.Forms.Label();
             this.ShareLinkBox = new System.Windows.Forms.TextBox();
             this.EnableShareLink = new System.Windows.Forms.CheckBox();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.shareStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.importStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -266,30 +270,34 @@
             this.contextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.runToolStripMenuItem,
             this.stopToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.shareStripMenuItem,
+            this.importStripMenuItem,
+            this.toolStripSeparator2,
             this.exitToolStripMenuItem});
             this.contextMenu.Name = "contextMenu";
             this.contextMenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
             this.contextMenu.ShowImageMargin = false;
-            this.contextMenu.Size = new System.Drawing.Size(79, 70);
+            this.contextMenu.Size = new System.Drawing.Size(207, 126);
             // 
             // runToolStripMenuItem
             // 
             this.runToolStripMenuItem.Name = "runToolStripMenuItem";
-            this.runToolStripMenuItem.Size = new System.Drawing.Size(78, 22);
+            this.runToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
             this.runToolStripMenuItem.Text = "Run";
             this.runToolStripMenuItem.Click += new System.EventHandler(this.RunToolStripMenuItem_Click);
             // 
             // stopToolStripMenuItem
             // 
             this.stopToolStripMenuItem.Name = "stopToolStripMenuItem";
-            this.stopToolStripMenuItem.Size = new System.Drawing.Size(78, 22);
+            this.stopToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
             this.stopToolStripMenuItem.Text = "Stop";
             this.stopToolStripMenuItem.Click += new System.EventHandler(this.StopToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(78, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
             // 
@@ -306,9 +314,11 @@
             // 
             this.ShareLinkBox.Location = new System.Drawing.Point(133, 213);
             this.ShareLinkBox.Name = "ShareLinkBox";
+            this.ShareLinkBox.ReadOnly = true;
             this.ShareLinkBox.Size = new System.Drawing.Size(155, 21);
             this.ShareLinkBox.TabIndex = 22;
             this.ShareLinkBox.TextChanged += new System.EventHandler(this.ShareLinkBox_TextChanged);
+            this.ShareLinkBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.ShareLinkBox_MouseUp);
             // 
             // EnableShareLink
             // 
@@ -319,6 +329,30 @@
             this.EnableShareLink.TabIndex = 23;
             this.EnableShareLink.UseVisualStyleBackColor = true;
             this.EnableShareLink.CheckedChanged += new System.EventHandler(this.EnableShareLink_CheckedChanged);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(203, 6);
+            // 
+            // shareStripMenuItem
+            // 
+            this.shareStripMenuItem.Name = "shareStripMenuItem";
+            this.shareStripMenuItem.Size = new System.Drawing.Size(206, 22);
+            this.shareStripMenuItem.Text = "Share tcs:// link";
+            this.shareStripMenuItem.Click += new System.EventHandler(this.shareStripMenuItem_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(203, 6);
+            // 
+            // importStripMenuItem
+            // 
+            this.importStripMenuItem.Name = "importStripMenuItem";
+            this.importStripMenuItem.Size = new System.Drawing.Size(206, 22);
+            this.importStripMenuItem.Text = "Copy tcs:// from clipboard";
+            this.importStripMenuItem.Click += new System.EventHandler(this.importStripMenuItem_Click);
             // 
             // TCS
             // 
@@ -391,6 +425,10 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox ShareLinkBox;
         private System.Windows.Forms.CheckBox EnableShareLink;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem shareStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem importStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
     }
 }
 
