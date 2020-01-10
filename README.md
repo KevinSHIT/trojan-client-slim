@@ -11,6 +11,7 @@ TCS(Trojan Client Slim) is a slim and easy client for Trojan-G*W.
 
 ## What's supported?
 
+- Now TCS support share link! (With [Igniter-TCS](https://github.com/KevinZonda/igniter))
 - Auto configure HTTP proxy.
 - Auto save config.
 - Auto generate trojan conf. (TLS1.3, H2, etc.)
