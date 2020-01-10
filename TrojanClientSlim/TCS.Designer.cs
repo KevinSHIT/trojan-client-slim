@@ -54,6 +54,9 @@
             this.runToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.label7 = new System.Windows.Forms.Label();
+            this.ShareLinkBox = new System.Windows.Forms.TextBox();
+            this.EnableShareLink = new System.Windows.Forms.CheckBox();
             this.contextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -105,6 +108,7 @@
             this.RemoteAddressBox.Name = "RemoteAddressBox";
             this.RemoteAddressBox.Size = new System.Drawing.Size(175, 21);
             this.RemoteAddressBox.TabIndex = 5;
+            this.RemoteAddressBox.TextChanged += new System.EventHandler(this.RemoteAddressBox_TextChanged);
             // 
             // RemotePortBox
             // 
@@ -112,6 +116,8 @@
             this.RemotePortBox.Name = "RemotePortBox";
             this.RemotePortBox.Size = new System.Drawing.Size(175, 21);
             this.RemotePortBox.TabIndex = 7;
+            this.RemotePortBox.TextChanged += new System.EventHandler(this.RemotePortBox_TextChanged);
+            this.RemotePortBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.RemotePortBox_KeyPress);
             // 
             // label2
             // 
@@ -129,6 +135,7 @@
             this.PasswordBox.PasswordChar = '*';
             this.PasswordBox.Size = new System.Drawing.Size(151, 21);
             this.PasswordBox.TabIndex = 9;
+            this.PasswordBox.TextChanged += new System.EventHandler(this.PasswordBox_TextChanged);
             // 
             // label3
             // 
@@ -286,12 +293,42 @@
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(12, 216);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(71, 12);
+            this.label7.TabIndex = 21;
+            this.label7.Text = "Share Link:";
+            // 
+            // ShareLinkBox
+            // 
+            this.ShareLinkBox.Location = new System.Drawing.Point(133, 213);
+            this.ShareLinkBox.Name = "ShareLinkBox";
+            this.ShareLinkBox.Size = new System.Drawing.Size(155, 21);
+            this.ShareLinkBox.TabIndex = 22;
+            this.ShareLinkBox.TextChanged += new System.EventHandler(this.ShareLinkBox_TextChanged);
+            // 
+            // EnableShareLink
+            // 
+            this.EnableShareLink.AutoSize = true;
+            this.EnableShareLink.Location = new System.Drawing.Point(113, 216);
+            this.EnableShareLink.Name = "EnableShareLink";
+            this.EnableShareLink.Size = new System.Drawing.Size(15, 14);
+            this.EnableShareLink.TabIndex = 23;
+            this.EnableShareLink.UseVisualStyleBackColor = true;
+            this.EnableShareLink.CheckedChanged += new System.EventHandler(this.EnableShareLink_CheckedChanged);
+            // 
             // TCS
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(306, 220);
+            this.ClientSize = new System.Drawing.Size(306, 244);
+            this.Controls.Add(this.EnableShareLink);
+            this.Controls.Add(this.ShareLinkBox);
+            this.Controls.Add(this.label7);
             this.Controls.Add(this.ShowPassword);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.GFWList);
@@ -351,6 +388,9 @@
         private System.Windows.Forms.ToolStripMenuItem runToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem stopToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox ShareLinkBox;
+        private System.Windows.Forms.CheckBox EnableShareLink;
     }
 }
 
