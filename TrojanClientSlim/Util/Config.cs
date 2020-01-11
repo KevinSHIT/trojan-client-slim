@@ -19,5 +19,6 @@ namespace TrojanClientSlim.Util
                     "\"sni\": \"\", \"alpn\": [ \"h2\", \"http/1.1\" ], \"reuse_session\": true, \"session_ticket\": false," +
                     " \"curves\": \"\" }, \"tcp\": { \"no_delay\": true, \"keep_alive\": true, \"reuse_port\": false, \"fast_open\": false, \"fast_open_qlen\": 20 } }";
         }
+
     }
 }

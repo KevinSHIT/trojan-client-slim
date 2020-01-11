@@ -5,38 +5,95 @@ using System.Net;
 using System.Net.NetworkInformation;
 using System.Windows.Forms;
 using TrojanClientSlim.Util;
+using IniParser;
+using IniParser.Model;
 using Message = TrojanClientSlim.Util.Message;
 
 namespace TrojanClientSlim
 {
     public partial class TCS : Form
     {
+        static int localPort;
+
+        FileIniDataParser iniParser = new FileIniDataParser();
+
+        void ConfigIniToCheckBox(string iniSection, string iniKey, CheckBox chkbox, string defaultValue)
+        {
+            IniData iniData = iniParser.ReadFile("config.ini");
+            try
+            {
+                string x = iniData[iniSection][iniKey].ToLower();
+                if(x == "true")
+                {
+                    chkbox.Checked = true;
+                }
+                else if(x == "false")
+                {
+                    chkbox.Checked = false;
+                }
+                else
+                {
+                    throw new Exception();
+                }
+             }
+            catch
+            {
+                iniData[iniSection][iniKey] = defaultValue;
+                iniParser.WriteFile("config.ini", iniData);
+                chkbox.Checked = bool.Parse(defaultValue);
+            }
+        }
+
         public TCS() => InitializeComponent();
 
         private void TCS_Load(object sender, EventArgs e)
         {
-            if (IsPortUsed(1080))
-                Message.Show("Port 1080 is in use!\r\nTrojan may fail to work.", Message.Mode.Warning);
+            if (File.Exists("config.ini"))
+            {
+                IniData iniData = iniParser.ReadFile("config.ini");
+
+                try
+                {
+                    localPort = int.Parse(iniData["TCS"]["LocalPort"]);
+                }
+                catch
+                {
+                    iniData["TCS"]["LocalPort"] = "1080";
+                    iniParser.WriteFile("config.ini", iniData);
+                    localPort = 1080;
+                }
+
+                ConfigIniToCheckBox("TCS", "VerifyCert", isVerifyCert, "True");
+                ConfigIniToCheckBox("TCS", "VerifyHostname", isVerifyHostname, "True");
+                ConfigIniToCheckBox("TCS", "HttpProxy", isHttp, "True");
+
+            }
+            else
+            {
+                File.WriteAllText("config.ini", "" +
+                    "[TCS]\r\n" +
+                    "LocalPort = 1080\r\n" +
+                    "VerifyCert = True\r\n" +
+                    "VerifyHostname = True\r\n" +
+                    "HttpProxy = True");
+                
+                isVerifyCert.Checked = true;
+                isVerifyHostname.Checked = true;
+            }
+            if (IsPortUsed(localPort))
+                Message.Show($"Port {localPort} is in use!\r\nTrojan may fail to work.", Message.Mode.Warning);
             if (IsPortUsed(54392))
                 Message.Show("Port 54392 is in use!\r\nTrojan may fail to work.", Message.Mode.Warning);
-            if (File.Exists("conf"))
+            if (File.Exists("node.tcsdb"))
             {
-                string[] conf = Encrypt.DeBase64(File.ReadAllText("conf")).Split(':');
-                if (conf.Length == 5)
+                string[] tmp = ShareLink.ConverteToTrojanConf(File.ReadAllText("node.tcsdb"));
+                if (!SetTrojanConf(File.ReadAllText("node.tcsdb")))
                 {
-                    this.RemoteAddressBox.Text = conf[0];
-                    this.RemotePortBox.Text = conf[1];
-                    this.PasswordBox.Text = conf[2];
-                    if (conf[3].ToLower() == "true")
-                        isHttp.Checked = true;
-                    if (conf[4].ToLower().Contains("c"))
-                        isVerifyCert.Checked = true;
-                    if (conf[4].ToLower().Contains("h"))
-                        isVerifyHostname.Checked = true;
+                    File.Create("node.tcsdb").Dispose();
                 }
             }
             else
-                File.Create("conf").Dispose();
+                File.Create("node.tcsdb").Dispose();
 #if DEBUG
             this.Text = "[D]" + this.Text;
 #endif
@@ -66,15 +123,9 @@ namespace TrojanClientSlim
         {
             if (IsConfigValid())
             {
-                string ch = string.Empty;
-                if (isVerifyCert.Checked == true)
-                    ch += "c";
-                if (isVerifyHostname.Checked == true)
-                    ch += "h";
-
                 try
                 {
-                    File.WriteAllText("conf", Encrypt.Base64($"{RemoteAddressBox.Text}:{RemotePortBox.Text}:{PasswordBox.Text}:{isHttp.Checked}:{ch}"));
+                    File.WriteAllText("node.tcsdb", GenerateCurrentTrojanConf());
                 }
                 catch
                 {
@@ -82,7 +133,7 @@ namespace TrojanClientSlim
                     goto final;
                 }
                 KillProcess();
-                GenerateTrojanConf();
+                SaveTrojanConf();
                 RunTrojanCommand();
                 if (isHttp.Checked == true)
                 {
@@ -111,7 +162,6 @@ namespace TrojanClientSlim
             }
         }
         private bool IsConfigValid() => (RemoteAddressBox.Text.Trim() != "" && RemotePortBox.Text.Trim() != "" && PasswordBox.Text.Trim() != "");
-
 
         private void RunTrojanCommand()
         {
@@ -147,16 +197,37 @@ namespace TrojanClientSlim
             p.Dispose();
         }
 
-        private void GenerateTrojanConf()
+        private void SaveTrojanConf()
         {
             try
             {
-                File.WriteAllText("trojan.conf", Config.GenerateTrojanJson(1080, RemoteAddressBox.Text, int.Parse(RemotePortBox.Text), PasswordBox.Text, isVerifyCert.Checked, isVerifyHostname.Checked);
+                File.WriteAllText("trojan.conf", GenerateCurrentTrojanConf());
             }
             catch
             {
                 Message.Show("Conf file written failed!", Message.Mode.Error);
             }
+        }
+
+        private string GenerateCurrentTrojanConf()
+        {
+            return Config.GenerateTrojanJson(1080, RemoteAddressBox.Text,
+                    int.Parse(RemotePortBox.Text), PasswordBox.Text, isVerifyCert.Checked, isVerifyHostname.Checked);
+        }
+
+        private bool SetTrojanConf(string TcsShareLink) => SetTrojanConf((string[])ShareLink.ConverteToTrojanConf(TcsShareLink));
+
+        private bool SetTrojanConf(string[] trojanConf)
+        {
+            if (trojanConf != null)
+            {
+                RemotePortBox.Text = trojanConf[1];
+                RemoteAddressBox.Text = trojanConf[0];
+                PasswordBox.Text = trojanConf[3];
+                return true;
+            }
+            return false;
+
         }
 
         private static bool IsPortUsed(int port)
@@ -264,7 +335,6 @@ namespace TrojanClientSlim
 
         private void ImportStripMenuItem_Click(object sender, EventArgs e)
         {
-            bool count = false;
             IDataObject iData = Clipboard.GetDataObject();
             if (iData.GetDataPresent(DataFormats.Text))
             {
@@ -272,26 +342,16 @@ namespace TrojanClientSlim
                 foreach (string clipboardLine in clipboardLines)
                 {
                     string[] tmp = ShareLink.ConverteToTrojanConf(clipboardLine);
-                    if (tmp != null)
+                    if (SetTrojanConf(clipboardLine))
                     {
-                        RemoteAddressBox.Text = tmp[0];
-                        RemotePortBox.Text = tmp[1];
-                        PasswordBox.Text = tmp[2];
-                        count = true;
-                        goto finish;
+                        if (WindowState == FormWindowState.Minimized)
+                        {
+                            WindowState = FormWindowState.Normal;
+                            this.Activate();
+                            this.ShowInTaskbar = true;
+                            notifyIcon.Visible = false;
+                        }
                     }
-
-                }
-            }
-            finish:;
-            if (count)
-            {
-                if (WindowState == FormWindowState.Minimized)
-                {
-                    WindowState = FormWindowState.Normal;
-                    this.Activate();
-                    this.ShowInTaskbar = true;
-                    notifyIcon.Visible = false;
                 }
             }
         }
@@ -307,18 +367,28 @@ namespace TrojanClientSlim
 
         private void PasswordBox_TextChanged(object sender, EventArgs e) => Conf2ShareLink();
 
-        private void ShareLinkBox_TextChanged(object sender, EventArgs e)
-        {
-            string[] tmp = ShareLink.ConverteToTrojanConf(ShareLinkBox.Text);
-
-            if (tmp != null)
-            {
-                RemotePortBox.Text = tmp[1];
-                RemoteAddressBox.Text = tmp[0];
-                PasswordBox.Text = tmp[3];
-            }
-        }
+        private void ShareLinkBox_TextChanged(object sender, EventArgs e) => SetTrojanConf(ShareLinkBox.Text);
         #endregion
 
+        private void isVerifyCert_CheckedChanged(object sender, EventArgs e)
+        {
+            IniData i = iniParser.ReadFile("config.ini");
+            i["TCS"]["VerifyCert"] = isVerifyCert.Checked.ToString();
+            iniParser.WriteFile("config.ini", i);
+        }
+
+        private void isVerifyHostname_CheckedChanged(object sender, EventArgs e)
+        {
+            IniData i = iniParser.ReadFile("config.ini");
+            i["TCS"]["VerifyHostname"] = isVerifyCert.Checked.ToString();
+            iniParser.WriteFile("config.ini", i);
+        }
+
+        private void isHttp_CheckedChanged(object sender, EventArgs e)
+        {
+            IniData i = iniParser.ReadFile("config.ini");
+            i["TCS"]["HttpProxy"] = isVerifyCert.Checked.ToString();
+            iniParser.WriteFile("config.ini", i);
+        }
     }
 }

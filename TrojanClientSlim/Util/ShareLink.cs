@@ -11,11 +11,13 @@ namespace TrojanClientSlim.Util
     {
         public static string[] ConverteToTrojanConf(string tcsShareLink)
         {
+            if (tcsShareLink.Length <= 6)
+                return null;
             if (tcsShareLink.Substring(0, 6).ToLower() == "tcs://")
             {
                 try
                 {
-                    String[] tmp = Encrypt.DeBase64(tcsShareLink.Substring(6)).Split(':');
+                    string[] tmp = Encrypt.DeBase64(tcsShareLink.Substring(6)).Split(':');
                     for (int i = 0; i < tmp.Length; i++)
                     {
                         tmp[i] = Encrypt.DeBase64(tmp[i]);

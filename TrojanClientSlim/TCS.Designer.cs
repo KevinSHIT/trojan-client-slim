@@ -53,14 +53,14 @@
             this.contextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.runToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.shareStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label7 = new System.Windows.Forms.Label();
             this.ShareLinkBox = new System.Windows.Forms.TextBox();
             this.EnableShareLink = new System.Windows.Forms.CheckBox();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.shareStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.importStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -161,6 +161,7 @@
             this.isHttp.TabIndex = 10;
             this.isHttp.Text = "HTTP";
             this.isHttp.UseVisualStyleBackColor = true;
+            this.isHttp.CheckedChanged += new System.EventHandler(this.isHttp_CheckedChanged);
             // 
             // label4
             // 
@@ -191,6 +192,7 @@
             this.isVerifyCert.TabIndex = 12;
             this.isVerifyCert.Text = "Cert";
             this.isVerifyCert.UseVisualStyleBackColor = true;
+            this.isVerifyCert.CheckedChanged += new System.EventHandler(this.isVerifyCert_CheckedChanged);
             // 
             // isVerifyHostname
             // 
@@ -203,6 +205,7 @@
             this.isVerifyHostname.TabIndex = 14;
             this.isVerifyHostname.Text = "Hostname";
             this.isVerifyHostname.UseVisualStyleBackColor = true;
+            this.isVerifyHostname.CheckedChanged += new System.EventHandler(this.isVerifyHostname_CheckedChanged);
             // 
             // Run
             // 
@@ -294,6 +297,30 @@
             this.stopToolStripMenuItem.Text = "Stop";
             this.stopToolStripMenuItem.Click += new System.EventHandler(this.StopToolStripMenuItem_Click);
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(213, 6);
+            // 
+            // shareStripMenuItem
+            // 
+            this.shareStripMenuItem.Name = "shareStripMenuItem";
+            this.shareStripMenuItem.Size = new System.Drawing.Size(216, 22);
+            this.shareStripMenuItem.Text = "Share tcs:// link";
+            this.shareStripMenuItem.Click += new System.EventHandler(this.ShareStripMenuItem_Click);
+            // 
+            // importStripMenuItem
+            // 
+            this.importStripMenuItem.Name = "importStripMenuItem";
+            this.importStripMenuItem.Size = new System.Drawing.Size(216, 22);
+            this.importStripMenuItem.Text = "Import tcs:// from clipboard";
+            this.importStripMenuItem.Click += new System.EventHandler(this.ImportStripMenuItem_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(213, 6);
+            // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
@@ -329,30 +356,6 @@
             this.EnableShareLink.TabIndex = 23;
             this.EnableShareLink.UseVisualStyleBackColor = true;
             this.EnableShareLink.CheckedChanged += new System.EventHandler(this.EnableShareLink_CheckedChanged);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(213, 6);
-            // 
-            // shareStripMenuItem
-            // 
-            this.shareStripMenuItem.Name = "shareStripMenuItem";
-            this.shareStripMenuItem.Size = new System.Drawing.Size(216, 22);
-            this.shareStripMenuItem.Text = "Share tcs:// link";
-            this.shareStripMenuItem.Click += new System.EventHandler(this.ShareStripMenuItem_Click);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(213, 6);
-            // 
-            // importStripMenuItem
-            // 
-            this.importStripMenuItem.Name = "importStripMenuItem";
-            this.importStripMenuItem.Size = new System.Drawing.Size(216, 22);
-            this.importStripMenuItem.Text = "Import tcs:// from clipboard";
-            this.importStripMenuItem.Click += new System.EventHandler(this.ImportStripMenuItem_Click);
             // 
             // TCS
             // 
