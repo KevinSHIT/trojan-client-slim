@@ -63,7 +63,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Util\Config.cs" />
     <Compile Include="Util\Encrypt.cs" />
+    <Compile Include="Util\Message.cs" />
     <Compile Include="Util\ShareLink.cs" />
     <Compile Include="TCS.cs">
       <SubType>Form</SubType>

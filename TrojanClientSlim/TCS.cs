@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.NetworkInformation;
 using System.Windows.Forms;
 using TrojanClientSlim.Util;
+using Message = TrojanClientSlim.Util.Message;
 
 namespace TrojanClientSlim
 {
@@ -15,9 +16,9 @@ namespace TrojanClientSlim
         private void TCS_Load(object sender, EventArgs e)
         {
             if (IsPortUsed(1080))
-                MessageBox.Show("Port 1080 is in use!\r\nTrojan may fail to work.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Message.Show("Port 1080 is in use!\r\nTrojan may fail to work.", Message.Mode.Warning);
             if (IsPortUsed(54392))
-                MessageBox.Show("Port 54392 is in use!\r\nPrivoxy may fail to work.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Message.Show("Port 54392 is in use!\r\nTrojan may fail to work.", Message.Mode.Warning);
             if (File.Exists("conf"))
             {
                 string[] conf = Encrypt.DeBase64(File.ReadAllText("conf")).Split(':');
@@ -45,7 +46,7 @@ namespace TrojanClientSlim
         private void Stop_Click(object sender, EventArgs e)
         {
             StopTrojan();
-            MessageBox.Show("Stop Trojan succeeded!", "INFO", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            Message.Show("Stop Trojan succeeded!", Message.Mode.Info);
         }
 
         private void Cancle_Click(object sender, EventArgs e) => ExitTCS();
@@ -77,7 +78,7 @@ namespace TrojanClientSlim
                 }
                 catch
                 {
-                    MessageBox.Show("FATAL ERROR: Conf file written failed!", "FATAL ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Message.Show("Conf file written failed!", Message.Mode.Error);
                     goto final;
                 }
                 KillProcess();
@@ -88,12 +89,12 @@ namespace TrojanClientSlim
                     RunPivoxyCommand();
                     Proxy.SetProxy("127.0.0.1:54392");
                 }
-                MessageBox.Show("Run Trojan succeeded!", "INFO", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Message.Show("Stop Trojan succeeded!", Message.Mode.Info);
                 final:;
             }
             else
             {
-                MessageBox.Show("Config invalid! Please enter current trojan information.", "FATAL ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Message.Show("Config invalid! Please enter current trojan information.", Message.Mode.Error);
             }
         }
 
@@ -150,18 +151,11 @@ namespace TrojanClientSlim
         {
             try
             {
-                File.WriteAllText("trojan.conf", "{\"run_type\": \"client\", \"local_addr\": \"127.0.0.1\", \"local_port\": 1080, \"remote_addr\":\"" +
-                    RemoteAddressBox.Text + "\", \"remote_port\": " + RemotePortBox.Text + ", \"password\": [\"" + PasswordBox.Text + "\"], \"log_level\": 1, \"ssl\": { \"verify\": " +
-                    isVerifyCert.Checked.ToString().ToLower() + ",\"verify_hostname\": " + isVerifyHostname.Checked.ToString().ToLower() + ", \"cert\": \"\", \"cipher\": \"ECDHE-ECDSA-" +
-                    "AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:" +
-                    "ECDHE-RSA-AES128-SHA:ECDHE-RSA-AES256-SHA:RSA-AES128-GCM-SHA256:RSA-AES256-GCM-SHA384:RSA-AES128-SHA:RSA-AES256-SHA:RSA-3DES-EDE-SHA\", " +
-                    "\"cipher_tls13\":\"TLS_AES_128_GCM_SHA256:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_256_GCM_SHA384\", " +
-                    "\"sni\": \"\", \"alpn\": [ \"h2\", \"http/1.1\" ], \"reuse_session\": true, \"session_ticket\": false," +
-                    " \"curves\": \"\" }, \"tcp\": { \"no_delay\": true, \"keep_alive\": true, \"reuse_port\": false, \"fast_open\": false, \"fast_open_qlen\": 20 } }");
+                File.WriteAllText("trojan.conf", Config.GenerateTrojanJson(1080, RemoteAddressBox.Text, int.Parse(RemotePortBox.Text), PasswordBox.Text, isVerifyCert.Checked, isVerifyHostname.Checked);
             }
             catch
             {
-                MessageBox.Show("FATAL ERROR: Conf file written failed!", "FATAL ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Message.Show("Conf file written failed!", Message.Mode.Error);
             }
         }
 
@@ -265,7 +259,7 @@ namespace TrojanClientSlim
         private void ShareStripMenuItem_Click(object sender, EventArgs e)
         {
             Clipboard.SetText(ShareLinkBox.Text);
-            MessageBox.Show("TCS share link has copied to clipboard!", "INFO", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            Message.Show("TCS share link has copied to clipboard!", Message.Mode.Info);
         }
 
         private void ImportStripMenuItem_Click(object sender, EventArgs e)
@@ -315,28 +309,16 @@ namespace TrojanClientSlim
 
         private void ShareLinkBox_TextChanged(object sender, EventArgs e)
         {
-            if (ShareLinkBox.Text.StartsWith("TCS://") || ShareLinkBox.Text.StartsWith("tcs://"))
+            string[] tmp = ShareLink.ConverteToTrojanConf(ShareLinkBox.Text);
+
+            if (tmp != null)
             {
-                try
-                {
-                    string[] shareLink = Encrypt.DeBase64(ShareLinkBox.Text.Substring(6)).Split(':');
-                    RemotePortBox.Text = Int32.Parse(Encrypt.DeBase64(shareLink[1])).ToString();
-                    RemoteAddressBox.Text = Encrypt.DeBase64(shareLink[0]);
-                    PasswordBox.Text = Encrypt.DeBase64(shareLink[2]);
-                }
-                catch
-                {
-                    //Ingore wrong TCS share link
-                }
+                RemotePortBox.Text = tmp[1];
+                RemoteAddressBox.Text = tmp[0];
+                PasswordBox.Text = tmp[3];
             }
         }
         #endregion
-
-
-
-
-
-
 
     }
 }
