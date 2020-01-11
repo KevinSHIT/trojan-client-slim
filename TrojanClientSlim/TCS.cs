@@ -16,6 +16,19 @@ namespace TrojanClientSlim
         static int localPort;
         readonly FileIniDataParser iniParser = new FileIniDataParser();
 
+        void InitialTemp()
+        {
+            try
+            {
+                Directory.Delete("temp", true);
+            }
+            catch { }
+            finally
+            {
+                Directory.CreateDirectory("temp");
+            }
+        }
+
         void ConfigIniToCheckBox(string iniSection, string iniKey, CheckBox chkbox, string defaultValue)
         {
             IniData iniData = iniParser.ReadFile("config.ini");
@@ -47,6 +60,8 @@ namespace TrojanClientSlim
 
         private void TCS_Load(object sender, EventArgs e)
         {
+            InitialTemp();
+
             if (File.Exists("config.ini"))
             {
                 IniData iniData = iniParser.ReadFile("config.ini");
@@ -102,6 +117,7 @@ namespace TrojanClientSlim
         private void Stop_Click(object sender, EventArgs e)
         {
             StopTrojan();
+            InitialTemp();
             Message.Show("Stop Trojan succeeded!", Message.Mode.Info);
         }
 
@@ -110,6 +126,7 @@ namespace TrojanClientSlim
         private void ExitTCS()
         {
             StopTrojan();
+            Directory.Delete("temp", true);
             System.Environment.Exit(0);
         }
 
@@ -122,9 +139,10 @@ namespace TrojanClientSlim
         {
             if (IsConfigValid())
             {
+                InitialTemp();
                 try
                 {
-                    File.WriteAllText("node.tcsdb", GenerateCurrentTrojanConf());
+                    File.WriteAllText("node.tcsdb", ShareLink.Generate(RemoteAddressBox.Text, RemotePortBox.Text, PasswordBox.Text));
                 }
                 catch
                 {
@@ -166,7 +184,7 @@ namespace TrojanClientSlim
         {
             Process p = new Process();
             p.StartInfo.FileName = @"trojan\trojan.exe";
-            p.StartInfo.Arguments = @"-c trojan.conf";
+            p.StartInfo.Arguments = @"-c temp\trojan.conf";
 #if DEBUG
             p.StartInfo.UseShellExecute = true;
 #else
@@ -178,18 +196,26 @@ namespace TrojanClientSlim
 
         private void RunPivoxyCommand()
         {
-
+            
             Process p = new Process();
             p.StartInfo.FileName = "cmd.exe";
             //pc.StartInfo.Arguments = $"start {path}\\privoxy\\privoxy.exe {path}\\privoxy\\config.txt";
             if (Global.Checked)
             {
-                p.StartInfo.Arguments = "/c START /MIN privoxy\\privoxy.exe privoxy\\config.txt";
+                File.Copy("privoxy\\config.txt", "temp\\config.txt");
+                string[] tmp = File.ReadAllLines("temp\\config.txt");
+                tmp[tmp.Length -1] = tmp[tmp.Length -1].Replace("$trojan-port$", localPort.ToString());
+                File.WriteAllLines("temp\\config.txt", tmp);
             }
             if (GFWList.Checked)
             {
-                p.StartInfo.Arguments = "/c cd privoxy && START /MIN privoxy.exe config_gfw.txt";
+                File.Copy("privoxy\\config_gfw.txt", "temp\\config.txt");
+                File.Copy("privpxy\\gfwlist.action", "temp\\gfwlist.action");
+                string[] tmp = File.ReadAllLines("temp\\config.txt");
+                tmp[1] = tmp[1].Replace("$trojan-port$", localPort.ToString());
+                File.WriteAllLines("temp\\config.txt", tmp);
             }
+            p.StartInfo.Arguments = "/c START /MIN privoxy\\privoxy.exe temp\\config.txt";
             p.StartInfo.UseShellExecute = false;
             p.StartInfo.CreateNoWindow = true;
             p.Start();
@@ -200,7 +226,7 @@ namespace TrojanClientSlim
         {
             try
             {
-                File.WriteAllText("trojan.conf", GenerateCurrentTrojanConf());
+                File.WriteAllText("temp\\trojan.conf", GenerateCurrentTrojanConf());
             }
             catch
             {
@@ -210,7 +236,7 @@ namespace TrojanClientSlim
 
         private string GenerateCurrentTrojanConf()
         {
-            return Config.GenerateTrojanJson(1080, RemoteAddressBox.Text,
+            return Config.GenerateTrojanJson(localPort, RemoteAddressBox.Text,
                     int.Parse(RemotePortBox.Text), PasswordBox.Text, isVerifyCert.Checked, isVerifyHostname.Checked);
         }
 
@@ -218,11 +244,12 @@ namespace TrojanClientSlim
 
         private bool SetTrojanConf(string[] trojanConf)
         {
+            
             if (trojanConf != null)
             {
                 RemotePortBox.Text = trojanConf[1];
                 RemoteAddressBox.Text = trojanConf[0];
-                PasswordBox.Text = trojanConf[3];
+                PasswordBox.Text = trojanConf[2];
                 return true;
             }
             return false;
