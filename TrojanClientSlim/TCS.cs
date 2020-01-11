@@ -4,6 +4,7 @@ using System.IO;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Windows.Forms;
+using TrojanClientSlim.Util;
 
 namespace TrojanClientSlim
 {
@@ -40,6 +41,7 @@ namespace TrojanClientSlim
 #endif
         }
 
+        private void Run_Click(object sender, EventArgs e) => RunTrojan();
         private void Stop_Click(object sender, EventArgs e)
         {
             StopTrojan();
@@ -59,11 +61,6 @@ namespace TrojanClientSlim
             Proxy.UnsetProxy();
             KillProcess();
         }
-
-        private void Run_Click(object sender, EventArgs e) => RunTrojan();
-
-        private bool IsConfigValid() => (RemoteAddressBox.Text.Trim() != "" && RemotePortBox.Text.Trim() != "" && PasswordBox.Text.Trim() != "");
-
         private void RunTrojan()
         {
             if (IsConfigValid())
@@ -112,6 +109,8 @@ namespace TrojanClientSlim
                 }
             }
         }
+        private bool IsConfigValid() => (RemoteAddressBox.Text.Trim() != "" && RemotePortBox.Text.Trim() != "" && PasswordBox.Text.Trim() != "");
+
 
         private void RunTrojanCommand()
         {
@@ -188,6 +187,7 @@ namespace TrojanClientSlim
             KillProcess();
         }
 
+        #region Some Forms Widget
         private void GFWList_CheckedChanged(object sender, EventArgs e)
         {
             if (GFWList.Checked == true)
@@ -207,6 +207,35 @@ namespace TrojanClientSlim
         private void ShowPassword_MouseHover(object sender, EventArgs e) => PasswordBox.PasswordChar = new char();
 
         private void ShowPassword_MouseLeave(object sender, EventArgs e) => PasswordBox.PasswordChar = '*';
+
+        private void EnableShareLink_CheckedChanged(object sender, EventArgs e)
+        {
+            if (EnableShareLink.Checked)
+            {
+                ShareLinkBox.ReadOnly = false;
+            }
+            else
+            {
+                ShareLinkBox.ReadOnly = true;
+            }
+        }
+        private void ShareLinkBox_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == System.Windows.Forms.MouseButtons.Left)
+            {
+                ((TextBox)sender).SelectAll();
+            }
+        }
+
+        private void RemotePortBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = e.KeyChar < '0' || e.KeyChar > '9';
+            if (e.KeyChar == (char)8)
+                e.Handled = false;
+        }
+        #endregion
+
+        #region Size&NotifyIcon
 
         private void TCS_SizeChanged(object sender, EventArgs e)
         {
@@ -233,94 +262,13 @@ namespace TrojanClientSlim
         private void StopToolStripMenuItem_Click(object sender, EventArgs e) => StopTrojan();
 
         private void ExitToolStripMenuItem_Click(object sender, EventArgs e) => ExitTCS();
-
-        private void EnableShareLink_CheckedChanged(object sender, EventArgs e)
-        {
-            if (EnableShareLink.Checked)
-            {
-                ShareLinkBox.ReadOnly = false;
-            }
-            else
-            {
-                ShareLinkBox.ReadOnly = true;
-            }
-        }
-
-        private string GenerateShareLink(string remoteAddress, string remotePort, string password) => "tcs://" + Encrypt.Base64(Encrypt.Base64(remoteAddress) + ":" + Encrypt.Base64(remotePort) + ":" + Encrypt.Base64(password));
-
-        private void Conf2ShareLink() => ShareLinkBox.Text = GenerateShareLink(RemoteAddressBox.Text, RemotePortBox.Text, PasswordBox.Text);
-
-        #region TextChanged
-        private void RemoteAddressBox_TextChanged(object sender, EventArgs e) => Conf2ShareLink();
-
-        private void RemotePortBox_TextChanged(object sender, EventArgs e) => Conf2ShareLink();
-
-        private void PasswordBox_TextChanged(object sender, EventArgs e) => Conf2ShareLink();
-        #endregion
-
-        private void RemotePortBox_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            e.Handled = e.KeyChar < '0' || e.KeyChar > '9';
-            if (e.KeyChar == (char)8)
-                e.Handled = false;
-        }
-
-        private void ShareLinkBox_TextChanged(object sender, EventArgs e)
-        {
-            if (ShareLinkBox.Text.StartsWith("TCS://") || ShareLinkBox.Text.StartsWith("tcs://"))
-            {
-                try
-                {
-                    string[] shareLink = Encrypt.DeBase64(ShareLinkBox.Text.Substring(6)).Split(':');
-                    RemotePortBox.Text = Int32.Parse(Encrypt.DeBase64(shareLink[1])).ToString();
-                    RemoteAddressBox.Text = Encrypt.DeBase64(shareLink[0]);
-                    PasswordBox.Text = Encrypt.DeBase64(shareLink[2]);
-                }
-                catch
-                {
-                    //Ingore wrong TCS share link
-                }
-            }
-        }
-
-        private string[] ConvertShareToTrojanConf(string tcsShareLink)
-        {
-            if (tcsShareLink.Substring(0, 6).ToLower() == "tcs://")
-            {
-                try
-                {
-                    String[] tmp = Encrypt.DeBase64(tcsShareLink.Substring(6)).Split(':');
-                    for (int i = 0; i < tmp.Length; i++)
-                    {
-                        tmp[i] = Encrypt.DeBase64(tmp[i]);
-                    }
-                    if (int.Parse(tmp[1]) > 65535 || int.Parse(tmp[1]) < 0)
-                    {
-                        return null;
-                    }
-                    else
-                    {
-                        return tmp;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    return null;
-                }
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        private void shareStripMenuItem_Click(object sender, EventArgs e)
+        private void ShareStripMenuItem_Click(object sender, EventArgs e)
         {
             Clipboard.SetText(ShareLinkBox.Text);
             MessageBox.Show("TCS share link has copied to clipboard!", "INFO", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private void importStripMenuItem_Click(object sender, EventArgs e)
+        private void ImportStripMenuItem_Click(object sender, EventArgs e)
         {
             bool count = false;
             IDataObject iData = Clipboard.GetDataObject();
@@ -329,7 +277,7 @@ namespace TrojanClientSlim
                 string[] clipboardLines = ((string)iData.GetData(DataFormats.Text)).Split(new string[] { "\r\n" }, StringSplitOptions.None);
                 foreach (string clipboardLine in clipboardLines)
                 {
-                    string[] tmp = ConvertShareToTrojanConf(clipboardLine);
+                    string[] tmp = ShareLink.ConverteToTrojanConf(clipboardLine);
                     if (tmp != null)
                     {
                         RemoteAddressBox.Text = tmp[0];
@@ -354,12 +302,41 @@ namespace TrojanClientSlim
             }
         }
 
-        private void ShareLinkBox_MouseUp(object sender, MouseEventArgs e)
+        #endregion
+
+        private void Conf2ShareLink() => ShareLinkBox.Text = ShareLink.Generate(RemoteAddressBox.Text, RemotePortBox.Text, PasswordBox.Text);
+
+        #region TextChanged
+        private void RemoteAddressBox_TextChanged(object sender, EventArgs e) => Conf2ShareLink();
+
+        private void RemotePortBox_TextChanged(object sender, EventArgs e) => Conf2ShareLink();
+
+        private void PasswordBox_TextChanged(object sender, EventArgs e) => Conf2ShareLink();
+
+        private void ShareLinkBox_TextChanged(object sender, EventArgs e)
         {
-            if (e.Button == System.Windows.Forms.MouseButtons.Left)
+            if (ShareLinkBox.Text.StartsWith("TCS://") || ShareLinkBox.Text.StartsWith("tcs://"))
             {
-                ((TextBox)sender).SelectAll();
+                try
+                {
+                    string[] shareLink = Encrypt.DeBase64(ShareLinkBox.Text.Substring(6)).Split(':');
+                    RemotePortBox.Text = Int32.Parse(Encrypt.DeBase64(shareLink[1])).ToString();
+                    RemoteAddressBox.Text = Encrypt.DeBase64(shareLink[0]);
+                    PasswordBox.Text = Encrypt.DeBase64(shareLink[2]);
+                }
+                catch
+                {
+                    //Ingore wrong TCS share link
+                }
             }
         }
+        #endregion
+
+
+
+
+
+
+
     }
 }
