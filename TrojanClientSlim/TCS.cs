@@ -14,8 +14,7 @@ namespace TrojanClientSlim
     public partial class TCS : Form
     {
         static int localPort;
-
-        FileIniDataParser iniParser = new FileIniDataParser();
+        readonly FileIniDataParser iniParser = new FileIniDataParser();
 
         void ConfigIniToCheckBox(string iniSection, string iniKey, CheckBox chkbox, string defaultValue)
         {
@@ -23,11 +22,11 @@ namespace TrojanClientSlim
             try
             {
                 string x = iniData[iniSection][iniKey].ToLower();
-                if(x == "true")
+                if (x == "true")
                 {
                     chkbox.Checked = true;
                 }
-                else if(x == "false")
+                else if (x == "false")
                 {
                     chkbox.Checked = false;
                 }
@@ -35,7 +34,7 @@ namespace TrojanClientSlim
                 {
                     throw new Exception();
                 }
-             }
+            }
             catch
             {
                 iniData[iniSection][iniKey] = defaultValue;
@@ -76,7 +75,7 @@ namespace TrojanClientSlim
                     "VerifyCert = True\r\n" +
                     "VerifyHostname = True\r\n" +
                     "HttpProxy = True");
-                
+
                 isVerifyCert.Checked = true;
                 isVerifyHostname.Checked = true;
             }
@@ -161,7 +160,7 @@ namespace TrojanClientSlim
                 }
             }
         }
-        private bool IsConfigValid() => (RemoteAddressBox.Text.Trim() != "" && RemotePortBox.Text.Trim() != "" && PasswordBox.Text.Trim() != "");
+        private bool IsConfigValid() => (!string.IsNullOrEmpty(RemoteAddressBox.Text.Trim()) && !string.IsNullOrEmpty(RemotePortBox.Text.Trim()) && !string.IsNullOrEmpty(PasswordBox.Text.Trim()));
 
         private void RunTrojanCommand()
         {
@@ -341,7 +340,6 @@ namespace TrojanClientSlim
                 string[] clipboardLines = ((string)iData.GetData(DataFormats.Text)).Split(new string[] { "\r\n" }, StringSplitOptions.None);
                 foreach (string clipboardLine in clipboardLines)
                 {
-                    string[] tmp = ShareLink.ConverteToTrojanConf(clipboardLine);
                     if (SetTrojanConf(clipboardLine))
                     {
                         if (WindowState == FormWindowState.Minimized)
@@ -370,21 +368,21 @@ namespace TrojanClientSlim
         private void ShareLinkBox_TextChanged(object sender, EventArgs e) => SetTrojanConf(ShareLinkBox.Text);
         #endregion
 
-        private void isVerifyCert_CheckedChanged(object sender, EventArgs e)
+        private void IsVerifyCert_CheckedChanged(object sender, EventArgs e)
         {
             IniData i = iniParser.ReadFile("config.ini");
             i["TCS"]["VerifyCert"] = isVerifyCert.Checked.ToString();
             iniParser.WriteFile("config.ini", i);
         }
 
-        private void isVerifyHostname_CheckedChanged(object sender, EventArgs e)
+        private void IsVerifyHostname_CheckedChanged(object sender, EventArgs e)
         {
             IniData i = iniParser.ReadFile("config.ini");
             i["TCS"]["VerifyHostname"] = isVerifyCert.Checked.ToString();
             iniParser.WriteFile("config.ini", i);
         }
 
-        private void isHttp_CheckedChanged(object sender, EventArgs e)
+        private void IsHttp_CheckedChanged(object sender, EventArgs e)
         {
             IniData i = iniParser.ReadFile("config.ini");
             i["TCS"]["HttpProxy"] = isVerifyCert.Checked.ToString();

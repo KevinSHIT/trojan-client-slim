@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TrojanClientSlim.Util
+﻿namespace TrojanClientSlim.Util
 {
-    public class Config
+    public static class Config
     {
-        public static string GenerateTrojanJson(int localPort, string remoteAddress, int remotePort, string password,bool IsVerifyCert, bool IsVerifyHostname)
+        public static string GenerateTrojanJson(int localPort, string remoteAddress, int remotePort, string password, bool IsVerifyCert, bool IsVerifyHostname)
         {
             return "{\"run_type\": \"client\", \"local_addr\": \"127.0.0.1\", \"local_port\": " + localPort.ToString() + ", \"remote_addr\":\"" +
                     remoteAddress + "\", \"remote_port\": " + remotePort.ToString() + ", \"password\": [\"" + password + "\"], \"log_level\": 1, \"ssl\": { \"verify\": " +

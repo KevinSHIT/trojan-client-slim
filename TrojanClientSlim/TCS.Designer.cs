@@ -161,7 +161,7 @@
             this.isHttp.TabIndex = 10;
             this.isHttp.Text = "HTTP";
             this.isHttp.UseVisualStyleBackColor = true;
-            this.isHttp.CheckedChanged += new System.EventHandler(this.isHttp_CheckedChanged);
+            this.isHttp.CheckedChanged += new System.EventHandler(this.IsHttp_CheckedChanged);
             // 
             // label4
             // 
@@ -192,7 +192,7 @@
             this.isVerifyCert.TabIndex = 12;
             this.isVerifyCert.Text = "Cert";
             this.isVerifyCert.UseVisualStyleBackColor = true;
-            this.isVerifyCert.CheckedChanged += new System.EventHandler(this.isVerifyCert_CheckedChanged);
+            this.isVerifyCert.CheckedChanged += new System.EventHandler(this.IsVerifyCert_CheckedChanged);
             // 
             // isVerifyHostname
             // 
@@ -205,7 +205,7 @@
             this.isVerifyHostname.TabIndex = 14;
             this.isVerifyHostname.Text = "Hostname";
             this.isVerifyHostname.UseVisualStyleBackColor = true;
-            this.isVerifyHostname.CheckedChanged += new System.EventHandler(this.isVerifyHostname_CheckedChanged);
+            this.isVerifyHostname.CheckedChanged += new System.EventHandler(this.IsVerifyHostname_CheckedChanged);
             // 
             // Run
             // 

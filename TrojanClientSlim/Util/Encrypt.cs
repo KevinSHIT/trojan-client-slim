@@ -3,7 +3,7 @@ using System.Text;
 
 namespace TrojanClientSlim.Util
 {
-    public class Encrypt
+    public static class Encrypt
     {
         public static string Base64(string str)
         {

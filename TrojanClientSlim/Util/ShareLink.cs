@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static TrojanClientSlim.TCS;
-
-namespace TrojanClientSlim.Util
+﻿namespace TrojanClientSlim.Util
 {
-    public class ShareLink
+    public static class ShareLink
     {
         public static string[] ConverteToTrojanConf(string tcsShareLink)
         {
@@ -31,7 +24,7 @@ namespace TrojanClientSlim.Util
                         return tmp;
                     }
                 }
-                catch (Exception ex)
+                catch
                 {
                     return null;
                 }
