@@ -19,7 +19,7 @@ TCS(Trojan Client Slim) is a slim and easy client for Trojan-GFW.
 
 ## Components
 
-- [TCS](https://github.com/KevinZonda/trojan-client-slim) **(2.2.0)** **no-license**
+- [TCS](https://github.com/KevinZonda/trojan-client-slim) **(2.2.0)** **GPLv3**
 - [Privoxy](https://www.privoxy.org/) **(3.0.28.0)** **GPLv2**
 - [Trojan-GFW](https://github.com/trojan-gfw/trojan) **(1.14.0)** **GPLv3**
 
