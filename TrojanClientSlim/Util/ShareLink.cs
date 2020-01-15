@@ -23,6 +23,8 @@
                 }
                 temp_3[0] = "";
                 tmp[4] = temp_3.CombineToString();
+                if (tmp[4] == "")
+                    tmp[4] = "Untitled";
                 tsl = CombineToString(temp);
                 //Current: password@ip
                 string[] temp_1 = tsl.Split('@');

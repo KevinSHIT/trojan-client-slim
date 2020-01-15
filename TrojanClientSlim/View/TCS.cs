@@ -196,7 +196,7 @@ namespace TrojanClientSlim
 
         private void RunPivoxyCommand()
         {
-            
+
             Process p = new Process();
             p.StartInfo.FileName = "cmd.exe";
             //pc.StartInfo.Arguments = $"start {path}\\privoxy\\privoxy.exe {path}\\privoxy\\config.txt";
@@ -204,7 +204,7 @@ namespace TrojanClientSlim
             {
                 File.Copy("privoxy\\config.txt", "temp\\config.txt");
                 string[] tmp = File.ReadAllLines("temp\\config.txt");
-                tmp[tmp.Length -1] = tmp[tmp.Length -1].Replace("$trojan-port$", localPort.ToString());
+                tmp[tmp.Length - 1] = tmp[tmp.Length - 1].Replace("$trojan-port$", localPort.ToString());
                 File.WriteAllLines("temp\\config.txt", tmp);
             }
             if (GFWList.Checked)
@@ -244,7 +244,6 @@ namespace TrojanClientSlim
 
         private bool SetTrojanConf(string[] trojanConf)
         {
-            
             if (trojanConf != null)
             {
                 RemotePortBox.Text = trojanConf[1];
@@ -253,7 +252,6 @@ namespace TrojanClientSlim
                 return true;
             }
             return false;
-
         }
 
         private static bool IsPortUsed(int port)
@@ -395,6 +393,7 @@ namespace TrojanClientSlim
         private void ShareLinkBox_TextChanged(object sender, EventArgs e) => SetTrojanConf(ShareLinkBox.Text);
         #endregion
 
+        #region CheckChanged
         private void IsVerifyCert_CheckedChanged(object sender, EventArgs e)
         {
             IniData i = iniParser.ReadFile("config.ini");
@@ -415,5 +414,6 @@ namespace TrojanClientSlim
             i["TCS"]["HttpProxy"] = isVerifyCert.Checked.ToString();
             iniParser.WriteFile("config.ini", i);
         }
+        #endregion
     }
 }

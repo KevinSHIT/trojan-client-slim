@@ -61,12 +61,17 @@
             this.label7 = new System.Windows.Forms.Label();
             this.ShareLinkBox = new System.Windows.Forms.TextBox();
             this.EnableShareLink = new System.Windows.Forms.CheckBox();
+            this.NodeList = new System.Windows.Forms.ListBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
             this.contextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // Exit
             // 
-            this.Exit.Location = new System.Drawing.Point(213, 179);
+            this.Exit.Location = new System.Drawing.Point(434, 179);
             this.Exit.Name = "Exit";
             this.Exit.Size = new System.Drawing.Size(75, 23);
             this.Exit.TabIndex = 1;
@@ -76,7 +81,7 @@
             // 
             // Stop
             // 
-            this.Stop.Location = new System.Drawing.Point(112, 179);
+            this.Stop.Location = new System.Drawing.Point(333, 179);
             this.Stop.Name = "Stop";
             this.Stop.Size = new System.Drawing.Size(75, 23);
             this.Stop.TabIndex = 2;
@@ -87,7 +92,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 18);
+            this.label1.Location = new System.Drawing.Point(233, 18);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(95, 12);
             this.label1.TabIndex = 3;
@@ -99,7 +104,7 @@
             this.isSock5.Checked = true;
             this.isSock5.CheckState = System.Windows.Forms.CheckState.Checked;
             this.isSock5.Enabled = false;
-            this.isSock5.Location = new System.Drawing.Point(113, 102);
+            this.isSock5.Location = new System.Drawing.Point(334, 102);
             this.isSock5.Name = "isSock5";
             this.isSock5.Size = new System.Drawing.Size(54, 16);
             this.isSock5.TabIndex = 4;
@@ -108,7 +113,7 @@
             // 
             // RemoteAddressBox
             // 
-            this.RemoteAddressBox.Location = new System.Drawing.Point(113, 15);
+            this.RemoteAddressBox.Location = new System.Drawing.Point(334, 15);
             this.RemoteAddressBox.Name = "RemoteAddressBox";
             this.RemoteAddressBox.Size = new System.Drawing.Size(175, 21);
             this.RemoteAddressBox.TabIndex = 5;
@@ -116,7 +121,7 @@
             // 
             // RemotePortBox
             // 
-            this.RemotePortBox.Location = new System.Drawing.Point(113, 42);
+            this.RemotePortBox.Location = new System.Drawing.Point(334, 42);
             this.RemotePortBox.Name = "RemotePortBox";
             this.RemotePortBox.Size = new System.Drawing.Size(175, 21);
             this.RemotePortBox.TabIndex = 7;
@@ -126,7 +131,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 45);
+            this.label2.Location = new System.Drawing.Point(233, 45);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(77, 12);
             this.label2.TabIndex = 6;
@@ -134,7 +139,7 @@
             // 
             // PasswordBox
             // 
-            this.PasswordBox.Location = new System.Drawing.Point(113, 69);
+            this.PasswordBox.Location = new System.Drawing.Point(334, 69);
             this.PasswordBox.Name = "PasswordBox";
             this.PasswordBox.PasswordChar = '*';
             this.PasswordBox.Size = new System.Drawing.Size(151, 21);
@@ -144,7 +149,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 75);
+            this.label3.Location = new System.Drawing.Point(233, 75);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(59, 12);
             this.label3.TabIndex = 8;
@@ -155,7 +160,7 @@
             this.isHttp.AutoSize = true;
             this.isHttp.Checked = true;
             this.isHttp.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.isHttp.Location = new System.Drawing.Point(216, 103);
+            this.isHttp.Location = new System.Drawing.Point(437, 103);
             this.isHttp.Name = "isHttp";
             this.isHttp.Size = new System.Drawing.Size(48, 16);
             this.isHttp.TabIndex = 10;
@@ -166,7 +171,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 102);
+            this.label4.Location = new System.Drawing.Point(233, 102);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(41, 12);
             this.label4.TabIndex = 11;
@@ -175,7 +180,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 126);
+            this.label5.Location = new System.Drawing.Point(233, 126);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(41, 12);
             this.label5.TabIndex = 13;
@@ -186,7 +191,7 @@
             this.isVerifyCert.AutoSize = true;
             this.isVerifyCert.Checked = true;
             this.isVerifyCert.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.isVerifyCert.Location = new System.Drawing.Point(113, 126);
+            this.isVerifyCert.Location = new System.Drawing.Point(334, 126);
             this.isVerifyCert.Name = "isVerifyCert";
             this.isVerifyCert.Size = new System.Drawing.Size(48, 16);
             this.isVerifyCert.TabIndex = 12;
@@ -199,7 +204,7 @@
             this.isVerifyHostname.AutoSize = true;
             this.isVerifyHostname.Checked = true;
             this.isVerifyHostname.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.isVerifyHostname.Location = new System.Drawing.Point(216, 126);
+            this.isVerifyHostname.Location = new System.Drawing.Point(437, 126);
             this.isVerifyHostname.Name = "isVerifyHostname";
             this.isVerifyHostname.Size = new System.Drawing.Size(72, 16);
             this.isVerifyHostname.TabIndex = 14;
@@ -209,7 +214,7 @@
             // 
             // Run
             // 
-            this.Run.Location = new System.Drawing.Point(12, 179);
+            this.Run.Location = new System.Drawing.Point(233, 179);
             this.Run.Name = "Run";
             this.Run.Size = new System.Drawing.Size(75, 23);
             this.Run.TabIndex = 15;
@@ -221,7 +226,7 @@
             // 
             this.Global.AutoSize = true;
             this.Global.Checked = true;
-            this.Global.Location = new System.Drawing.Point(113, 150);
+            this.Global.Location = new System.Drawing.Point(334, 150);
             this.Global.Name = "Global";
             this.Global.Size = new System.Drawing.Size(59, 16);
             this.Global.TabIndex = 16;
@@ -233,7 +238,7 @@
             // GFWList
             // 
             this.GFWList.AutoSize = true;
-            this.GFWList.Location = new System.Drawing.Point(216, 150);
+            this.GFWList.Location = new System.Drawing.Point(437, 150);
             this.GFWList.Name = "GFWList";
             this.GFWList.Size = new System.Drawing.Size(65, 16);
             this.GFWList.TabIndex = 17;
@@ -244,7 +249,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(12, 152);
+            this.label6.Location = new System.Drawing.Point(233, 152);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(35, 12);
             this.label6.TabIndex = 19;
@@ -252,7 +257,7 @@
             // 
             // ShowPassword
             // 
-            this.ShowPassword.Location = new System.Drawing.Point(270, 69);
+            this.ShowPassword.Location = new System.Drawing.Point(491, 69);
             this.ShowPassword.Name = "ShowPassword";
             this.ShowPassword.Size = new System.Drawing.Size(18, 21);
             this.ShowPassword.TabIndex = 20;
@@ -331,7 +336,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(12, 216);
+            this.label7.Location = new System.Drawing.Point(233, 216);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(71, 12);
             this.label7.TabIndex = 21;
@@ -339,7 +344,7 @@
             // 
             // ShareLinkBox
             // 
-            this.ShareLinkBox.Location = new System.Drawing.Point(133, 213);
+            this.ShareLinkBox.Location = new System.Drawing.Point(354, 213);
             this.ShareLinkBox.Name = "ShareLinkBox";
             this.ShareLinkBox.ReadOnly = true;
             this.ShareLinkBox.Size = new System.Drawing.Size(155, 21);
@@ -350,19 +355,69 @@
             // EnableShareLink
             // 
             this.EnableShareLink.AutoSize = true;
-            this.EnableShareLink.Location = new System.Drawing.Point(113, 216);
+            this.EnableShareLink.Location = new System.Drawing.Point(334, 216);
             this.EnableShareLink.Name = "EnableShareLink";
             this.EnableShareLink.Size = new System.Drawing.Size(15, 14);
             this.EnableShareLink.TabIndex = 23;
             this.EnableShareLink.UseVisualStyleBackColor = true;
             this.EnableShareLink.CheckedChanged += new System.EventHandler(this.EnableShareLink_CheckedChanged);
             // 
+            // NodeList
+            // 
+            this.NodeList.FormattingEnabled = true;
+            this.NodeList.ItemHeight = 12;
+            this.NodeList.Location = new System.Drawing.Point(12, 15);
+            this.NodeList.Name = "NodeList";
+            this.NodeList.Size = new System.Drawing.Size(200, 184);
+            this.NodeList.TabIndex = 24;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(12, 211);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(45, 23);
+            this.button1.TabIndex = 25;
+            this.button1.Text = "Add";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(167, 211);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(45, 23);
+            this.button2.TabIndex = 26;
+            this.button2.Text = "Down";
+            this.button2.UseVisualStyleBackColor = true;
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(63, 211);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(45, 23);
+            this.button3.TabIndex = 27;
+            this.button3.Text = "Remove";
+            this.button3.UseVisualStyleBackColor = true;
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(116, 211);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(45, 23);
+            this.button4.TabIndex = 28;
+            this.button4.Text = "Up";
+            this.button4.UseVisualStyleBackColor = true;
+            // 
             // TCS
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(306, 244);
+            this.ClientSize = new System.Drawing.Size(524, 244);
+            this.Controls.Add(this.button4);
+            this.Controls.Add(this.button3);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.NodeList);
             this.Controls.Add(this.EnableShareLink);
             this.Controls.Add(this.ShareLinkBox);
             this.Controls.Add(this.label7);
@@ -432,6 +487,11 @@
         private System.Windows.Forms.ToolStripMenuItem shareStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem importStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ListBox NodeList;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button4;
     }
 }
 
