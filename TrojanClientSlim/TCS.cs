@@ -100,7 +100,7 @@ namespace TrojanClientSlim
                 Message.Show("Port 54392 is in use!\r\nTrojan may fail to work.", Message.Mode.Warning);
             if (File.Exists("node.tcsdb"))
             {
-                string[] tmp = ShareLink.ConverteToTrojanConf(File.ReadAllText("node.tcsdb"));
+                string[] tmp = ShareLink.ConvertShareToTrojanConf(File.ReadAllText("node.tcsdb"));
                 if (!SetTrojanConf(File.ReadAllText("node.tcsdb")))
                 {
                     File.Create("node.tcsdb").Dispose();
@@ -240,7 +240,7 @@ namespace TrojanClientSlim
                     int.Parse(RemotePortBox.Text), PasswordBox.Text, isVerifyCert.Checked, isVerifyHostname.Checked);
         }
 
-        private bool SetTrojanConf(string TcsShareLink) => SetTrojanConf((string[])ShareLink.ConverteToTrojanConf(TcsShareLink));
+        private bool SetTrojanConf(string TcsShareLink) => SetTrojanConf((string[])ShareLink.ConvertShareToTrojanConf(TcsShareLink));
 
         private bool SetTrojanConf(string[] trojanConf)
         {

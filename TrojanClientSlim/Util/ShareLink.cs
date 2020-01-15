@@ -2,42 +2,53 @@
 {
     public static class ShareLink
     {
-        public static string[] ConverteToTrojanConf(string tcsShareLink)
+        public static string[] ConvertShareToTrojanConf(string trojanShareLink)
         {
-            if (tcsShareLink.Length <= 6)
-                return null;
-            if (tcsShareLink.Substring(0, 6).ToLower() == "tcs://")
+            //Example: trojan://password@ip:port#node_name
+            if (trojanShareLink.StartsWith("trojan://"))
             {
+                string[] tmp = new string[4];
+                string tsl = trojanShareLink.Substring(9);
+                string[] temp = tsl.Split(':');
+                string[] temp_3 = temp[temp.Length - 1].Split('#');
+                tmp[1] = temp_3[0];
                 try
                 {
-                    string[] tmp = Encrypt.DeBase64(tcsShareLink.Substring(6)).Split(':');
-                    for (int i = 0; i < tmp.Length; i++)
-                    {
-                        tmp[i] = Encrypt.DeBase64(tmp[i]);
-                    }
-                    if (int.Parse(tmp[1]) > 65535 || int.Parse(tmp[1]) < 0)
-                    {
-                        return null;
-                    }
-                    else
-                    {
-                        return tmp;
-                    }
+                    int.Parse(tmp[1]);
+                    temp[temp.Length - 1] = "";
                 }
                 catch
                 {
                     return null;
                 }
+                temp_3[0] = "";
+                tmp[4] = temp_3.CombineToString();
+                tsl = CombineToString(temp);
+                //Current: password@ip
+                string[] temp_1 = tsl.Split('@');
+                if (temp_1.Length == 1) return null;
+                tmp[0] = temp_1[temp_1.Length - 1];
+                temp_1[temp_1.Length - 1] = "";
+                tmp[2] = CombineToString(temp_1);
+                return tmp;
             }
             else
-            {
                 return null;
+        }
+
+        public static string CombineToString(this string[] str)
+        {
+            string tmp = "";
+            foreach (string s in str)
+            {
+                tmp += s;
             }
+            return tmp;
         }
 
         public static string Generate(string remoteAddress, string remotePort, string password)
         {
-            return "tcs://" + Encrypt.Base64(Encrypt.Base64(remoteAddress) + ":" + Encrypt.Base64(remotePort) + ":" + Encrypt.Base64(password));
+            return "trojan://" + password + "@" + remoteAddress + ":" + remotePort;
         }
     }
 }

@@ -281,50 +281,50 @@
             this.contextMenu.Name = "contextMenu";
             this.contextMenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
             this.contextMenu.ShowImageMargin = false;
-            this.contextMenu.Size = new System.Drawing.Size(217, 126);
+            this.contextMenu.Size = new System.Drawing.Size(235, 126);
             // 
             // runToolStripMenuItem
             // 
             this.runToolStripMenuItem.Name = "runToolStripMenuItem";
-            this.runToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
+            this.runToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
             this.runToolStripMenuItem.Text = "Run";
             this.runToolStripMenuItem.Click += new System.EventHandler(this.RunToolStripMenuItem_Click);
             // 
             // stopToolStripMenuItem
             // 
             this.stopToolStripMenuItem.Name = "stopToolStripMenuItem";
-            this.stopToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
+            this.stopToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
             this.stopToolStripMenuItem.Text = "Stop";
             this.stopToolStripMenuItem.Click += new System.EventHandler(this.StopToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(213, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(231, 6);
             // 
             // shareStripMenuItem
             // 
             this.shareStripMenuItem.Name = "shareStripMenuItem";
-            this.shareStripMenuItem.Size = new System.Drawing.Size(216, 22);
-            this.shareStripMenuItem.Text = "Share tcs:// link";
+            this.shareStripMenuItem.Size = new System.Drawing.Size(234, 22);
+            this.shareStripMenuItem.Text = "Share trojan:// link";
             this.shareStripMenuItem.Click += new System.EventHandler(this.ShareStripMenuItem_Click);
             // 
             // importStripMenuItem
             // 
             this.importStripMenuItem.Name = "importStripMenuItem";
-            this.importStripMenuItem.Size = new System.Drawing.Size(216, 22);
-            this.importStripMenuItem.Text = "Import tcs:// from clipboard";
+            this.importStripMenuItem.Size = new System.Drawing.Size(234, 22);
+            this.importStripMenuItem.Text = "Import trojan:// from clipboard";
             this.importStripMenuItem.Click += new System.EventHandler(this.ImportStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(213, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(231, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
             // 
