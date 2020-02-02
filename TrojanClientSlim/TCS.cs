@@ -65,6 +65,9 @@ namespace TrojanClientSlim
             if (File.Exists("config.ini"))
             {
                 IniData iniData = iniParser.ReadFile("config.ini");
+
+                bool isAdvance = false;
+
                 if (iniData["TCS"]["Advance"] == null)
                 {
                     iniData["TCS"]["Advance"] = "False";
@@ -72,45 +75,45 @@ namespace TrojanClientSlim
                 }
                 try
                 {
-                    bool isAdvance = bool.Parse(iniData["TCS"]["Advance"]);
-                    if (isAdvance)
-                    {
-                        if (File.Exists("advance\\trojan.json"))
-                        {
-                            //Do something
-                            Config.IsUseAdvance = true;
-                        }
-                        else
-                        {
-                            Message.Show("Can't find advance trojan config!", Message.Mode.Error);
-                            Environment.Exit(0);
-                        }
-                    }
-                    else
-                    {
-                        try
-                        {
-                            localPort = int.Parse(iniData["TCS"]["LocalPort"]);
-                        }
-                        catch
-                        {
-                            iniData["TCS"]["LocalPort"] = "1080";
-                            iniParser.WriteFile("config.ini", iniData);
-                            localPort = 1080;
-                        }
+                    isAdvance = bool.Parse(iniData["TCS"]["Advance"]);
 
-                        ConfigIniToCheckBox("TCS", "VerifyCert", isVerifyCert, "True");
-                        ConfigIniToCheckBox("TCS", "VerifyHostname", isVerifyHostname, "True");
-                        ConfigIniToCheckBox("TCS", "HttpProxy", isHttp, "True");
-                    }
                 }
                 catch
                 {
-                    iniData["TCS"]["Advance"] = "True";
+                    iniData["TCS"]["Advance"] = "False";
+                    iniParser.WriteFile("config.ini", iniData);
+
                 }
+                if (isAdvance)
+                {
+                    if (File.Exists("advance\\trojan.json"))
+                    {
+                        //Do something
+                        Config.IsUseAdvance = true;
+                    }
+                    else
+                    {
+                        Message.Show("Can't find advance trojan config!", Message.Mode.Error);
+                        Environment.Exit(0);
+                    }
+                }
+                else
+                {
+                    try
+                    {
+                        localPort = int.Parse(iniData["TCS"]["LocalPort"]);
+                    }
+                    catch
+                    {
+                        iniData["TCS"]["LocalPort"] = "1080";
+                        iniParser.WriteFile("config.ini", iniData);
+                        localPort = 1080;
+                    }
 
-
-
+                    ConfigIniToCheckBox("TCS", "VerifyCert", isVerifyCert, "True");
+                    ConfigIniToCheckBox("TCS", "VerifyHostname", isVerifyHostname, "True");
+                    ConfigIniToCheckBox("TCS", "HttpProxy", isHttp, "True");
+                }
             }
             else
             {
