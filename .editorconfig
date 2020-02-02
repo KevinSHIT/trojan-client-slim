@@ -2,3 +2,9 @@
 
 # CA1031: Do not catch general exception types
 dotnet_diagnostic.CA1031.severity = silent
+
+# CA1307: 指定 StringComparison
+dotnet_diagnostic.CA1307.severity = suggestion
+
+# CA1062: 验证公共方法的参数
+dotnet_diagnostic.CA1062.severity = silent

@@ -1,4 +1,6 @@
-﻿namespace TrojanClientSlim.Util
+﻿using System.Web;
+
+namespace TrojanClientSlim.Util
 {
     public static class ShareLink
     {
@@ -26,10 +28,18 @@
                 tsl = CombineToString(temp);
                 //Current: password@ip
                 string[] temp_1 = tsl.Split('@');
-                if (temp_1.Length == 1) return null;
+                if (temp_1.Length == 1) 
+                    return null;
                 tmp[0] = temp_1[temp_1.Length - 1];
                 temp_1[temp_1.Length - 1] = "";
-                tmp[2] = CombineToString(temp_1);
+                try
+                {
+                    tmp[2] = HttpUtility.UrlDecode(CombineToString(temp_1));
+                }
+                catch
+                {
+                    return null;
+                }
                 return tmp;
             }
             else
@@ -48,7 +58,7 @@
 
         public static string Generate(string remoteAddress, string remotePort, string password)
         {
-            return "trojan://" + password + "@" + remoteAddress + ":" + remotePort;
+            return "trojan://" + HttpUtility.UrlEncode(password) + "@" + remoteAddress + ":" + remotePort;
         }
     }
 }

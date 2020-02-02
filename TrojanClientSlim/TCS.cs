@@ -65,27 +65,61 @@ namespace TrojanClientSlim
             if (File.Exists("config.ini"))
             {
                 IniData iniData = iniParser.ReadFile("config.ini");
-
-                try
+                if (iniData["TCS"]["Advance"] == null)
                 {
-                    localPort = int.Parse(iniData["TCS"]["LocalPort"]);
-                }
-                catch
-                {
-                    iniData["TCS"]["LocalPort"] = "1080";
+                    iniData["TCS"]["Advance"] = "True";
                     iniParser.WriteFile("config.ini", iniData);
-                    localPort = 1080;
+                }
+                else
+                {
+                    try
+                    {
+                        bool isAdvance = bool.Parse(iniData["TCS"]["Advance"]);
+                        if (isAdvance)
+                        {
+                            if (File.Exists("advance\\trojan.json"))
+                            {
+                                //Do something
+                                Config.IsUseAdvance = true;
+                            }
+                            else
+                            {
+                                Message.Show("Can't find advance trojan config!", Message.Mode.Error);
+                                Environment.Exit(0);
+                            }
+                        }
+                        else
+                        {
+                            try
+                            {
+                                localPort = int.Parse(iniData["TCS"]["LocalPort"]);
+                            }
+                            catch
+                            {
+                                iniData["TCS"]["LocalPort"] = "1080";
+                                iniParser.WriteFile("config.ini", iniData);
+                                localPort = 1080;
+                            }
+
+                            ConfigIniToCheckBox("TCS", "VerifyCert", isVerifyCert, "True");
+                            ConfigIniToCheckBox("TCS", "VerifyHostname", isVerifyHostname, "True");
+                            ConfigIniToCheckBox("TCS", "HttpProxy", isHttp, "True");
+                        }
+                    }
+                    catch
+                    {
+                        iniData["TCS"]["Advance"] = "True";
+                    }
                 }
 
-                ConfigIniToCheckBox("TCS", "VerifyCert", isVerifyCert, "True");
-                ConfigIniToCheckBox("TCS", "VerifyHostname", isVerifyHostname, "True");
-                ConfigIniToCheckBox("TCS", "HttpProxy", isHttp, "True");
+
 
             }
             else
             {
                 File.WriteAllText("config.ini", "" +
                     "[TCS]\r\n" +
+                    "Advance = False\r\n" +
                     "LocalPort = 1080\r\n" +
                     "VerifyCert = True\r\n" +
                     "VerifyHostname = True\r\n" +
@@ -158,7 +192,7 @@ namespace TrojanClientSlim
                     Proxy.SetProxy("127.0.0.1:54392");
                 }
                 Message.Show("Stop Trojan succeeded!", Message.Mode.Info);
-                final:;
+            final:;
             }
             else
             {
@@ -196,7 +230,7 @@ namespace TrojanClientSlim
 
         private void RunPivoxyCommand()
         {
-            
+
             Process p = new Process();
             p.StartInfo.FileName = "cmd.exe";
             //pc.StartInfo.Arguments = $"start {path}\\privoxy\\privoxy.exe {path}\\privoxy\\config.txt";
@@ -204,7 +238,7 @@ namespace TrojanClientSlim
             {
                 File.Copy("privoxy\\config.txt", "temp\\config.txt");
                 string[] tmp = File.ReadAllLines("temp\\config.txt");
-                tmp[tmp.Length -1] = tmp[tmp.Length -1].Replace("$trojan-port$", localPort.ToString());
+                tmp[tmp.Length - 1] = tmp[tmp.Length - 1].Replace("$trojan-port$", localPort.ToString());
                 File.WriteAllLines("temp\\config.txt", tmp);
             }
             if (GFWList.Checked)
@@ -226,7 +260,10 @@ namespace TrojanClientSlim
         {
             try
             {
-                File.WriteAllText("temp\\trojan.conf", GenerateCurrentTrojanConf());
+                if (!Config.IsUseAdvance)
+                    File.WriteAllText("temp\\trojan.conf", GenerateCurrentTrojanConf());
+                else
+                    File.Copy("advance\\trojan.json", "temp\\trojan.conf");
             }
             catch
             {
@@ -244,7 +281,7 @@ namespace TrojanClientSlim
 
         private bool SetTrojanConf(string[] trojanConf)
         {
-            
+
             if (trojanConf != null)
             {
                 RemotePortBox.Text = trojanConf[1];
