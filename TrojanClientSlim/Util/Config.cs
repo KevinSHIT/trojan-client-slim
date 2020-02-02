@@ -11,7 +11,7 @@ namespace TrojanClientSlim.Util
                 "\"run_type\": \"client\", " +
                 "\"local_addr\": \"127.0.0.1\", " +
                 "\"local_port\": " + localPort.ToString() + ", " +
-                "\"remote_addr\":\"" + remoteAddress + "\", " +
+                "\"remote_addr\": \"" + remoteAddress + "\", " +
                 "\"remote_port\": " + remotePort.ToString() + ", " +
                 "\"password\": [\"" + password + "\"], " +
                 "\"log_level\": 1, " +
@@ -19,10 +19,26 @@ namespace TrojanClientSlim.Util
                     "\"verify\": " + IsVerifyCert.ToString().ToLower() + "," +
                     "\"verify_hostname\": " + IsVerifyHostname.ToString().ToLower() + ", " +
                     "\"cert\": \"\", " +
-                    "\"cipher\": \"ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:" +
-                                "ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-RSA-AES128-SHA:" +
-                                "ECDHE-RSA-AES256-SHA:RSA-AES128-GCM-SHA256:RSA-AES256-GCM-SHA384:RSA-AES128-SHA:RSA-AES256-SHA:RSA-3DES-EDE-SHA\", " +
-                    "\"cipher_tls13\":\"TLS_AES_128_GCM_SHA256:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_256_GCM_SHA384\", " +
+                    "\"cipher\": \"ECDHE-ECDSA-AES128-GCM-SHA256:" +
+                                  "ECDHE-RSA-AES128-GCM-SHA256:" +
+                                  "ECDHE-ECDSA-CHACHA20-POLY1305:" +
+                                  "ECDHE-RSA-CHACHA20-POLY1305:" +
+                                  "ECDHE-ECDSA-AES256-GCM-SHA384:" +
+                                  "ECDHE-RSA-AES256-GCM-SHA384:" +
+                                  "ECDHE-ECDSA-AES256-SHA:" +
+                                  "ECDHE-ECDSA-AES128-SHA:" +
+                                  "ECDHE-RSA-AES128-SHA:" +
+                                  "ECDHE-RSA-AES256-SHA:" +
+                                  "DHE-RSA-AES128-SHA:" +
+                                  "DHE-RSA-AES256-SHA:" +
+                                  "AES128-SHA:" +
+                                  "AES256-SHA:" +
+                                  "DES-CBC3-SHA" +
+                                  "\", " +
+                    "\"cipher_tls13\":\"TLS_AES_128_GCM_SHA256:" +
+                                       "TLS_CHACHA20_POLY1305_SHA256:" +
+                                       "TLS_AES_256_GCM_SHA384" +
+                                       "\", " +
                     "\"sni\": \"\", " +
                     "\"alpn\": [ " +
                             "\"h2\", " +
