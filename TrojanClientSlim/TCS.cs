@@ -13,18 +13,7 @@ namespace TrojanClientSlim
 {
     public partial class TCS : Form
     {
-        /* 
-         * CLASH
-         * {CLASH_SOCKS_LISTEN}
-         * {CLASH_HTTP_LISTEN}
-         * 
-         * TROJAN
-         * {TROJAN_SOCKS_LISTEN}
-         * 
-         * PRIVOXY
-         * {PRIVOXY_HTTP_LISTEN}
-         * 
-         */
+
 
         readonly FileIniDataParser iniParser = new FileIniDataParser();
 
@@ -40,7 +29,6 @@ namespace TrojanClientSlim
                 Directory.CreateDirectory("temp");
             }
         }
-
 
         public TCS() => InitializeComponent();
 
@@ -217,10 +205,10 @@ namespace TrojanClientSlim
                 }
                 KillProcess();
                 SaveTrojanConf();
-                RunTrojanCommand();
+                Command.RunTrojan();
                 if (isHttp.Checked == true)
                 {
-                    RunPivoxyCommand();
+                    Command.RunHttpProxy();
                     Proxy.SetProxy("127.0.0.1:54392");
                 }
                 Message.Show("Stop Trojan succeeded!", Message.Mode.Info);
@@ -246,48 +234,7 @@ namespace TrojanClientSlim
         }
         private bool IsConfigValid() => (!string.IsNullOrEmpty(RemoteAddressBox.Text.Trim()) && !string.IsNullOrEmpty(RemotePortBox.Text.Trim()) && !string.IsNullOrEmpty(PasswordBox.Text.Trim()));
 
-        private void RunTrojanCommand()
-        {
-            Process p = new Process();
-            p.StartInfo.FileName = @"trojan\trojan.exe";
-            p.StartInfo.Arguments = @"-c temp\trojan.conf";
-#if DEBUG
-            p.StartInfo.UseShellExecute = true;
-#else
-            p.StartInfo.UseShellExecute = false;
-            p.StartInfo.CreateNoWindow = true;
-#endif
-            p.Start();
-        }
-
-        private void RunPivoxyCommand()
-        {
-
-            Process p = new Process();
-            p.StartInfo.FileName = "cmd.exe";
-            //pc.StartInfo.Arguments = $"start {path}\\privoxy\\privoxy.exe {path}\\privoxy\\config.txt";
-            if (Global.Checked)
-            {
-                File.Copy(Config.DEFAULT_TROJAN_CONFIG_PATH, "temp\\config.txt");
-                string tmp = File.ReadAllText("temp\\config.txt");
-                tmp = tmp.Replace("{TROJAN_SOCKS_LISTEN}", Config.localTrojanPort.ToString());
-                File.WriteAllText("temp\\config.txt", tmp);
-            }
-            if (GFWList.Checked)
-            {
-                File.Copy("privoxy\\config_gfw.txt", "temp\\config.txt");
-                File.Copy("privpxy\\gfwlist.action", "temp\\gfwlist.action");
-                string tmp = File.ReadAllText("temp\\config.txt");
-                tmp = tmp.Replace("{TROJAN_SOCKS_LISTEN}", Config.localTrojanPort.ToString());
-                File.WriteAllText("temp\\config.txt", tmp);
-            }
-            p.StartInfo.Arguments = "/c START /MIN privoxy\\privoxy.exe temp\\config.txt";
-            p.StartInfo.UseShellExecute = false;
-            p.StartInfo.CreateNoWindow = true;
-            p.Start();
-            p.Dispose();
-        }
-
+        
         private void SaveTrojanConf()
         {
             try
