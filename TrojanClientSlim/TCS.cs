@@ -13,7 +13,19 @@ namespace TrojanClientSlim
 {
     public partial class TCS : Form
     {
-        // int localPort;
+        /* 
+         * CLASH
+         * {CLASH_SOCKS_LISTEN}
+         * {CLASH_HTTP_LISTEN}
+         * 
+         * TROJAN
+         * {TROJAN_SOCKS_LISTEN}
+         * 
+         * PRIVOXY
+         * {PRIVOXY_HTTP_LISTEN}
+         * 
+         */
+
         readonly FileIniDataParser iniParser = new FileIniDataParser();
 
         void InitialTemp()
@@ -29,32 +41,6 @@ namespace TrojanClientSlim
             }
         }
 
-        /*void ConfigIniToCheckBox(string iniSection, string iniKey, CheckBox chkbox, string defaultValue)
-        {
-            IniData iniData = iniParser.ReadFile("config.ini");
-            try
-            {
-                string x = iniData[iniSection][iniKey].ToLower();
-                if (x == "true")
-                {
-                    chkbox.Checked = true;
-                }
-                else if (x == "false")
-                {
-                    chkbox.Checked = false;
-                }
-                else
-                {
-                    throw new Exception();
-                }
-            }
-            catch
-            {
-                iniData[iniSection][iniKey] = defaultValue;
-                iniParser.WriteFile("config.ini", iniData);
-                chkbox.Checked = bool.Parse(defaultValue);
-            }
-        }*/
 
         public TCS() => InitializeComponent();
 
@@ -306,7 +292,7 @@ namespace TrojanClientSlim
         {
             try
             {
-                    File.WriteAllText("temp\\trojan.conf", GenerateCurrentTrojanConf());
+                File.WriteAllText("temp\\trojan.conf", GenerateCurrentTrojanConf());
             }
             catch
             {
@@ -324,7 +310,6 @@ namespace TrojanClientSlim
 
         private bool SetTrojanConf(string[] trojanConf)
         {
-
             if (trojanConf != null)
             {
                 RemotePortBox.Text = trojanConf[1];
@@ -438,7 +423,6 @@ namespace TrojanClientSlim
             Clipboard.SetText(ShareLinkBox.Text);
             Message.Show("TCS share link has copied to clipboard!", Message.Mode.Info);
         }
-
         private void ImportStripMenuItem_Click(object sender, EventArgs e)
         {
             IDataObject iData = Clipboard.GetDataObject();
