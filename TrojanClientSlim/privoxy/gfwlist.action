@@ -1,5 +1,5 @@
 # Generated at 2019-09-30 18:51:12
-{+forward-override{forward-socks5 127.0.0.1:$trojan-port$ .}}
+{+forward-override{forward-socks5 127.0.0.1:{TROJAN_SOCKS_LISTEN} .}}
 14.102.250.18
 14.102.250.19
 50.7.31.230:8898

@@ -39,14 +39,14 @@
             this.label2 = new System.Windows.Forms.Label();
             this.PasswordBox = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.isHttp = new System.Windows.Forms.CheckBox();
+            isHttp = new System.Windows.Forms.CheckBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.isVerifyCert = new System.Windows.Forms.CheckBox();
-            this.isVerifyHostname = new System.Windows.Forms.CheckBox();
+            isVerifyCert = new System.Windows.Forms.CheckBox();
+            isVerifyHostname = new System.Windows.Forms.CheckBox();
             this.Run = new System.Windows.Forms.Button();
-            this.Global = new System.Windows.Forms.RadioButton();
-            this.GFWList = new System.Windows.Forms.RadioButton();
+            Global = new System.Windows.Forms.RadioButton();
+            GFWList = new System.Windows.Forms.RadioButton();
             this.label6 = new System.Windows.Forms.Label();
             this.ShowPassword = new System.Windows.Forms.Button();
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
@@ -152,16 +152,17 @@
             // 
             // isHttp
             // 
-            this.isHttp.AutoSize = true;
-            this.isHttp.Checked = true;
-            this.isHttp.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.isHttp.Location = new System.Drawing.Point(216, 103);
-            this.isHttp.Name = "isHttp";
-            this.isHttp.Size = new System.Drawing.Size(48, 16);
-            this.isHttp.TabIndex = 10;
-            this.isHttp.Text = "HTTP";
-            this.isHttp.UseVisualStyleBackColor = true;
-            this.isHttp.CheckedChanged += new System.EventHandler(this.IsHttp_CheckedChanged);
+            isHttp.AutoSize = true;
+            isHttp.Checked = true;
+            isHttp.CheckState = System.Windows.Forms.CheckState.Checked;
+            isHttp.Location = new System.Drawing.Point(216, 103);
+            isHttp.Name = "isHttp";
+            isHttp.Size = new System.Drawing.Size(48, 16);
+            isHttp.TabIndex = 10;
+            isHttp.Text = "HTTP";
+            isHttp.UseVisualStyleBackColor = true;
+
+            isHttp.CheckedChanged += new System.EventHandler(this.IsHttp_CheckedChanged);
             // 
             // label4
             // 
@@ -183,29 +184,29 @@
             // 
             // isVerifyCert
             // 
-            this.isVerifyCert.AutoSize = true;
-            this.isVerifyCert.Checked = true;
-            this.isVerifyCert.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.isVerifyCert.Location = new System.Drawing.Point(113, 126);
-            this.isVerifyCert.Name = "isVerifyCert";
-            this.isVerifyCert.Size = new System.Drawing.Size(48, 16);
-            this.isVerifyCert.TabIndex = 12;
-            this.isVerifyCert.Text = "Cert";
-            this.isVerifyCert.UseVisualStyleBackColor = true;
-            this.isVerifyCert.CheckedChanged += new System.EventHandler(this.IsVerifyCert_CheckedChanged);
+            isVerifyCert.AutoSize = true;
+            isVerifyCert.Checked = true;
+            isVerifyCert.CheckState = System.Windows.Forms.CheckState.Checked;
+            isVerifyCert.Location = new System.Drawing.Point(113, 126);
+            isVerifyCert.Name = "isVerifyCert";
+            isVerifyCert.Size = new System.Drawing.Size(48, 16);
+            isVerifyCert.TabIndex = 12;
+            isVerifyCert.Text = "Cert";
+            isVerifyCert.UseVisualStyleBackColor = true;
+            isVerifyCert.CheckedChanged += new System.EventHandler(this.IsVerifyCert_CheckedChanged);
             // 
             // isVerifyHostname
             // 
-            this.isVerifyHostname.AutoSize = true;
-            this.isVerifyHostname.Checked = true;
-            this.isVerifyHostname.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.isVerifyHostname.Location = new System.Drawing.Point(216, 126);
-            this.isVerifyHostname.Name = "isVerifyHostname";
-            this.isVerifyHostname.Size = new System.Drawing.Size(72, 16);
-            this.isVerifyHostname.TabIndex = 14;
-            this.isVerifyHostname.Text = "Hostname";
-            this.isVerifyHostname.UseVisualStyleBackColor = true;
-            this.isVerifyHostname.CheckedChanged += new System.EventHandler(this.IsVerifyHostname_CheckedChanged);
+            isVerifyHostname.AutoSize = true;
+            isVerifyHostname.Checked = true;
+            isVerifyHostname.CheckState = System.Windows.Forms.CheckState.Checked;
+            isVerifyHostname.Location = new System.Drawing.Point(216, 126);
+            isVerifyHostname.Name = "isVerifyHostname";
+            isVerifyHostname.Size = new System.Drawing.Size(72, 16);
+            isVerifyHostname.TabIndex = 14;
+            isVerifyHostname.Text = "Hostname";
+            isVerifyHostname.UseVisualStyleBackColor = true;
+            isVerifyHostname.CheckedChanged += new System.EventHandler(this.IsVerifyHostname_CheckedChanged);
             // 
             // Run
             // 
@@ -219,27 +220,27 @@
             // 
             // Global
             // 
-            this.Global.AutoSize = true;
-            this.Global.Checked = true;
-            this.Global.Location = new System.Drawing.Point(113, 150);
-            this.Global.Name = "Global";
-            this.Global.Size = new System.Drawing.Size(59, 16);
-            this.Global.TabIndex = 16;
-            this.Global.TabStop = true;
-            this.Global.Text = "Global";
-            this.Global.UseVisualStyleBackColor = true;
-            this.Global.CheckedChanged += new System.EventHandler(this.Global_CheckedChanged);
+            Global.AutoSize = true;
+            Global.Checked = true;
+            Global.Location = new System.Drawing.Point(113, 150);
+            Global.Name = "Global";
+            Global.Size = new System.Drawing.Size(59, 16);
+            Global.TabIndex = 16;
+            Global.TabStop = true;
+            Global.Text = "Global";
+            Global.UseVisualStyleBackColor = true;
+            Global.CheckedChanged += new System.EventHandler(Global_CheckedChanged);
             // 
             // GFWList
             // 
-            this.GFWList.AutoSize = true;
-            this.GFWList.Location = new System.Drawing.Point(216, 150);
-            this.GFWList.Name = "GFWList";
-            this.GFWList.Size = new System.Drawing.Size(65, 16);
-            this.GFWList.TabIndex = 17;
-            this.GFWList.Text = "GFWList";
-            this.GFWList.UseVisualStyleBackColor = true;
-            this.GFWList.CheckedChanged += new System.EventHandler(this.GFWList_CheckedChanged);
+            GFWList.AutoSize = true;
+            GFWList.Location = new System.Drawing.Point(216, 150);
+            GFWList.Name = "GFWList";
+            GFWList.Size = new System.Drawing.Size(65, 16);
+            GFWList.TabIndex = 17;
+            GFWList.Text = "GFWList";
+            GFWList.UseVisualStyleBackColor = true;
+            GFWList.CheckedChanged += new System.EventHandler(GFWList_CheckedChanged);
             // 
             // label6
             // 
@@ -368,14 +369,14 @@
             this.Controls.Add(this.label7);
             this.Controls.Add(this.ShowPassword);
             this.Controls.Add(this.label6);
-            this.Controls.Add(this.GFWList);
-            this.Controls.Add(this.Global);
+            this.Controls.Add(GFWList);
+            this.Controls.Add(Global);
             this.Controls.Add(this.Run);
-            this.Controls.Add(this.isVerifyHostname);
+            this.Controls.Add(isVerifyHostname);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.isVerifyCert);
+            this.Controls.Add(isVerifyCert);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.isHttp);
+            this.Controls.Add(isHttp);
             this.Controls.Add(this.PasswordBox);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.RemotePortBox);
@@ -410,14 +411,14 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox PasswordBox;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.CheckBox isHttp;
+        public static System.Windows.Forms.CheckBox isHttp;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.CheckBox isVerifyCert;
-        private System.Windows.Forms.CheckBox isVerifyHostname;
+        public static System.Windows.Forms.CheckBox isVerifyCert;
+        public static System.Windows.Forms.CheckBox isVerifyHostname;
         private System.Windows.Forms.Button Run;
-        private System.Windows.Forms.RadioButton Global;
-        private System.Windows.Forms.RadioButton GFWList;
+        public static System.Windows.Forms.RadioButton Global;
+        public static System.Windows.Forms.RadioButton GFWList;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button ShowPassword;
         private System.Windows.Forms.NotifyIcon notifyIcon;

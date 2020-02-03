@@ -13,7 +13,7 @@ namespace TrojanClientSlim
 {
     public partial class TCS : Form
     {
-        static int localPort;
+        // int localPort;
         readonly FileIniDataParser iniParser = new FileIniDataParser();
 
         void InitialTemp()
@@ -29,7 +29,7 @@ namespace TrojanClientSlim
             }
         }
 
-        void ConfigIniToCheckBox(string iniSection, string iniKey, CheckBox chkbox, string defaultValue)
+        /*void ConfigIniToCheckBox(string iniSection, string iniKey, CheckBox chkbox, string defaultValue)
         {
             IniData iniData = iniParser.ReadFile("config.ini");
             try
@@ -54,7 +54,7 @@ namespace TrojanClientSlim
                 iniParser.WriteFile("config.ini", iniData);
                 chkbox.Checked = bool.Parse(defaultValue);
             }
-        }
+        }*/
 
         public TCS() => InitializeComponent();
 
@@ -62,76 +62,12 @@ namespace TrojanClientSlim
         {
             InitialTemp();
 
-            if (File.Exists("config.ini"))
-            {
-                IniData iniData = iniParser.ReadFile("config.ini");
+            ReadConfig();
 
-                bool isAdvance = false;
-
-                if (iniData["TCS"]["Advance"] == null)
-                {
-                    iniData["TCS"]["Advance"] = "False";
-                    iniParser.WriteFile("config.ini", iniData);
-                }
-                try
-                {
-                    isAdvance = bool.Parse(iniData["TCS"]["Advance"]);
-
-                }
-                catch
-                {
-                    iniData["TCS"]["Advance"] = "False";
-                    iniParser.WriteFile("config.ini", iniData);
-
-                }
-                if (isAdvance)
-                {
-                    if (File.Exists("advance\\trojan.json"))
-                    {
-                        //Do something
-                        Config.IsUseAdvance = true;
-                    }
-                    else
-                    {
-                        Message.Show("Can't find advance trojan config!", Message.Mode.Error);
-                        Environment.Exit(0);
-                    }
-                }
-                else
-                {
-                    try
-                    {
-                        localPort = int.Parse(iniData["TCS"]["LocalPort"]);
-                    }
-                    catch
-                    {
-                        iniData["TCS"]["LocalPort"] = "1080";
-                        iniParser.WriteFile("config.ini", iniData);
-                        localPort = 1080;
-                    }
-
-                    ConfigIniToCheckBox("TCS", "VerifyCert", isVerifyCert, "True");
-                    ConfigIniToCheckBox("TCS", "VerifyHostname", isVerifyHostname, "True");
-                    ConfigIniToCheckBox("TCS", "HttpProxy", isHttp, "True");
-                }
-            }
-            else
-            {
-                File.WriteAllText("config.ini", "" +
-                    "[TCS]\r\n" +
-                    "Advance = False\r\n" +
-                    "LocalPort = 1080\r\n" +
-                    "VerifyCert = True\r\n" +
-                    "VerifyHostname = True\r\n" +
-                    "HttpProxy = True");
-
-                isVerifyCert.Checked = true;
-                isVerifyHostname.Checked = true;
-            }
-            if (IsPortUsed(localPort))
-                Message.Show($"Port {localPort} is in use!\r\nTrojan may fail to work.", Message.Mode.Warning);
+            if (IsPortUsed(Config.localTrojanPort))
+                Message.Show($"Port {Config.localTrojanPort} is in use!\r\nTrojan may fail to work.", Message.Mode.Warning);
             if (IsPortUsed(54392))
-                Message.Show("Port 54392 is in use!\r\nTrojan may fail to work.", Message.Mode.Warning);
+                Message.Show("Port 54392 is in use!\r\nPrivoxy may fail to work.", Message.Mode.Warning);
             if (File.Exists("node.tcsdb"))
             {
                 string[] tmp = ShareLink.ConvertShareToTrojanConf(File.ReadAllText("node.tcsdb"));
@@ -146,6 +82,116 @@ namespace TrojanClientSlim
             this.Text = "[D]" + this.Text;
 #endif
         }
+
+        private void ResetConfig()
+        {
+            if (File.Exists(Config.DEFAULT_CONFIG_PATH))
+            {
+                File.Delete(Config.DEFAULT_CONFIG_PATH);
+                ResetConfig();
+            }
+            else
+            {
+                File.WriteAllText(Config.DEFAULT_CONFIG_PATH, Config.DEFAULT_CONFIG_INI);
+            }
+        }
+
+        public static IniData iniData;
+
+        private void ReadConfig()
+        {
+            if (File.Exists(Config.DEFAULT_CONFIG_PATH))
+            {
+                //IniData iniData;
+                bool needWrite = false;
+
+                //Exist
+                try
+                {
+                    iniParser.ReadFile(Config.DEFAULT_CONFIG_PATH);
+                }
+                catch
+                {
+                    ResetConfig();
+                }
+                finally
+                {
+                    iniData = iniParser.ReadFile(Config.DEFAULT_CONFIG_PATH);
+                }
+
+                //localPort
+                try
+                {
+                    Config.localTrojanPort = int.Parse(iniData["TCS"]["LocalPort"]);
+                }
+                catch
+                {
+                    iniData["TCS"]["LocalPort"] = Config.DEFAULT_TROJAN_SOCKS_LISTEN.ToString();
+                    needWrite = true;
+                }
+
+                //proxtMode
+                try
+                {
+                    Config.proxyMode = Config.ProxyModeParser(iniData["TCS"]["ProxyMode"]);
+                }
+                catch
+                {
+                    needWrite = true;
+                    iniData["TCS"]["ProxyMode"] = "GFWList";
+                }
+
+                //verifyCert
+                try
+                {
+                    Config.verifyCert = bool.Parse(iniData["TCS"]["VerifyCert"]);
+                }
+                catch
+                {
+                    needWrite = true;
+                    iniData["TCS"]["VerifyCert"] = "true";
+                }
+
+                //verifyHostname
+                try
+                {
+                    Config.verifyHostname = bool.Parse(iniData["TCS"]["VerifyHostname"]);
+                }
+                catch
+                {
+                    needWrite = true;
+                    iniData["TCS"]["VerifyHostname"] = "true";
+                }
+
+                //httpProxy
+                try
+                {
+                    Config.httpProxy = bool.Parse(iniData["TCS"]["HttpProxy"]);
+                }
+                catch
+                {
+                    needWrite = true;
+                    iniData["TCS"]["HttpProxy"] = "true";
+                }
+
+
+                if (needWrite)
+                {
+                    iniParser.WriteFile(Config.DEFAULT_CONFIG_PATH, iniData);
+                    ReadConfig();
+                }
+
+
+            }
+            else
+            {
+                ResetConfig();
+                ResetConfig();
+                return;
+            }
+
+        }
+
 
         private void Run_Click(object sender, EventArgs e) => RunTrojan();
         private void Stop_Click(object sender, EventArgs e)
@@ -236,18 +282,18 @@ namespace TrojanClientSlim
             //pc.StartInfo.Arguments = $"start {path}\\privoxy\\privoxy.exe {path}\\privoxy\\config.txt";
             if (Global.Checked)
             {
-                File.Copy("privoxy\\config.txt", "temp\\config.txt");
-                string[] tmp = File.ReadAllLines("temp\\config.txt");
-                tmp[tmp.Length - 1] = tmp[tmp.Length - 1].Replace("$trojan-port$", localPort.ToString());
-                File.WriteAllLines("temp\\config.txt", tmp);
+                File.Copy(Config.DEFAULT_TROJAN_CONFIG_PATH, "temp\\config.txt");
+                string tmp = File.ReadAllText("temp\\config.txt");
+                tmp = tmp.Replace("{TROJAN_SOCKS_LISTEN}", Config.localTrojanPort.ToString());
+                File.WriteAllText("temp\\config.txt", tmp);
             }
             if (GFWList.Checked)
             {
                 File.Copy("privoxy\\config_gfw.txt", "temp\\config.txt");
                 File.Copy("privpxy\\gfwlist.action", "temp\\gfwlist.action");
-                string[] tmp = File.ReadAllLines("temp\\config.txt");
-                tmp[1] = tmp[1].Replace("$trojan-port$", localPort.ToString());
-                File.WriteAllLines("temp\\config.txt", tmp);
+                string tmp = File.ReadAllText("temp\\config.txt");
+                tmp = tmp.Replace("{TROJAN_SOCKS_LISTEN}", Config.localTrojanPort.ToString());
+                File.WriteAllText("temp\\config.txt", tmp);
             }
             p.StartInfo.Arguments = "/c START /MIN privoxy\\privoxy.exe temp\\config.txt";
             p.StartInfo.UseShellExecute = false;
@@ -260,10 +306,7 @@ namespace TrojanClientSlim
         {
             try
             {
-                if (!Config.IsUseAdvance)
                     File.WriteAllText("temp\\trojan.conf", GenerateCurrentTrojanConf());
-                else
-                    File.Copy("advance\\trojan.json", "temp\\trojan.conf");
             }
             catch
             {
@@ -273,7 +316,7 @@ namespace TrojanClientSlim
 
         private string GenerateCurrentTrojanConf()
         {
-            return Config.GenerateTrojanJson(localPort, RemoteAddressBox.Text,
+            return Config.GenerateTrojanJson(Config.localTrojanPort, RemoteAddressBox.Text,
                     int.Parse(RemotePortBox.Text), PasswordBox.Text, isVerifyCert.Checked, isVerifyHostname.Checked);
         }
 
@@ -434,23 +477,26 @@ namespace TrojanClientSlim
 
         private void IsVerifyCert_CheckedChanged(object sender, EventArgs e)
         {
-            IniData i = iniParser.ReadFile("config.ini");
-            i["TCS"]["VerifyCert"] = isVerifyCert.Checked.ToString();
-            iniParser.WriteFile("config.ini", i);
+            //IniData i = iniParser.ReadFile("config.ini");
+            //i["TCS"]["VerifyCert"] = isVerifyCert.Checked.ToString();
+            //iniParser.WriteFile("config.ini", i);
+            Config.verifyCert = isVerifyCert.Checked;
         }
 
         private void IsVerifyHostname_CheckedChanged(object sender, EventArgs e)
         {
-            IniData i = iniParser.ReadFile("config.ini");
-            i["TCS"]["VerifyHostname"] = isVerifyCert.Checked.ToString();
-            iniParser.WriteFile("config.ini", i);
+            //IniData i = iniParser.ReadFile("config.ini");
+            //i["TCS"]["VerifyHostname"] = isVerifyCert.Checked.ToString();
+            //iniParser.WriteFile("config.ini", i);
+            Config.verifyHostname = isVerifyCert.Checked;
         }
 
         private void IsHttp_CheckedChanged(object sender, EventArgs e)
         {
-            IniData i = iniParser.ReadFile("config.ini");
-            i["TCS"]["HttpProxy"] = isVerifyCert.Checked.ToString();
-            iniParser.WriteFile("config.ini", i);
+            Config.httpProxy = isHttp.Checked;
+            //IniData i = iniParser.ReadFile("config.ini");
+            //i["TCS"]["HttpProxy"] = isVerifyCert.Checked.ToString();
+            //iniParser.WriteFile("config.ini", i);
         }
     }
 }
