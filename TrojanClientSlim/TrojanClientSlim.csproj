@@ -17,6 +17,8 @@
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <IsWebBootstrapper>false</IsWebBootstrapper>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -40,8 +42,6 @@
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -98,8 +98,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Util\Command.cs" />
     <Compile Include="Util\Config.cs" />
     <Compile Include="Util\Encrypt.cs" />
+    <Compile Include="Util\Http.cs" />
     <Compile Include="Util\Message.cs" />
     <Compile Include="Util\ShareLink.cs" />
     <Compile Include="TCS.cs">
@@ -126,6 +128,8 @@
     <None Include="..\.editorconfig">
       <Link>.editorconfig</Link>
     </None>
+    <None Include="clash\config.yaml" />
+    <None Include="clash\Country.mmdb" />
     <None Include="packages.config" />
     <None Include="privoxy\gfwlist.action" />
     <None Include="Properties\Settings.settings">
@@ -137,11 +141,13 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="trojan\config.json" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="clash\clash.exe" />
     <Content Include="logo.ico" />
     <Content Include="privoxy\config.txt" />
     <Content Include="privoxy\config_gfw.txt" />

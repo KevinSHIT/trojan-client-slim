@@ -206,7 +206,6 @@ namespace TrojanClientSlim
                     goto final;
                 }
                 KillProcess();
-                SaveTrojanConf();
                 Command.RunTrojan();
                 if (isHttp.Checked == true)
                 {
@@ -236,18 +235,6 @@ namespace TrojanClientSlim
         }
         private bool IsConfigValid() => (!string.IsNullOrEmpty(RemoteAddressBox.Text.Trim()) && !string.IsNullOrEmpty(RemotePortBox.Text.Trim()) && !string.IsNullOrEmpty(PasswordBox.Text.Trim()));
 
-
-        private void SaveTrojanConf()
-        {
-            try
-            {
-                File.WriteAllText("temp\\trojan.conf", GenerateCurrentTrojanConf());
-            }
-            catch
-            {
-                Message.Show("Conf file written failed!", Message.Mode.Error);
-            }
-        }
 
         private string GenerateCurrentTrojanConf()
         {

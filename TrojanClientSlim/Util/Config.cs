@@ -217,6 +217,42 @@ namespace TrojanClientSlim.Util
             }
         }
 
+        public static string remoteAddress
+        {
+            set
+            {
+                tcs.RemoteAddressBox.Text = value;
+            }
+            get
+            {
+                return tcs.RemoteAddressBox.Text;
+            }
+        }
+
+        public static int remotePort
+        {
+            set
+            {
+                tcs.RemotePortBox.Text = value.ToString();
+            }
+            get
+            {
+                return int.Parse(tcs.RemotePortBox.Text);
+            }
+        }
+
+        public static string password
+        {
+            set
+            {
+                tcs.PasswordBox.Text = value;
+            }
+            get
+            {
+                return tcs.PasswordBox.Text;
+            }
+        }
+
         public const string DEFAULT_CONFIG_SECTION = "TCS";
         public const string SECTION_HTTP_PROXY = "HttpProxy";
 

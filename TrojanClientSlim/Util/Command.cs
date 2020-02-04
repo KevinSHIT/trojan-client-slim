@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -26,9 +27,26 @@ namespace TrojanClientSlim.Util
 
         public static void RunTrojan()
         {
+            File.Copy(@"trojan\config.json", @"temp\trojan.json", true);
+            string trojanJson = File.ReadAllText(@"temp\trojan.json")
+                .Replace("{VERIFY_CERT}", Config.verifyCert.ToString())
+                .Replace("{VERIFY_HOSTNAME}", Config.verifyHostname.ToString());
+
+            JObject jo = new JObject();
+            jo = JObject.Parse(trojanJson);
+            
+            jo["local_port"] = Config.localSocksPort;
+            jo["remote_addr"] = Config.remoteAddress;
+            jo["remote_port"] = Config.remotePort;
+            JArray ja = new JArray();
+            ja.Add(Config.password);
+            jo["password"] = ja;
+
+            File.WriteAllText(@"temp\trojan.json", jo.ToString());
+
             Process p = new Process();
             p.StartInfo.FileName = @"trojan\trojan.exe";
-            p.StartInfo.Arguments = @"-c temp\trojan.conf";
+            p.StartInfo.Arguments = @"-c temp\trojan.json";
 #if DEBUG
             p.StartInfo.UseShellExecute = true;
 #else

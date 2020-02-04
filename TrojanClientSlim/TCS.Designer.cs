@@ -542,10 +542,10 @@
         private System.Windows.Forms.Button Stop;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.CheckBox isSock5;
-        private System.Windows.Forms.TextBox RemoteAddressBox;
-        private System.Windows.Forms.TextBox RemotePortBox;
+        public System.Windows.Forms.TextBox RemoteAddressBox;
+        public System.Windows.Forms.TextBox RemotePortBox;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox PasswordBox;
+        public System.Windows.Forms.TextBox PasswordBox;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
