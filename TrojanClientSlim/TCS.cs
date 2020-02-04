@@ -126,7 +126,12 @@ namespace TrojanClientSlim
         private void ExitTCS()
         {
             StopTrojan();
-            Directory.Delete("temp", true);
+            try
+            {
+                Directory.Delete("temp", true);
+            }
+            catch
+            { }
             System.Environment.Exit(0);
         }
 
@@ -157,7 +162,7 @@ namespace TrojanClientSlim
                     RunPivoxyCommand();
                     Proxy.SetProxy("127.0.0.1:54392");
                 }
-                Message.Show("Stop Trojan succeeded!", Message.Mode.Info);
+                Message.Show("Start Trojan succeeded!", Message.Mode.Info);
                 final:;
             }
             else
@@ -211,9 +216,9 @@ namespace TrojanClientSlim
             {
                 File.Copy("privoxy\\config_gfw.txt", "temp\\config.txt");
                 File.Copy("privpxy\\gfwlist.action", "temp\\gfwlist.action");
-                string[] tmp = File.ReadAllLines("temp\\config.txt");
+                string[] tmp = File.ReadAllLines("temp\\gfwlist.action");
                 tmp[1] = tmp[1].Replace("$trojan-port$", localPort.ToString());
-                File.WriteAllLines("temp\\config.txt", tmp);
+                File.WriteAllLines("temp\\gfwlist.action", tmp);
             }
             p.StartInfo.Arguments = "/c START /MIN privoxy\\privoxy.exe temp\\config.txt";
             p.StartInfo.UseShellExecute = false;
