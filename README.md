@@ -6,12 +6,12 @@ A slim cilent for Trojan-GFW.
 
 TCS(Trojan Client Slim) is a slim and easy client for Trojan-GFW. 
 
-> TIPS: TCS only gives the most basic functions. If you need full-feature experience, please configure Trojan-G*W manually.
+> TIPS: TCS only gives the most basic functions. If you need full-feature experience, please configure Trojan-GFW manually.
 
 
 ## What's supported?
 
-- Now TCS support share link! (With [Igniter-TCS](https://github.com/KevinZonda/igniter))
+- Now TCS support share link.
 - Auto configure HTTP proxy.
 - Auto save config.
 - Auto generate trojan conf. (TLS1.3, H2, etc.)
@@ -26,10 +26,9 @@ TCS(Trojan Client Slim) is a slim and easy client for Trojan-GFW.
 
 ## TODO
 
-- Use Clash instead of Privoxy
-- Local Port settings
+- Use Clash instead of Privoxy -> Working
+- Local Port settings -> Working
 - Node list
-- ~Smart GFWList updator~
 
 ## Screenshot(s)
 ![TCS2.2.0](https://github.com/KevinZonda/trojan-client-slim/blob/master/Screenshots/TCS00.png?raw=true)
