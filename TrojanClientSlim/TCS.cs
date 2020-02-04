@@ -215,7 +215,7 @@ namespace TrojanClientSlim
             if (GFWList.Checked)
             {
                 File.Copy("privoxy\\config_gfw.txt", "temp\\config.txt");
-                File.Copy("privpxy\\gfwlist.action", "temp\\gfwlist.action");
+                File.Copy("privoxy\\gfwlist.action", "temp\\gfwlist.action");
                 string[] tmp = File.ReadAllLines("temp\\gfwlist.action");
                 tmp[1] = tmp[1].Replace("$trojan-port$", localPort.ToString());
                 File.WriteAllLines("temp\\gfwlist.action", tmp);
