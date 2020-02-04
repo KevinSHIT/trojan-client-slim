@@ -1,9 +1,14 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using IniParser.Model;
+using Newtonsoft.Json.Linq;
 
 namespace TrojanClientSlim.Util
 {
     public static class Config
     {
+        public static IniData iniData;
+
+        public static TCS tcs;
+
         public enum ProxyMode
         {
             Full = 0,
@@ -115,25 +120,27 @@ namespace TrojanClientSlim.Util
                 switch (value)
                 {
                     case ProxyMode.GFWList:
-                        TCS.GFWList.Checked = true;
+                        tcs.GFWList.Checked = true;
                         break;
                     case ProxyMode.Full:
-                        TCS.Global.Checked = true;
+                        tcs.Global.Checked = true;
                         break;
                     case ProxyMode.Clash:
-                        //TODO
+                        tcs.GeoIP.Checked = true;
                         break;
                 }
-                TCS.iniData["TCS"]["ProxyMode"] = ProxyMode2String(value);
+                iniData["TCS"]["ProxyMode"] = ProxyMode2String(value);
+                 
 
             }
             get
             {
-                if (TCS.Global.Checked)
+                if (tcs.Global.Checked)
                     return ProxyMode.Full;
-                if (TCS.GFWList.Checked)
+                if (tcs.GFWList.Checked)
                     return ProxyMode.GFWList;
-                //TODO: CLASH
+                if (tcs.GeoIP.Checked)
+                    return ProxyMode.Clash;
                 return ProxyMode.Clash;
             }
 
@@ -142,24 +149,26 @@ namespace TrojanClientSlim.Util
         {
             set
             {
-                TCS.isVerifyHostname.Checked = value;
-                TCS.iniData["TCS"]["VerifyHostname"] = value.ToString();
+                tcs.isVerifyHostname.Checked = value;
+                iniData["TCS"]["VerifyHostname"] = value.ToString();
+                TCS.iniParser.WriteFile(Config.DEFAULT_CONFIG_PATH, Config.iniData);
             }
             get
             {
-                return TCS.isVerifyHostname.Checked;
+                return tcs.isVerifyHostname.Checked;
             }
         }
         public static bool verifyCert
         {
             set
             {
-                TCS.isVerifyCert.Checked = value;
-                TCS.iniData["TCS"]["VerifyCert"] = value.ToString();
+                tcs.isVerifyCert.Checked = value;
+                iniData["TCS"]["VerifyCert"] = value.ToString();
+                TCS.iniParser.WriteFile(Config.DEFAULT_CONFIG_PATH, Config.iniData);
             }
             get
             {
-                return TCS.isVerifyCert.Checked;
+                return tcs.isVerifyCert.Checked;
             }
 
         }
@@ -168,16 +177,45 @@ namespace TrojanClientSlim.Util
         {
             set
             {
-                TCS.isHttp.Checked = value;
-                TCS.iniData["TCS"]["HttpProxy"] = value.ToString();
+                tcs.isHttp.Checked = value;
+                iniData["TCS"]["HttpProxy"] = value.ToString();
+                TCS.iniParser.WriteFile(Config.DEFAULT_CONFIG_PATH, Config.iniData);
+
             }
             get
             {
-                return TCS.isHttp.Checked;
+                return tcs.isHttp.Checked;
             }
 
         }
 
+        public static int localHttpProxyPort
+        {
+            set
+            {
+                tcs.HttpPortBox.Text = iniData["TCS"]["LocalHttpPort"] = value.ToString();
+
+                TCS.iniParser.WriteFile(Config.DEFAULT_CONFIG_PATH, Config.iniData);
+            }
+            get
+            {
+                return int.Parse(tcs.HttpPortBox.Text);
+            }
+        }
+
+        public static int localSocksPort
+        {
+            set
+            {
+                tcs.SocksPortBox.Text = iniData["TCS"]["LocalSocksPort"] = value.ToString();
+
+                TCS.iniParser.WriteFile(Config.DEFAULT_CONFIG_PATH, Config.iniData);
+            }
+            get
+            {
+                return int.Parse(tcs.SocksPortBox.Text);
+            }
+        }
 
         public const string DEFAULT_CONFIG_SECTION = "TCS";
         public const string SECTION_HTTP_PROXY = "HttpProxy";
@@ -186,7 +224,8 @@ namespace TrojanClientSlim.Util
         public const string DEFAULT_CONFIG_INI =
                     "[TCS]\r\n" +
                     "HttpProxy = true\r\n" +
-                    "LocalPort = 1080\r\n" +
+                    "LocalSocksPort = 1080\r\n" +
+                    "LocalHttpPort = 56784\r\n" +
                     "VerifyCert = true\r\n" +
                     "VerifyHostname = true\r\n" +
                     "Proxy = GFWList";

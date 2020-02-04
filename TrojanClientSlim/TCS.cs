@@ -14,8 +14,7 @@ namespace TrojanClientSlim
     public partial class TCS : Form
     {
 
-
-        readonly FileIniDataParser iniParser = new FileIniDataParser();
+        readonly public static FileIniDataParser iniParser = new FileIniDataParser();
 
         void InitialTemp()
         {
@@ -30,7 +29,11 @@ namespace TrojanClientSlim
             }
         }
 
-        public TCS() => InitializeComponent();
+        public TCS()
+        {
+            InitializeComponent();
+            Config.tcs = this;
+        }
 
         private void TCS_Load(object sender, EventArgs e)
         {
@@ -70,13 +73,12 @@ namespace TrojanClientSlim
             }
         }
 
-        public static IniData iniData;
 
         private void ReadConfig()
         {
             if (File.Exists(Config.DEFAULT_CONFIG_PATH))
             {
-                //IniData iniData;
+                //IniData Config.iniData;
                 bool needWrite = false;
 
                 //Exist
@@ -90,68 +92,68 @@ namespace TrojanClientSlim
                 }
                 finally
                 {
-                    iniData = iniParser.ReadFile(Config.DEFAULT_CONFIG_PATH);
+                    Config.iniData = iniParser.ReadFile(Config.DEFAULT_CONFIG_PATH);
                 }
 
                 //localPort
                 try
                 {
-                    Config.localTrojanPort = int.Parse(iniData["TCS"]["LocalPort"]);
+                    Config.localTrojanPort = int.Parse(Config.iniData["TCS"]["LocalPort"]);
                 }
                 catch
                 {
-                    iniData["TCS"]["LocalPort"] = Config.DEFAULT_TROJAN_SOCKS_LISTEN.ToString();
+                    Config.iniData["TCS"]["LocalPort"] = Config.DEFAULT_TROJAN_SOCKS_LISTEN.ToString();
                     needWrite = true;
                 }
 
                 //proxtMode
                 try
                 {
-                    Config.proxyMode = Config.ProxyModeParser(iniData["TCS"]["ProxyMode"]);
+                    Config.proxyMode = Config.ProxyModeParser(Config.iniData["TCS"]["ProxyMode"]);
                 }
                 catch
                 {
                     needWrite = true;
-                    iniData["TCS"]["ProxyMode"] = "GFWList";
+                    Config.iniData["TCS"]["ProxyMode"] = "GFWList";
                 }
 
                 //verifyCert
                 try
                 {
-                    Config.verifyCert = bool.Parse(iniData["TCS"]["VerifyCert"]);
+                    Config.verifyCert = bool.Parse(Config.iniData["TCS"]["VerifyCert"]);
                 }
                 catch
                 {
                     needWrite = true;
-                    iniData["TCS"]["VerifyCert"] = "true";
+                    Config.iniData["TCS"]["VerifyCert"] = "true";
                 }
 
                 //verifyHostname
                 try
                 {
-                    Config.verifyHostname = bool.Parse(iniData["TCS"]["VerifyHostname"]);
+                    Config.verifyHostname = bool.Parse(Config.iniData["TCS"]["VerifyHostname"]);
                 }
                 catch
                 {
                     needWrite = true;
-                    iniData["TCS"]["VerifyHostname"] = "true";
+                    Config.iniData["TCS"]["VerifyHostname"] = "true";
                 }
 
                 //httpProxy
                 try
                 {
-                    Config.httpProxy = bool.Parse(iniData["TCS"]["HttpProxy"]);
+                    Config.httpProxy = bool.Parse(Config.iniData["TCS"]["HttpProxy"]);
                 }
                 catch
                 {
                     needWrite = true;
-                    iniData["TCS"]["HttpProxy"] = "true";
+                    Config.iniData["TCS"]["HttpProxy"] = "true";
                 }
 
 
                 if (needWrite)
                 {
-                    iniParser.WriteFile(Config.DEFAULT_CONFIG_PATH, iniData);
+                    iniParser.WriteFile(Config.DEFAULT_CONFIG_PATH, Config.iniData);
                     ReadConfig();
                 }
 
@@ -209,7 +211,7 @@ namespace TrojanClientSlim
                 if (isHttp.Checked == true)
                 {
                     Command.RunHttpProxy();
-                    Proxy.SetProxy("127.0.0.1:54392");
+                    Proxy.SetProxy("127.0.0.1:" + HttpPortBox.Text);
                 }
                 Message.Show("Stop Trojan succeeded!", Message.Mode.Info);
             final:;
@@ -234,7 +236,7 @@ namespace TrojanClientSlim
         }
         private bool IsConfigValid() => (!string.IsNullOrEmpty(RemoteAddressBox.Text.Trim()) && !string.IsNullOrEmpty(RemotePortBox.Text.Trim()) && !string.IsNullOrEmpty(PasswordBox.Text.Trim()));
 
-        
+
         private void SaveTrojanConf()
         {
             try
@@ -294,17 +296,19 @@ namespace TrojanClientSlim
         private void GFWList_CheckedChanged(object sender, EventArgs e)
         {
             if (GFWList.Checked == true)
-                Global.Checked = false;
-            else
-                Global.Checked = true;
+                Global.Checked = GeoIP.Checked = false;
         }
 
         private void Global_CheckedChanged(object sender, EventArgs e)
         {
             if (Global.Checked == true)
-                GFWList.Checked = false;
-            else
-                GFWList.Checked = true;
+                GFWList.Checked = GeoIP.Checked = false;
+        }
+
+        private void GeoIP_CheckedChanged(object sender, EventArgs e)
+        {
+            if (GeoIP.Checked)
+                Global.Checked = GFWList.Checked = false;
         }
 
         private void ShowPassword_MouseHover(object sender, EventArgs e) => PasswordBox.PasswordChar = new char();
@@ -425,9 +429,19 @@ namespace TrojanClientSlim
         private void IsHttp_CheckedChanged(object sender, EventArgs e)
         {
             Config.httpProxy = isHttp.Checked;
+            if (Config.httpProxy)
+            {
+                HttpPortBox.Enabled = true;
+            }
+            else
+            {
+                HttpPortBox.Enabled = false;
+            }
             //IniData i = iniParser.ReadFile("config.ini");
             //i["TCS"]["HttpProxy"] = isVerifyCert.Checked.ToString();
             //iniParser.WriteFile("config.ini", i);
         }
+
+
     }
 }
