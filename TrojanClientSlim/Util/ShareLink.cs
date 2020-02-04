@@ -9,7 +9,7 @@ namespace TrojanClientSlim.Util
             //Example: trojan://password@ip:port#node_name
             if (trojanShareLink.StartsWith("trojan://"))
             {
-                string[] tmp = new string[4];
+                string[] tmp = new string[5];
                 string tsl = trojanShareLink.Substring(9);
                 string[] temp = tsl.Split(':');
                 string[] temp_3 = temp[temp.Length - 1].Split('#');
