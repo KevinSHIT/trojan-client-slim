@@ -229,7 +229,7 @@ namespace TrojanClientSlim
                 if (isHttp.Checked == true)
                 {
                     Command.RunHttpProxy();
-                    Proxy.SetProxy("127.0.0.1:" + HttpPortBox.Text);
+                    Proxy.SetProxy("127.0.0.1:" + Config.localHttpPort.ToString());
                 }
                 Message.Show("Start Trojan succeeded!", Message.Mode.Info);
             final:;

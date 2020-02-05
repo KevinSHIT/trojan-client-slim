@@ -50,7 +50,7 @@ namespace TrojanClientSlim.Util
             // copy the array over into that spot in memory ...
             for (int i = 0; i < options.Length; ++i)
             {
-                IntPtr opt = new IntPtr(optionsPtr.ToInt32() + (i * optSize));
+                IntPtr opt = new IntPtr(optionsPtr.ToInt64() + (i * optSize));
                 Marshal.StructureToPtr(options[i], opt, false);
             }
 
