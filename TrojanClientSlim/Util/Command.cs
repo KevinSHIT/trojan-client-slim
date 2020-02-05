@@ -69,7 +69,7 @@ namespace TrojanClientSlim.Util
                 case Config.ProxyMode.Full:
                     File.Copy(Config.DEFAULT_TROJAN_CONFIG_PATH, @"temp\config.txt");
                     Command.tmp = File.ReadAllText(@"temp\config.txt")
-                        .Replace("{TROJAN_SOCKS_LISTEN}", Config.localTrojanPort.ToString())
+                        .Replace("{TROJAN_SOCKS_LISTEN}", Config.localSocksPort.ToString())
                         .Replace("{PRIVOXY_HTTP_LISTEN}", 54392.ToString());
 
                     File.WriteAllText(@"temp\config.txt", Command.tmp);
@@ -90,7 +90,7 @@ namespace TrojanClientSlim.Util
                     File.WriteAllText(@"temp\config.txt", Command.tmp);
 
                     Command.tmp = File.ReadAllText(@"temp\gfwlist.action")
-                        .Replace("{TROJAN_SOCKS_LISTEN}", Config.localTrojanPort.ToString());
+                        .Replace("{TROJAN_SOCKS_LISTEN}", Config.localSocksPort.ToString());
 
                     File.WriteAllText(@"temp\gfwlist.action", Command.tmp);
                     p.StartInfo.Arguments = @"/c START /MIN privoxy\privoxy.exe temp\config.txt";
@@ -104,7 +104,7 @@ namespace TrojanClientSlim.Util
                     File.Copy(@"clash\Country.mmdb", @"temp\Country.mmdb", true);
 
                     Command.tmp = File.ReadAllText(@"temp\config.yaml")
-                        .Replace("{TROJAN_SOCKS_LISTEN}", Config.localTrojanPort.ToString())
+                        .Replace("{TROJAN_SOCKS_LISTEN}", Config.localSocksPort.ToString())
                         .Replace("{CLASH_HTTP_LISTEN}", 54392.ToString())
                         .Replace("{CLASH_SOCKS_LISTEN}", 0.ToString());
 

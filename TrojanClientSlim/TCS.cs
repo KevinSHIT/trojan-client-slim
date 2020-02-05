@@ -41,10 +41,10 @@ namespace TrojanClientSlim
 
             ReadConfig();
 
-            if (IsPortUsed(Config.localTrojanPort))
-                Message.Show($"Port {Config.localTrojanPort} is in use!\r\nTrojan may fail to work.", Message.Mode.Warning);
-            if (IsPortUsed(54392))
-                Message.Show("Port 54392 is in use!\r\nPrivoxy may fail to work.", Message.Mode.Warning);
+            if (IsPortUsed(Config.localSocksPort))
+                Message.Show($"Port {Config.localSocksPort} is in use!\r\nTrojan may fail to work.", Message.Mode.Warning);
+            if (IsPortUsed(Config.localSocksPort))
+                Message.Show($"Port {Config.localHttpPort} is in use!\r\nHTTP proxy may fail to work.", Message.Mode.Warning);
             if (File.Exists("node.tcsdb"))
             {
                 string[] tmp = ShareLink.ConvertShareToTrojanConf(File.ReadAllText("node.tcsdb"));
@@ -95,16 +95,7 @@ namespace TrojanClientSlim
                     Config.iniData = iniParser.ReadFile(Config.DEFAULT_CONFIG_PATH);
                 }
 
-                //localPort
-                try
-                {
-                    Config.localTrojanPort = int.Parse(Config.iniData["TCS"]["LocalPort"]);
-                }
-                catch
-                {
-                    Config.iniData["TCS"]["LocalPort"] = Config.DEFAULT_TROJAN_SOCKS_LISTEN.ToString();
-                    needWrite = true;
-                }
+
 
                 //proxtMode
                 try
@@ -150,6 +141,28 @@ namespace TrojanClientSlim
                     Config.iniData["TCS"]["HttpProxy"] = "true";
                 }
 
+                //localSocksPort
+                try
+                {
+                    Config.localSocksPort = int.Parse(Config.iniData["TCS"]["LocalSocksPort"]);
+                }
+                catch
+                {
+                    Config.iniData["TCS"]["LocalSocksPort"] = Config.DEFAULT_SOCKS_PORT.ToString();
+                    needWrite = true;
+                }
+
+                //localHttpPort
+                try
+                {
+                    Config.localHttpPort = int.Parse(Config.iniData["TCS"]["LocalHttpPort"]);
+                }
+                catch
+                {
+                    Config.iniData["TCS"]["LocalHttpPort"] = Config.DEFAULT_HTTP_PORT.ToString();
+                    needWrite = true;
+                }
+
 
                 if (needWrite)
                 {
@@ -162,7 +175,7 @@ namespace TrojanClientSlim
             else
             {
                 ResetConfig();
-                ResetConfig();
+                ReadConfig();
                 return;
             }
 
@@ -188,7 +201,14 @@ namespace TrojanClientSlim
 
         private void StopTrojan()
         {
-            Proxy.UnsetProxy();
+            try
+            {
+                Proxy.UnsetProxy();
+            }
+            catch
+            {
+                //FIXME: UNSET FAILED
+            }
             KillProcess();
         }
         private void RunTrojan()
@@ -236,11 +256,11 @@ namespace TrojanClientSlim
         private bool IsConfigValid() => (!string.IsNullOrEmpty(RemoteAddressBox.Text.Trim()) && !string.IsNullOrEmpty(RemotePortBox.Text.Trim()) && !string.IsNullOrEmpty(PasswordBox.Text.Trim()));
 
 
-        private string GenerateCurrentTrojanConf()
+        /*private string GenerateCurrentTrojanConf()
         {
             return Config.GenerateTrojanJson(Config.localTrojanPort, RemoteAddressBox.Text,
                     int.Parse(RemotePortBox.Text), PasswordBox.Text, isVerifyCert.Checked, isVerifyHostname.Checked);
-        }
+        }*/
 
         private bool SetTrojanConf(string TcsShareLink) => SetTrojanConf((string[])ShareLink.ConvertShareToTrojanConf(TcsShareLink));
 
@@ -275,7 +295,15 @@ namespace TrojanClientSlim
 
         private void TCS_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Proxy.UnsetProxy();
+            try
+            {
+                Proxy.UnsetProxy();
+            }
+            catch
+            {
+
+
+            }
             KillProcess();
         }
 
@@ -283,19 +311,19 @@ namespace TrojanClientSlim
         private void GFWList_CheckedChanged(object sender, EventArgs e)
         {
             if (GFWList.Checked == true)
-                Global.Checked = GeoIP.Checked = false;
+                Config.proxyMode = Config.ProxyMode.GFWList;
         }
 
         private void Global_CheckedChanged(object sender, EventArgs e)
         {
             if (Global.Checked == true)
-                GFWList.Checked = GeoIP.Checked = false;
+                Config.proxyMode = Config.ProxyMode.Full;
         }
 
         private void GeoIP_CheckedChanged(object sender, EventArgs e)
         {
             if (GeoIP.Checked)
-                Global.Checked = GFWList.Checked = false;
+                Config.proxyMode = Config.ProxyMode.Clash;
         }
 
         private void ShowPassword_MouseHover(object sender, EventArgs e) => PasswordBox.PasswordChar = new char();
@@ -429,6 +457,28 @@ namespace TrojanClientSlim
             //iniParser.WriteFile("config.ini", i);
         }
 
+        private void SocksPortBox_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                Config.localSocksPort = int.Parse(SocksPortBox.Text);
+            }
+            catch
+            {
 
+            }
+        }
+
+        private void HttpPortBox_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                Config.localHttpPort = int.Parse(HttpPortBox.Text);
+            }
+            catch
+            {
+
+            }
+        }
     }
 }

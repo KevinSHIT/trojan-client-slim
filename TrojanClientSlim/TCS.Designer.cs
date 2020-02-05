@@ -465,6 +465,7 @@
             this.HttpPortBox.Name = "HttpPortBox";
             this.HttpPortBox.Size = new System.Drawing.Size(78, 21);
             this.HttpPortBox.TabIndex = 30;
+            this.HttpPortBox.TextChanged += new System.EventHandler(this.HttpPortBox_TextChanged);
             // 
             // SocksPortBox
             // 
@@ -472,6 +473,7 @@
             this.SocksPortBox.Name = "SocksPortBox";
             this.SocksPortBox.Size = new System.Drawing.Size(78, 21);
             this.SocksPortBox.TabIndex = 28;
+            this.SocksPortBox.TextChanged += new System.EventHandler(this.SocksPortBox_TextChanged);
             // 
             // label8
             // 
