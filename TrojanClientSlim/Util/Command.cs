@@ -29,17 +29,19 @@ namespace TrojanClientSlim.Util
         {
             File.Copy(@"trojan\config.json", @"temp\trojan.json", true);
             string trojanJson = File.ReadAllText(@"temp\trojan.json")
-                .Replace("{VERIFY_CERT}", Config.verifyCert.ToString())
-                .Replace("{VERIFY_HOSTNAME}", Config.verifyHostname.ToString());
-
+                .Replace("{VERIFY_CERT}", Config.verifyCert.ToString().ToLower())
+                .Replace("{VERIFY_HOSTNAME}", Config.verifyHostname.ToString().ToLower());
+            Debug.WriteLine(trojanJson);
             JObject jo = new JObject();
             jo = JObject.Parse(trojanJson);
             
             jo["local_port"] = Config.localSocksPort;
             jo["remote_addr"] = Config.remoteAddress;
             jo["remote_port"] = Config.remotePort;
-            JArray ja = new JArray();
-            ja.Add(Config.password);
+            JArray ja = new JArray
+            {
+                Config.password
+            };
             jo["password"] = ja;
 
             File.WriteAllText(@"temp\trojan.json", jo.ToString());
@@ -67,7 +69,7 @@ namespace TrojanClientSlim.Util
             switch (Config.proxyMode)
             {
                 case Config.ProxyMode.Full:
-                    File.Copy(Config.DEFAULT_TROJAN_CONFIG_PATH, @"temp\config.txt");
+                    File.Copy(@"trojan\config.json", @"temp\config.txt");
                     Command.tmp = File.ReadAllText(@"temp\config.txt")
                         .Replace("{TROJAN_SOCKS_LISTEN}", Config.localSocksPort.ToString())
                         .Replace("{PRIVOXY_HTTP_LISTEN}", 54392.ToString());
@@ -82,10 +84,10 @@ namespace TrojanClientSlim.Util
 
                 case Config.ProxyMode.GFWList:
                     File.Copy(@"privoxy\config_gfw.txt", @"temp\config.txt");
-                    File.Copy(@"privpxy\gfwlist.action", @"temp\gfwlist.action");
+                    File.Copy(@"privoxy\gfwlist.action", @"temp\gfwlist.action");
 
                     Command.tmp = File.ReadAllText(@"temp\config.txt")
-                        .Replace("{PRIVOXY_HTTP_LISTEN}", 54392.ToString());
+                        .Replace("{PRIVOXY_HTTP_LISTEN}", Config.localHttpPort.ToString());
 
                     File.WriteAllText(@"temp\config.txt", Command.tmp);
 
@@ -105,7 +107,7 @@ namespace TrojanClientSlim.Util
 
                     Command.tmp = File.ReadAllText(@"temp\config.yaml")
                         .Replace("{TROJAN_SOCKS_LISTEN}", Config.localSocksPort.ToString())
-                        .Replace("{CLASH_HTTP_LISTEN}", 54392.ToString())
+                        .Replace("{CLASH_HTTP_LISTEN}", Config.localHttpPort.ToString())
                         .Replace("{CLASH_SOCKS_LISTEN}", 0.ToString());
 
                     File.WriteAllText(@"temp\config.yaml", Command.tmp);
