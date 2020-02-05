@@ -170,7 +170,6 @@ namespace TrojanClientSlim
                     ReadConfig();
                 }
 
-
             }
             else
             {
@@ -232,7 +231,7 @@ namespace TrojanClientSlim
                     Command.RunHttpProxy();
                     Proxy.SetProxy("127.0.0.1:" + HttpPortBox.Text);
                 }
-                Message.Show("Stop Trojan succeeded!", Message.Mode.Info);
+                Message.Show("Start Trojan succeeded!", Message.Mode.Info);
             final:;
             }
             else
@@ -247,20 +246,13 @@ namespace TrojanClientSlim
             Process[] myproc = Process.GetProcesses();
             foreach (Process item in myproc)
             {
-                if (item.ProcessName == "trojan" || item.ProcessName == "privoxy")
+                if (item.ProcessName == "trojan" || item.ProcessName == "privoxy" || item.ProcessName == "clash")
                 {
                     item.Kill();
                 }
             }
         }
         private bool IsConfigValid() => (!string.IsNullOrEmpty(RemoteAddressBox.Text.Trim()) && !string.IsNullOrEmpty(RemotePortBox.Text.Trim()) && !string.IsNullOrEmpty(PasswordBox.Text.Trim()));
-
-
-        /*private string GenerateCurrentTrojanConf()
-        {
-            return Config.GenerateTrojanJson(Config.localTrojanPort, RemoteAddressBox.Text,
-                    int.Parse(RemotePortBox.Text), PasswordBox.Text, isVerifyCert.Checked, isVerifyHostname.Checked);
-        }*/
 
         private bool SetTrojanConf(string TcsShareLink) => SetTrojanConf((string[])ShareLink.ConvertShareToTrojanConf(TcsShareLink));
 
@@ -349,11 +341,18 @@ namespace TrojanClientSlim
             }
         }
 
-        private void RemotePortBox_KeyPress(object sender, KeyPressEventArgs e)
+        char r = ' ';
+        private void KeyPress(object sender, KeyPressEventArgs e)
         {
-            e.Handled = e.KeyChar < '0' || e.KeyChar > '9';
-            if (e.KeyChar == (char)8)
+            r = e.KeyChar;
+            if (char.IsDigit(r) || r == 8)
+            {
                 e.Handled = false;
+            }
+            else
+            {
+                e.Handled = true;
+            }
         }
         #endregion
 
@@ -427,18 +426,12 @@ namespace TrojanClientSlim
 
         private void IsVerifyCert_CheckedChanged(object sender, EventArgs e)
         {
-            //IniData i = iniParser.ReadFile("config.ini");
-            //i["TCS"]["VerifyCert"] = isVerifyCert.Checked.ToString();
-            //iniParser.WriteFile("config.ini", i);
             Config.verifyCert = isVerifyCert.Checked;
         }
 
         private void IsVerifyHostname_CheckedChanged(object sender, EventArgs e)
         {
-            //IniData i = iniParser.ReadFile("config.ini");
-            //i["TCS"]["VerifyHostname"] = isVerifyCert.Checked.ToString();
-            //iniParser.WriteFile("config.ini", i);
-            Config.verifyHostname = isVerifyCert.Checked;
+            Config.verifyHostname = isVerifyHostname.Checked;
         }
 
         private void IsHttp_CheckedChanged(object sender, EventArgs e)
@@ -465,7 +458,7 @@ namespace TrojanClientSlim
             }
             catch
             {
-
+                Message.Show("Port can only be an integer", Message.Mode.Error);
             }
         }
 
@@ -477,8 +470,10 @@ namespace TrojanClientSlim
             }
             catch
             {
-
+                Message.Show("Port can only be an integer", Message.Mode.Error);
             }
         }
+
+
     }
 }

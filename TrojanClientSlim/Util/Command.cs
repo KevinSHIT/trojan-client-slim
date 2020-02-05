@@ -34,7 +34,7 @@ namespace TrojanClientSlim.Util
             Debug.WriteLine(trojanJson);
             JObject jo = new JObject();
             jo = JObject.Parse(trojanJson);
-            
+
             jo["local_port"] = Config.localSocksPort;
             jo["remote_addr"] = Config.remoteAddress;
             jo["remote_port"] = Config.remotePort;
@@ -69,10 +69,10 @@ namespace TrojanClientSlim.Util
             switch (Config.proxyMode)
             {
                 case Config.ProxyMode.Full:
-                    File.Copy(@"trojan\config.json", @"temp\config.txt");
+                    File.Copy(@"privoxy\config.txt", @"temp\config.txt");
                     Command.tmp = File.ReadAllText(@"temp\config.txt")
                         .Replace("{TROJAN_SOCKS_LISTEN}", Config.localSocksPort.ToString())
-                        .Replace("{PRIVOXY_HTTP_LISTEN}", 54392.ToString());
+                        .Replace("{PRIVOXY_HTTP_LISTEN}", Config.localHttpPort.ToString());
 
                     File.WriteAllText(@"temp\config.txt", Command.tmp);
 
@@ -117,8 +117,8 @@ namespace TrojanClientSlim.Util
 #if DEBUG
                     p.StartInfo.UseShellExecute = true;
 #else
-            p.StartInfo.UseShellExecute = false;
-            p.StartInfo.CreateNoWindow = true;
+                    p.StartInfo.UseShellExecute = false;
+                    p.StartInfo.CreateNoWindow = true;
 #endif
                     break;
             }
