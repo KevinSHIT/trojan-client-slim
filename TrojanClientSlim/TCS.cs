@@ -194,12 +194,20 @@ namespace TrojanClientSlim
         private void ExitTCS()
         {
             StopTrojan();
-            Directory.Delete("temp", true);
+            try
+            {
+                Directory.Delete("temp", true);
+            }
+            catch
+            {
+
+            }
             System.Environment.Exit(0);
         }
 
         private void StopTrojan()
         {
+            KillProcess();
             try
             {
                 Proxy.UnsetProxy();
@@ -207,8 +215,7 @@ namespace TrojanClientSlim
             catch
             {
                 //FIXME: UNSET FAILED
-            }
-            KillProcess();
+            }  
         }
         private void RunTrojan()
         {
@@ -246,7 +253,9 @@ namespace TrojanClientSlim
             Process[] myproc = Process.GetProcesses();
             foreach (Process item in myproc)
             {
-                if (item.ProcessName == "trojan" || item.ProcessName == "privoxy" || item.ProcessName == "clash")
+                if (item.ProcessName.ToLower() == "trojan" || 
+                    item.ProcessName.ToLower() == "privoxy" || 
+                    item.ProcessName.ToLower() == "clash")
                 {
                     item.Kill();
                 }
