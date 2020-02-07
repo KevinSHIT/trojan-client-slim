@@ -68,7 +68,7 @@
             this.HttpPortBox = new System.Windows.Forms.TextBox();
             this.SocksPortBox = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
+            this.httpPortLabel = new System.Windows.Forms.Label();
             this.contextMenu.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -453,7 +453,7 @@
             this.tableLayoutPanel3.Controls.Add(this.HttpPortBox, 3, 0);
             this.tableLayoutPanel3.Controls.Add(this.SocksPortBox, 1, 0);
             this.tableLayoutPanel3.Controls.Add(this.label8, 0, 0);
-            this.tableLayoutPanel3.Controls.Add(this.label9, 2, 0);
+            this.tableLayoutPanel3.Controls.Add(this.httpPortLabel, 2, 0);
             this.tableLayoutPanel3.Location = new System.Drawing.Point(11, 237);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 1;
@@ -491,16 +491,16 @@
             this.label8.Text = "Socks Port:";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label9
+            // httpPortLabel
             // 
-            this.label9.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(171, 8);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(65, 12);
-            this.label9.TabIndex = 29;
-            this.label9.Text = "HTTP Port:";
-            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.httpPortLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.httpPortLabel.AutoSize = true;
+            this.httpPortLabel.Location = new System.Drawing.Point(171, 8);
+            this.httpPortLabel.Name = "httpPortLabel";
+            this.httpPortLabel.Size = new System.Drawing.Size(65, 12);
+            this.httpPortLabel.TabIndex = 29;
+            this.httpPortLabel.Text = "HTTP Port:";
+            this.httpPortLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // TCS
             // 
@@ -578,7 +578,7 @@
         public System.Windows.Forms.TextBox HttpPortBox;
         public System.Windows.Forms.TextBox SocksPortBox;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label httpPortLabel;
         public System.Windows.Forms.CheckBox isHttp;
         public System.Windows.Forms.CheckBox isVerifyCert;
         public System.Windows.Forms.RadioButton Global;

@@ -41,10 +41,10 @@ namespace TrojanClientSlim
 
             ReadConfig();
 
-            if (IsPortUsed(Config.localSocksPort))
-                Message.Show($"Port {Config.localSocksPort} is in use!\r\nTrojan may fail to work.", Message.Mode.Warning);
-            if (IsPortUsed(Config.localSocksPort))
-                Message.Show($"Port {Config.localHttpPort} is in use!\r\nHTTP proxy may fail to work.", Message.Mode.Warning);
+            //if (IsPortUsed(Config.localSocksPort))
+            //    Message.Show($"Port {Config.localSocksPort} is in use!\r\nTrojan may fail to work.", Message.Mode.Warning);
+            //if (IsPortUsed(Config.localSocksPort))
+            //    Message.Show($"Port {Config.localHttpPort} is in use!\r\nHTTP proxy may fail to work.", Message.Mode.Warning);
             if (File.Exists("node.tcsdb"))
             {
                 string[] tmp = ShareLink.ConvertShareToTrojanConf(File.ReadAllText("node.tcsdb"));
@@ -215,12 +215,75 @@ namespace TrojanClientSlim
             catch
             {
                 //FIXME: UNSET FAILED
-            }  
+            }
         }
         private void RunTrojan()
         {
             if (IsConfigValid())
             {
+                int status = 0;
+
+                /* Status Code
+                 * 0 -> Normal
+                 * 1 -> LocalSocksPortUsed
+                 * 2 -> LocalHttpPortUsed
+                 * 3 -> LocalPortUsed
+                 * 4 -> ClashSocksUsed
+                 * 5 -> LocalClashSocksPortUsed
+                 */
+
+                if (IsPortUsed(Config.localSocksPort))
+                {
+                    status = 1;
+                }
+                if (IsPortUsed(Config.localHttpPort))
+                {
+                    if (status == 0)
+                    {
+                        if (Config.httpProxy)
+                            status = 3;
+                        else
+                            status = 4;
+                    }
+                    else
+                    {
+                        if (Config.httpProxy)
+                            status = 2;
+                        else
+                            status = 5;
+                    }
+                }
+
+                string message = string.Empty;
+                if (status != 0)
+                {
+                    switch (status)
+                    {
+                        case 1:
+                            message = $"{Config.localSocksPort} is in use. Trojan may not work well.\r\n";
+                            break;
+                        case 2:
+                            message = $"{Config.localHttpPort} is in use. HTTP proxy may not work well.\r\n";
+                            break;
+                        case 3:
+                            message = $"{Config.localSocksPort} is in use.Trojan may not work well.\r\n" +
+                                $"{Config.localHttpPort} is in use. HTTP proxy may not work well.\r\n";
+                            break;
+                        case 4:
+                            message = $"{Config.localHttpPort} is in use. Clash may not work well.\r\n";
+                            break;
+                        case 5:
+                            message = $"{Config.localSocksPort} is in use.Trojan may not work well.\r\n" +
+                                $"{Config.localHttpPort} is in use. Clash may not work well.\r\n";
+                            break;
+                    }
+                    if (MessageBox.Show(message + "Do you still want to run?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+                    {
+                        goto final;
+                    }
+
+                }
+
                 InitialTemp();
                 try
                 {
@@ -238,6 +301,13 @@ namespace TrojanClientSlim
                     Command.RunHttpProxy();
                     Proxy.SetProxy("127.0.0.1:" + Config.localHttpPort.ToString());
                 }
+                else
+                {
+                    if (Config.proxyMode == Config.ProxyMode.Clash)
+                    {
+                        Command.RunSocksProxy();
+                    }
+                }
                 Message.Show("Start Trojan succeeded!", Message.Mode.Info);
             final:;
             }
@@ -253,14 +323,15 @@ namespace TrojanClientSlim
             Process[] myproc = Process.GetProcesses();
             foreach (Process item in myproc)
             {
-                if (item.ProcessName.ToLower() == "trojan" || 
-                    item.ProcessName.ToLower() == "privoxy" || 
+                if (item.ProcessName.ToLower() == "trojan" ||
+                    item.ProcessName.ToLower() == "privoxy" ||
                     item.ProcessName.ToLower() == "clash")
                 {
                     item.Kill();
                 }
             }
         }
+
         private bool IsConfigValid() => (!string.IsNullOrEmpty(RemoteAddressBox.Text.Trim()) && !string.IsNullOrEmpty(RemotePortBox.Text.Trim()) && !string.IsNullOrEmpty(PasswordBox.Text.Trim()));
 
         private bool SetTrojanConf(string TcsShareLink) => SetTrojanConf((string[])ShareLink.ConvertShareToTrojanConf(TcsShareLink));
@@ -275,7 +346,6 @@ namespace TrojanClientSlim
                 return true;
             }
             return false;
-
         }
 
         private static bool IsPortUsed(int port)
@@ -318,13 +388,25 @@ namespace TrojanClientSlim
         private void Global_CheckedChanged(object sender, EventArgs e)
         {
             if (Global.Checked == true)
+            {
                 Config.proxyMode = Config.ProxyMode.Full;
+                if (!Config.httpProxy)
+                {
+                    HttpPortBox.Enabled = false;
+                }
+            }
         }
 
         private void GeoIP_CheckedChanged(object sender, EventArgs e)
         {
             if (GeoIP.Checked)
+            {
                 Config.proxyMode = Config.ProxyMode.Clash;
+                if (!Config.httpProxy)
+                {
+                    HttpPortBox.Enabled = true;
+                }
+            }
         }
 
         private void ShowPassword_MouseHover(object sender, EventArgs e) => PasswordBox.PasswordChar = new char();
@@ -448,11 +530,19 @@ namespace TrojanClientSlim
             Config.httpProxy = isHttp.Checked;
             if (Config.httpProxy)
             {
+                httpPortLabel.Text = "HTTP Port:";
                 HttpPortBox.Enabled = true;
+                GFWList.Enabled = true;
             }
             else
             {
-                HttpPortBox.Enabled = false;
+                httpPortLabel.Text = "Socks Port:";
+                //HttpPortBox.Enabled = false;
+                GFWList.Enabled = false;
+                if (GFWList.Checked)
+                {
+                    GeoIP.Checked = true;
+                }
             }
             //IniData i = iniParser.ReadFile("config.ini");
             //i["TCS"]["HttpProxy"] = isVerifyCert.Checked.ToString();

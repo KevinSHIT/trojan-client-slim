@@ -126,5 +126,33 @@ namespace TrojanClientSlim.Util
             //p.Dispose();
         }
 
+        public static void RunSocksProxy()
+        {
+            Process p = new Process();
+            p.StartInfo.FileName = "cmd.exe";
+
+            File.Copy(@"clash\config.yaml", @"temp\config.yaml", true);
+            File.Copy(@"clash\Country.mmdb", @"temp\Country.mmdb", true);
+
+            Command.tmp = File.ReadAllText(@"temp\config.yaml")
+                .Replace("{TROJAN_SOCKS_LISTEN}", Config.localSocksPort.ToString())
+                .Replace("{CLASH_HTTP_LISTEN}", 0.ToString())
+                .Replace("{CLASH_SOCKS_LISTEN}", Config.localHttpPort.ToString());
+
+            File.WriteAllText(@"temp\config.yaml", Command.tmp);
+
+            p.StartInfo.FileName = @"clash\clash.exe";
+            p.StartInfo.Arguments = @"-d temp";
+#if DEBUG
+            p.StartInfo.UseShellExecute = true;
+#else
+            p.StartInfo.UseShellExecute = false;
+            p.StartInfo.CreateNoWindow = true;
+#endif
+
+            p.Start();
+
+        }
+
     }
 }
