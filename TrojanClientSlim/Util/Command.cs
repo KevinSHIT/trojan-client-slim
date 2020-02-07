@@ -29,8 +29,8 @@ namespace TrojanClientSlim.Util
         {
             File.Copy(@"trojan\config.json", @"temp\trojan.json", true);
             string trojanJson = File.ReadAllText(@"temp\trojan.json")
-                .Replace("{VERIFY_CERT}", Config.verifyCert.ToString().ToLower())
-                .Replace("{VERIFY_HOSTNAME}", Config.verifyHostname.ToString().ToLower());
+                .Replace("\"{VERIFY_CERT}\"", Config.verifyCert.ToString().ToLower())
+                .Replace("\"{VERIFY_HOSTNAME}\"", Config.verifyHostname.ToString().ToLower());
             Debug.WriteLine(trojanJson);
             JObject jo = new JObject();
             jo = JObject.Parse(trojanJson);
