@@ -120,6 +120,7 @@ namespace TrojanClientSlim.Util
             }
             get
             {
+                //Debug.WriteLine
                 return tcs.isVerifyCert.Checked;
             }
 

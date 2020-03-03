@@ -29,14 +29,11 @@ namespace TrojanClientSlim
             }
         }
 
-        public TCS()
+        public TCS(string[] args)
         {
+            //TODO: Silece Mode
             InitializeComponent();
             Config.tcs = this;
-        }
-
-        private void TCS_Load(object sender, EventArgs e)
-        {
             InitialTemp();
 
             ReadConfig();
@@ -51,6 +48,7 @@ namespace TrojanClientSlim
                 if (!SetTrojanConf(File.ReadAllText("node.tcsdb")))
                 {
                     File.Create("node.tcsdb").Dispose();
+
                 }
             }
             else
@@ -58,6 +56,22 @@ namespace TrojanClientSlim
 #if DEBUG
             this.Text = "[D]" + this.Text;
 #endif
+
+
+            if (args.Length == 1 && args[0].Trim().ToLower() == "silence")
+            {
+                //this.WindowState = FormWindowState.Minimized;
+
+                RunTrojan(RunMode.Silence);
+                notifyIcon.Visible = true;
+                this.ShowInTaskbar = false;
+                this.WindowState = FormWindowState.Minimized;
+            }
+        }
+
+        private void TCS_Load(object sender, EventArgs e)
+        {
+
         }
 
         private void ResetConfig()
@@ -217,7 +231,12 @@ namespace TrojanClientSlim
                 //FIXME: UNSET FAILED
             }
         }
-        private void RunTrojan()
+
+        private enum RunMode
+        {
+            Silence, Normal
+        }
+        private void RunTrojan(RunMode mode = RunMode.Normal)
         {
             if (IsConfigValid())
             {
@@ -284,6 +303,14 @@ namespace TrojanClientSlim
 
                 }
 
+                //TODO: Logs
+                //if(!Directory.Exists("logs"))
+                //{
+                //    Directory.CreateDirectory("logs");
+                //}
+                //File.CreateText("logs" + DateTime.Now.ToString(""))
+
+
                 InitialTemp();
                 try
                 {
@@ -308,8 +335,9 @@ namespace TrojanClientSlim
                         Command.RunSocksProxy();
                     }
                 }
-                Message.Show("Start Trojan succeeded!", Message.Mode.Info);
-            final:;
+                if (mode == RunMode.Normal)
+                    Message.Show("Start Trojan succeeded!", Message.Mode.Info);
+                final:;
             }
             else
             {
@@ -433,7 +461,7 @@ namespace TrojanClientSlim
         }
 
         char r = ' ';
-        private void KeyPress(object sender, KeyPressEventArgs e)
+        private new void KeyPress(object sender, KeyPressEventArgs e)
         {
             r = e.KeyChar;
             if (char.IsDigit(r) || r == 8)
