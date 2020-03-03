@@ -1,5 +1,4 @@
 ﻿using IniParser.Model;
-using Newtonsoft.Json.Linq;
 using System.Diagnostics;
 
 namespace TrojanClientSlim.Util
@@ -48,7 +47,7 @@ namespace TrojanClientSlim.Util
             }
         }
 
-       
+
         public const int DEFAULT_SOCKS_PORT = 1080;
         //public const int DEFAULT_CLASH_SOCKS_LISTEN = 67362;
         public const int DEFAULT_HTTP_PORT = 7263;

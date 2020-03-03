@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace TrojanClientSlim
@@ -26,7 +23,7 @@ namespace TrojanClientSlim
             }
             else
             {
-                MessageBox.Show("TCS is running.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Util.Message.Show("TCS is running.", Util.Message.Mode.Info);
                 HandleRunningInstance(instance);
             }
 

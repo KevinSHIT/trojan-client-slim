@@ -57,6 +57,7 @@
             this.importStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.StartupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label7 = new System.Windows.Forms.Label();
             this.ShareLinkBox = new System.Windows.Forms.TextBox();
             this.EnableShareLink = new System.Windows.Forms.CheckBox();
@@ -69,6 +70,8 @@
             this.SocksPortBox = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.httpPortLabel = new System.Windows.Forms.Label();
+            this.aboutStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.contextMenu.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -289,62 +292,73 @@
             // contextMenu
             // 
             this.contextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.aboutStripMenuItem,
+            this.toolStripSeparator3,
             this.runToolStripMenuItem,
             this.stopToolStripMenuItem,
             this.toolStripSeparator1,
             this.shareStripMenuItem,
             this.importStripMenuItem,
+            this.StartupToolStripMenuItem,
             this.toolStripSeparator2,
             this.exitToolStripMenuItem});
             this.contextMenu.Name = "contextMenu";
             this.contextMenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
+            this.contextMenu.ShowCheckMargin = true;
             this.contextMenu.ShowImageMargin = false;
-            this.contextMenu.Size = new System.Drawing.Size(235, 126);
+            this.contextMenu.Size = new System.Drawing.Size(260, 198);
             // 
             // runToolStripMenuItem
             // 
             this.runToolStripMenuItem.Name = "runToolStripMenuItem";
-            this.runToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
+            this.runToolStripMenuItem.Size = new System.Drawing.Size(259, 22);
             this.runToolStripMenuItem.Text = "Run";
             this.runToolStripMenuItem.Click += new System.EventHandler(this.RunToolStripMenuItem_Click);
             // 
             // stopToolStripMenuItem
             // 
             this.stopToolStripMenuItem.Name = "stopToolStripMenuItem";
-            this.stopToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
+            this.stopToolStripMenuItem.Size = new System.Drawing.Size(259, 22);
             this.stopToolStripMenuItem.Text = "Stop";
             this.stopToolStripMenuItem.Click += new System.EventHandler(this.StopToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(231, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(256, 6);
             // 
             // shareStripMenuItem
             // 
             this.shareStripMenuItem.Name = "shareStripMenuItem";
-            this.shareStripMenuItem.Size = new System.Drawing.Size(234, 22);
+            this.shareStripMenuItem.Size = new System.Drawing.Size(259, 22);
             this.shareStripMenuItem.Text = "Share trojan:// link";
             this.shareStripMenuItem.Click += new System.EventHandler(this.ShareStripMenuItem_Click);
             // 
             // importStripMenuItem
             // 
             this.importStripMenuItem.Name = "importStripMenuItem";
-            this.importStripMenuItem.Size = new System.Drawing.Size(234, 22);
+            this.importStripMenuItem.Size = new System.Drawing.Size(259, 22);
             this.importStripMenuItem.Text = "Import trojan:// from clipboard";
             this.importStripMenuItem.Click += new System.EventHandler(this.ImportStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(231, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(256, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(259, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
+            // 
+            // StartupToolStripMenuItem
+            // 
+            this.StartupToolStripMenuItem.Name = "StartupToolStripMenuItem";
+            this.StartupToolStripMenuItem.Size = new System.Drawing.Size(259, 22);
+            this.StartupToolStripMenuItem.Text = "Run when startup";
+            this.StartupToolStripMenuItem.Click += new System.EventHandler(this.StartupToolStripMenuItem_Click);
             // 
             // label7
             // 
@@ -502,6 +516,18 @@
             this.httpPortLabel.Text = "HTTP Port:";
             this.httpPortLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // aboutStripMenuItem
+            // 
+            this.aboutStripMenuItem.Name = "aboutStripMenuItem";
+            this.aboutStripMenuItem.Size = new System.Drawing.Size(259, 22);
+            this.aboutStripMenuItem.Text = "TCS v2.4.0";
+            this.aboutStripMenuItem.Click += new System.EventHandler(this.aboutStripMenuItem_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(256, 6);
+            // 
             // TCS
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -584,6 +610,9 @@
         public System.Windows.Forms.RadioButton Global;
         public System.Windows.Forms.RadioButton GFWList;
         public System.Windows.Forms.CheckBox isVerifyHostname;
+        private System.Windows.Forms.ToolStripMenuItem StartupToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem aboutStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
     }
 }
 

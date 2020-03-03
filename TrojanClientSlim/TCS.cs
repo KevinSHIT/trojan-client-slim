@@ -57,6 +57,14 @@ namespace TrojanClientSlim
             this.Text = "[D]" + this.Text;
 #endif
 
+            if (File.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Startup), "TCS.lnk")))
+            {
+                StartupToolStripMenuItem.Checked = true;
+            }
+            else
+            {
+                StartupToolStripMenuItem.Checked = false;
+            }
 
             if (args.Length == 1 && args[0].Trim().ToLower() == "silence")
             {
@@ -86,7 +94,6 @@ namespace TrojanClientSlim
                 File.WriteAllText(Config.DEFAULT_CONFIG_PATH, Config.DEFAULT_CONFIG_INI);
             }
         }
-
 
         private void ReadConfig()
         {
@@ -193,7 +200,6 @@ namespace TrojanClientSlim
             }
 
         }
-
 
         private void Run_Click(object sender, EventArgs e) => RunTrojan();
         private void Stop_Click(object sender, EventArgs e)
@@ -601,6 +607,29 @@ namespace TrojanClientSlim
             }
         }
 
+        private void StartupToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (File.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Startup), "TCS.lnk")))
+            {
+                LnkHelper.RemoveLnk();
+                StartupToolStripMenuItem.Checked = false;
+            }
+            else
+            {
+                LnkHelper.SetLnk();
+                StartupToolStripMenuItem.Checked = true;
+            }
+        }
 
+        private void aboutStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Message.Show(
+                "[Trojan]\r\n" +
+                "Ahthor: trojan-gfw contributors\r\n" +
+                "[Clash]\r\n" +
+                "Author: Dreamacro and other contributors\r\n" +
+                "[TCS]\r\n" +
+                "Author: KevinZonda and other contributors\r\n", Message.Mode.Info);
+        }
     }
 }
