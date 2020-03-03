@@ -15,23 +15,22 @@ TCS(Trojan Client Slim) is a slim and easy client for Trojan-GFW.
 - Auto configure HTTP proxy.
 - Auto save config.
 - Auto generate trojan conf. (TLS1.3, H2, etc.)
-- G*WList mode to bypass ***. You know what I mean.
+- GfWList mode to bypass GFW.
+- GeoIP mode.
 
 ## Components
 
-- [TCS](https://github.com/KevinZonda/trojan-client-slim) **(2.2.0)** **GPLv3**
+- [Trojan-GFW](https://github.com/trojan-gfw/trojan) **(1.14.1)** **GPLv3**
 - [Privoxy](https://www.privoxy.org/) **(3.0.28.0)** **GPLv2**
-- [Trojan-GFW](https://github.com/trojan-gfw/trojan) **(1.14.0)** **GPLv3**
-
+- [Clash](https://github.com/Dreamacro/clash) **(0.18.0)** **GPLv3**
+- [TCS](https://github.com/KevinZonda/trojan-client-slim) **(2.4.0)** **GPLv3**
 
 ## TODO
 
-- Use Clash instead of Privoxy -> Working
-- Local Port settings -> Working
 - Node list
 
 ## Screenshot(s)
-![TCS2.2.0](https://github.com/KevinZonda/trojan-client-slim/blob/master/Screenshots/TCS00.png?raw=true)
+![TCS2.4.0](Screenshots/TCS240.png)
 
 ## One more thing
 
