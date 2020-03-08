@@ -34,4 +34,4 @@ TCS(Trojan Client Slim) is a slim and easy client for Trojan-GFW.
 
 ## One more thing
 
-Welcome to use Telegram to communicate with us. Our group link is https://t.me/trojangfwcs
+Welcome to use Telegram to communicate with us. Our group link is https://t.me/ohtcs
