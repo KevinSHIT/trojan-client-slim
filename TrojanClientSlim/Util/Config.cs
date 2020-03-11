@@ -56,9 +56,6 @@ namespace TrojanClientSlim.Util
         public const bool DEFAULT_VERIFY_HOSTNAME = true;
         public const ProxyMode DEFAULT_PROXY = ProxyMode.GFWList;
 
-        //public static int trojanSocksListen = DEFAULT_CLASH_HTTP_LISTEN;
-        //public static int clashSocksListen = DEFAULT_CLASH_SOCKS_LISTEN;
-        //public static int clashHttpListen = DEFAULT_CLASH_HTTP_LISTEN;
 
         public static ProxyMode proxyMode
         {
@@ -222,19 +219,10 @@ namespace TrojanClientSlim.Util
                     "VerifyHostname = true\r\n" +
                     "Proxy = GFWList";
 
-        //public const string DEFAULT_TROJAN_CONFIG_PATH = "trojan\\conf";
         public const string DEFAULT_CLASH_CONFIG_PATH = "clash\\config.yaml";
         public const string DEFAULT_PRIVOXY_FILE_PATH = "privoxy";
 
-        //public const string Replacer()
-
-        //public static JObject DEFAULT_TROJAN_CONFIG()
-        //{
-        //    var _jo = new JObject();
-        //    _jo[""]
-        //}
-
-
+        public static SniList sniList;
 
     }
 }

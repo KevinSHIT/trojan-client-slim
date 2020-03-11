@@ -31,17 +31,31 @@ namespace TrojanClientSlim
 
         public TCS(string[] args)
         {
-            //TODO: Silece Mode
             InitializeComponent();
             Config.tcs = this;
+            
             InitialTemp();
 
             ReadConfig();
 
-            //if (IsPortUsed(Config.localSocksPort))
-            //    Message.Show($"Port {Config.localSocksPort} is in use!\r\nTrojan may fail to work.", Message.Mode.Warning);
-            //if (IsPortUsed(Config.localSocksPort))
-            //    Message.Show($"Port {Config.localHttpPort} is in use!\r\nHTTP proxy may fail to work.", Message.Mode.Warning);
+            //TODO:SNI
+            if (File.Exists("sni.tcsdb"))
+            {
+                try
+                {
+                    Config.sniList = new SniList(File.ReadAllLines("sni.tcsdb"));
+                }
+                catch
+                {
+                    File.Create("sni.tcsdb");
+                }
+            }
+            else
+            {
+                File.Create("sni.tcsdb");
+                Config.sniList = new SniList();
+            }
+
             if (File.Exists("node.tcsdb"))
             {
                 string[] tmp = ShareLink.ConvertShareToTrojanConf(File.ReadAllText("node.tcsdb"));
@@ -53,6 +67,9 @@ namespace TrojanClientSlim
             }
             else
                 File.Create("node.tcsdb").Dispose();
+
+            
+            this.SniBox.Text = Config.sniList[this.RemoteAddressBox.Text];
 #if DEBUG
             this.Text = "[D]" + this.Text;
 #endif
@@ -227,7 +244,7 @@ namespace TrojanClientSlim
 
         private void StopTrojan()
         {
-            KillProcess();
+            Command.StopProcess();
             try
             {
                 Proxy.UnsetProxy();
@@ -327,7 +344,7 @@ namespace TrojanClientSlim
                     Message.Show("Conf file written failed!", Message.Mode.Error);
                     goto final;
                 }
-                KillProcess();
+                Command.StopProcess();
                 Command.RunTrojan();
                 if (isHttp.Checked == true)
                 {
@@ -348,21 +365,6 @@ namespace TrojanClientSlim
             else
             {
                 Message.Show("Config invalid! Please enter current trojan information.", Message.Mode.Error);
-            }
-        }
-
-        private void KillProcess()
-        {
-
-            Process[] myproc = Process.GetProcesses();
-            foreach (Process item in myproc)
-            {
-                if (item.ProcessName.ToLower() == "trojan" ||
-                    item.ProcessName.ToLower() == "privoxy" ||
-                    item.ProcessName.ToLower() == "clash")
-                {
-                    item.Kill();
-                }
             }
         }
 
@@ -405,11 +407,8 @@ namespace TrojanClientSlim
                 Proxy.UnsetProxy();
             }
             catch
-            {
-
-
-            }
-            KillProcess();
+            { }
+            Command.StopProcess();
         }
 
         #region Some Forms Widget
@@ -540,15 +539,44 @@ namespace TrojanClientSlim
         private void Conf2ShareLink() => ShareLinkBox.Text = ShareLink.Generate(RemoteAddressBox.Text, RemotePortBox.Text, PasswordBox.Text);
 
         #region TextChanged
-        private void RemoteAddressBox_TextChanged(object sender, EventArgs e) => Conf2ShareLink();
+        private void RemoteAddressBox_TextChanged(object sender, EventArgs e)
+        {
+            SniBox.Text = Config.sniList[RemoteAddressBox.Text];
+            Conf2ShareLink();
+        }
 
         private void RemotePortBox_TextChanged(object sender, EventArgs e) => Conf2ShareLink();
 
         private void PasswordBox_TextChanged(object sender, EventArgs e) => Conf2ShareLink();
 
         private void ShareLinkBox_TextChanged(object sender, EventArgs e) => SetTrojanConf(ShareLinkBox.Text);
+
+        private void SocksPortBox_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                Config.localSocksPort = int.Parse(SocksPortBox.Text);
+            }
+            catch
+            {
+                Message.Show("Port can only be an integer", Message.Mode.Error);
+            }
+        }
+
+        private void HttpPortBox_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                Config.localHttpPort = int.Parse(HttpPortBox.Text);
+            }
+            catch
+            {
+                Message.Show("Port can only be an integer", Message.Mode.Error);
+            }
+        }
         #endregion
 
+        #region CheckedChanged
         private void IsVerifyCert_CheckedChanged(object sender, EventArgs e)
         {
             Config.verifyCert = isVerifyCert.Checked;
@@ -578,34 +606,8 @@ namespace TrojanClientSlim
                     GeoIP.Checked = true;
                 }
             }
-            //IniData i = iniParser.ReadFile("config.ini");
-            //i["TCS"]["HttpProxy"] = isVerifyCert.Checked.ToString();
-            //iniParser.WriteFile("config.ini", i);
         }
-
-        private void SocksPortBox_TextChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                Config.localSocksPort = int.Parse(SocksPortBox.Text);
-            }
-            catch
-            {
-                Message.Show("Port can only be an integer", Message.Mode.Error);
-            }
-        }
-
-        private void HttpPortBox_TextChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                Config.localHttpPort = int.Parse(HttpPortBox.Text);
-            }
-            catch
-            {
-                Message.Show("Port can only be an integer", Message.Mode.Error);
-            }
-        }
+        #endregion
 
         private void StartupToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -630,6 +632,16 @@ namespace TrojanClientSlim
                 "Author: Dreamacro and other contributors\r\n" +
                 "[TCS]\r\n" +
                 "Author: KevinZonda and other contributors\r\n", Message.Mode.Info);
+        }
+
+        private void SniBox_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(SniBox.Text))
+                Config.sniList.Remove(Config.remoteAddress);
+            else
+                if(!string.IsNullOrWhiteSpace(RemoteAddressBox.Text))
+                    Config.sniList[RemoteAddressBox.Text] = SniBox.Text;
+            File.WriteAllLines("sni.tcsdb", Config.sniList.ToArray());
         }
     }
 }

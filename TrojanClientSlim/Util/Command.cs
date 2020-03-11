@@ -25,7 +25,9 @@ namespace TrojanClientSlim.Util
             File.Copy(@"trojan\config.json", @"temp\trojan.json", true);
             string trojanJson = File.ReadAllText(@"temp\trojan.json")
                 .Replace("\"{VERIFY_CERT}\"", Config.verifyCert.ToString().ToLower())
-                .Replace("\"{VERIFY_HOSTNAME}\"", Config.verifyHostname.ToString().ToLower());
+                .Replace("\"{VERIFY_HOSTNAME}\"", Config.verifyHostname.ToString().ToLower())
+                .Replace("{SNI}", Config.sniList[Config.remoteAddress]);
+
             Debug.WriteLine(trojanJson);
             JObject jo = new JObject();
             jo = JObject.Parse(trojanJson);
@@ -33,6 +35,7 @@ namespace TrojanClientSlim.Util
             jo["local_port"] = Config.localSocksPort;
             jo["remote_addr"] = Config.remoteAddress;
             jo["remote_port"] = Config.remotePort;
+
             JArray ja = new JArray
             {
                 Config.password
@@ -147,6 +150,21 @@ namespace TrojanClientSlim.Util
 
             p.Start();
 
+        }
+
+        public static void StopProcess()
+        {
+
+            Process[] myproc = Process.GetProcesses();
+            foreach (Process item in myproc)
+            {
+                if (item.ProcessName.ToLower() == "trojan" ||
+                    item.ProcessName.ToLower() == "privoxy" ||
+                    item.ProcessName.ToLower() == "clash")
+                {
+                    item.Kill();
+                }
+            }
         }
 
     }
