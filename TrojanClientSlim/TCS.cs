@@ -605,6 +605,10 @@ namespace TrojanClientSlim
                 {
                     GeoIP.Checked = true;
                 }
+                if(Global.Checked)
+                {
+                    HttpPortBox.Enabled = false;
+                }
             }
         }
         #endregion
