@@ -107,7 +107,6 @@
   <ItemGroup>
     <Compile Include="Util\Command.cs" />
     <Compile Include="Util\Config.cs" />
-    <Compile Include="Util\Encode.cs" />
     <Compile Include="Util\Encrypt.cs" />
     <Compile Include="Util\Http.cs" />
     <Compile Include="Util\LnkHelper.cs" />

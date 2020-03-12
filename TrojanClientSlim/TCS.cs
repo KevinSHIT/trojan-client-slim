@@ -333,17 +333,8 @@ namespace TrojanClientSlim
                 //}
                 //File.CreateText("logs" + DateTime.Now.ToString(""))
 
-
                 InitialTemp();
-                try
-                {
-                    File.WriteAllText("node.tcsdb", ShareLinkBox.Text);
-                }
-                catch
-                {
-                    Message.Show("Conf file written failed!", Message.Mode.Error);
-                    goto final;
-                }
+
                 Command.StopProcess();
                 Command.RunTrojan();
                 if (isHttp.Checked == true)
@@ -360,12 +351,12 @@ namespace TrojanClientSlim
                 }
                 if (mode == RunMode.Normal)
                     Message.Show("Start Trojan succeeded!", Message.Mode.Info);
-                final:;
             }
             else
             {
                 Message.Show("Config invalid! Please enter current trojan information.", Message.Mode.Error);
             }
+            final:;
         }
 
         private bool IsConfigValid() => (!string.IsNullOrEmpty(RemoteAddressBox.Text.Trim()) && !string.IsNullOrEmpty(RemotePortBox.Text.Trim()) && !string.IsNullOrEmpty(PasswordBox.Text.Trim()));
@@ -460,7 +451,7 @@ namespace TrojanClientSlim
         }
         private void ShareLinkBox_MouseUp(object sender, MouseEventArgs e)
         {
-            if (e.Button == System.Windows.Forms.MouseButtons.Left)
+            if (e.Button == MouseButtons.Left && !EnableShareLink.Checked)
             {
                 ((TextBox)sender).SelectAll();
             }
@@ -555,7 +546,19 @@ namespace TrojanClientSlim
 
         private void PasswordBox_TextChanged(object sender, EventArgs e) => Conf2ShareLink();
 
-        private void ShareLinkBox_TextChanged(object sender, EventArgs e) => SetTrojanConf(ShareLinkBox.Text);
+        private void ShareLinkBox_TextChanged(object sender, EventArgs e)
+        {
+            SetTrojanConf(ShareLinkBox.Text);
+            try
+            {
+                File.WriteAllText("node.tcsdb",
+                    ShareLink.Generate(RemoteAddressBox.Text, RemotePortBox.Text, PasswordBox.Text, NodeNameBox.Text));
+            }
+            catch
+            {
+                Message.Show("Node written failed!", Message.Mode.Error);
+            }
+        }
 
         private void SocksPortBox_TextChanged(object sender, EventArgs e)
         {
