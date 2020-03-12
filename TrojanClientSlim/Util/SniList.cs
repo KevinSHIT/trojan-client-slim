@@ -20,7 +20,7 @@ namespace TrojanClientSlim.Util
             dic = new Dictionary<string, string> { };
             foreach (var sni in snis)
             {
-                if(!string.IsNullOrWhiteSpace(sni) && sni.Contains(":"))
+                if (!string.IsNullOrWhiteSpace(sni) && sni.Contains(":"))
                 {
                     dic.Add(sni.Split(':')[0], sni.Split(':')[1]);
                 }
@@ -36,7 +36,7 @@ namespace TrojanClientSlim.Util
         {
 
             var al = new List<string>();
-            foreach(var ip in dic)
+            foreach (var ip in dic)
             {
                 al.Add($"{ip.Key}:{ip.Value}");
             }

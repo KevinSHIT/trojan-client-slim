@@ -33,7 +33,7 @@ namespace TrojanClientSlim
         {
             InitializeComponent();
             Config.tcs = this;
-            
+
             InitialTemp();
 
             ReadConfig();
@@ -68,7 +68,7 @@ namespace TrojanClientSlim
             else
                 File.Create("node.tcsdb").Dispose();
 
-            
+
             this.SniBox.Text = Config.sniList[this.RemoteAddressBox.Text];
 #if DEBUG
             this.Text = "[D]" + this.Text;
@@ -337,7 +337,7 @@ namespace TrojanClientSlim
                 InitialTemp();
                 try
                 {
-                    File.WriteAllText("node.tcsdb", ShareLink.Generate(RemoteAddressBox.Text, RemotePortBox.Text, PasswordBox.Text));
+                    File.WriteAllText("node.tcsdb", ShareLinkBox.Text);
                 }
                 catch
                 {
@@ -379,6 +379,7 @@ namespace TrojanClientSlim
                 RemotePortBox.Text = trojanConf[1];
                 RemoteAddressBox.Text = trojanConf[0];
                 PasswordBox.Text = trojanConf[2];
+                NodeNameBox.Text = trojanConf[3];
                 return true;
             }
             return false;
@@ -536,12 +537,17 @@ namespace TrojanClientSlim
 
         #endregion
 
-        private void Conf2ShareLink() => ShareLinkBox.Text = ShareLink.Generate(RemoteAddressBox.Text, RemotePortBox.Text, PasswordBox.Text);
+        private void Conf2ShareLink() => ShareLinkBox.Text = ShareLink.Generate(RemoteAddressBox.Text, RemotePortBox.Text, PasswordBox.Text, NodeNameBox.Text);
 
         #region TextChanged
         private void RemoteAddressBox_TextChanged(object sender, EventArgs e)
         {
             SniBox.Text = Config.sniList[RemoteAddressBox.Text];
+            Conf2ShareLink();
+        }
+        private void NodeNameBox_TextChanged(object sender, EventArgs e)
+        {
+            NodeNameBox.Text = NodeNameBox.Text.Replace(":", "");
             Conf2ShareLink();
         }
 
@@ -605,7 +611,7 @@ namespace TrojanClientSlim
                 {
                     GeoIP.Checked = true;
                 }
-                if(Global.Checked)
+                if (Global.Checked)
                 {
                     HttpPortBox.Enabled = false;
                 }
@@ -643,8 +649,8 @@ namespace TrojanClientSlim
             if (string.IsNullOrWhiteSpace(SniBox.Text))
                 Config.sniList.Remove(Config.remoteAddress);
             else
-                if(!string.IsNullOrWhiteSpace(RemoteAddressBox.Text))
-                    Config.sniList[RemoteAddressBox.Text] = SniBox.Text;
+                if (!string.IsNullOrWhiteSpace(RemoteAddressBox.Text))
+                Config.sniList[RemoteAddressBox.Text] = SniBox.Text;
             File.WriteAllLines("sni.tcsdb", Config.sniList.ToArray());
         }
     }

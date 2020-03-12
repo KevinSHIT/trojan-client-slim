@@ -74,19 +74,27 @@
             this.httpPortLabel = new System.Windows.Forms.Label();
             this.SniBox = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
+            this.NodeTree = new System.Windows.Forms.TreeView();
+            this.AddNode = new System.Windows.Forms.Button();
+            this.DeleteNode = new System.Windows.Forms.Button();
+            this.Subscription = new System.Windows.Forms.Button();
+            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
+            this.NodeNameBox = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
             this.contextMenu.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
+            this.tableLayoutPanel4.SuspendLayout();
             this.SuspendLayout();
             // 
             // Exit
             // 
             this.Exit.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.Exit.Location = new System.Drawing.Point(258, 3);
+            this.Exit.Location = new System.Drawing.Point(233, 3);
             this.Exit.Name = "Exit";
-            this.Exit.Size = new System.Drawing.Size(75, 22);
+            this.Exit.Size = new System.Drawing.Size(100, 22);
             this.Exit.TabIndex = 16;
             this.Exit.Text = "Exit";
             this.Exit.UseVisualStyleBackColor = true;
@@ -95,9 +103,9 @@
             // Stop
             // 
             this.Stop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
-            this.Stop.Location = new System.Drawing.Point(130, 3);
+            this.Stop.Location = new System.Drawing.Point(118, 3);
             this.Stop.Name = "Stop";
-            this.Stop.Size = new System.Drawing.Size(75, 22);
+            this.Stop.Size = new System.Drawing.Size(100, 22);
             this.Stop.TabIndex = 15;
             this.Stop.Text = "Stop";
             this.Stop.UseVisualStyleBackColor = true;
@@ -106,7 +114,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(14, 16);
+            this.label1.Location = new System.Drawing.Point(270, 46);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(95, 12);
             this.label1.TabIndex = 3;
@@ -130,7 +138,7 @@
             // 
             // RemoteAddressBox
             // 
-            this.RemoteAddressBox.Location = new System.Drawing.Point(112, 12);
+            this.RemoteAddressBox.Location = new System.Drawing.Point(368, 42);
             this.RemoteAddressBox.Name = "RemoteAddressBox";
             this.RemoteAddressBox.Size = new System.Drawing.Size(232, 21);
             this.RemoteAddressBox.TabIndex = 1;
@@ -138,7 +146,7 @@
             // 
             // RemotePortBox
             // 
-            this.RemotePortBox.Location = new System.Drawing.Point(112, 39);
+            this.RemotePortBox.Location = new System.Drawing.Point(368, 69);
             this.RemotePortBox.Name = "RemotePortBox";
             this.RemotePortBox.Size = new System.Drawing.Size(232, 21);
             this.RemotePortBox.TabIndex = 2;
@@ -148,7 +156,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(14, 43);
+            this.label2.Location = new System.Drawing.Point(270, 73);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(77, 12);
             this.label2.TabIndex = 6;
@@ -156,7 +164,7 @@
             // 
             // PasswordBox
             // 
-            this.PasswordBox.Location = new System.Drawing.Point(112, 66);
+            this.PasswordBox.Location = new System.Drawing.Point(368, 96);
             this.PasswordBox.Name = "PasswordBox";
             this.PasswordBox.PasswordChar = '*';
             this.PasswordBox.Size = new System.Drawing.Size(208, 21);
@@ -166,7 +174,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(14, 70);
+            this.label3.Location = new System.Drawing.Point(270, 100);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(59, 12);
             this.label3.TabIndex = 8;
@@ -191,7 +199,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(14, 129);
+            this.label4.Location = new System.Drawing.Point(270, 159);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(41, 12);
             this.label4.TabIndex = 11;
@@ -200,7 +208,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(14, 154);
+            this.label5.Location = new System.Drawing.Point(270, 184);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(41, 12);
             this.label5.TabIndex = 13;
@@ -228,7 +236,7 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.Run.Location = new System.Drawing.Point(3, 3);
             this.Run.Name = "Run";
-            this.Run.Size = new System.Drawing.Size(75, 22);
+            this.Run.Size = new System.Drawing.Size(100, 22);
             this.Run.TabIndex = 14;
             this.Run.Text = "Run";
             this.Run.UseVisualStyleBackColor = true;
@@ -267,7 +275,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(14, 181);
+            this.label6.Location = new System.Drawing.Point(270, 211);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(35, 12);
             this.label6.TabIndex = 19;
@@ -275,7 +283,7 @@
             // 
             // ShowPassword
             // 
-            this.ShowPassword.Location = new System.Drawing.Point(326, 66);
+            this.ShowPassword.Location = new System.Drawing.Point(582, 96);
             this.ShowPassword.Name = "ShowPassword";
             this.ShowPassword.Size = new System.Drawing.Size(18, 21);
             this.ShowPassword.TabIndex = 20;
@@ -377,7 +385,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(14, 210);
+            this.label7.Location = new System.Drawing.Point(270, 240);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(71, 12);
             this.label7.TabIndex = 21;
@@ -385,7 +393,7 @@
             // 
             // ShareLinkBox
             // 
-            this.ShareLinkBox.Location = new System.Drawing.Point(132, 207);
+            this.ShareLinkBox.Location = new System.Drawing.Point(388, 237);
             this.ShareLinkBox.Name = "ShareLinkBox";
             this.ShareLinkBox.ReadOnly = true;
             this.ShareLinkBox.Size = new System.Drawing.Size(212, 21);
@@ -396,7 +404,7 @@
             // EnableShareLink
             // 
             this.EnableShareLink.AutoSize = true;
-            this.EnableShareLink.Location = new System.Drawing.Point(112, 210);
+            this.EnableShareLink.Location = new System.Drawing.Point(368, 240);
             this.EnableShareLink.Name = "EnableShareLink";
             this.EnableShareLink.Size = new System.Drawing.Size(15, 14);
             this.EnableShareLink.TabIndex = 12;
@@ -430,7 +438,7 @@
             this.tableLayoutPanel1.Controls.Add(this.isSock5, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.isHttp, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.isVerifyHostname, 1, 1);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(112, 124);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(368, 154);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 3;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
@@ -462,7 +470,7 @@
             this.tableLayoutPanel2.Controls.Add(this.Run, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.Stop, 1, 0);
             this.tableLayoutPanel2.Controls.Add(this.Exit, 2, 0);
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(11, 234);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(267, 264);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -482,7 +490,7 @@
             this.tableLayoutPanel3.Controls.Add(this.SocksPortBox, 1, 0);
             this.tableLayoutPanel3.Controls.Add(this.label8, 0, 0);
             this.tableLayoutPanel3.Controls.Add(this.httpPortLabel, 2, 0);
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(11, 268);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(267, 298);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 1;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -532,7 +540,7 @@
             // 
             // SniBox
             // 
-            this.SniBox.Location = new System.Drawing.Point(112, 93);
+            this.SniBox.Location = new System.Drawing.Point(368, 123);
             this.SniBox.Name = "SniBox";
             this.SniBox.Size = new System.Drawing.Size(232, 21);
             this.SniBox.TabIndex = 4;
@@ -541,18 +549,90 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(14, 97);
+            this.label9.Location = new System.Drawing.Point(270, 127);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(29, 12);
             this.label9.TabIndex = 29;
             this.label9.Text = "SNI:";
+            // 
+            // NodeTree
+            // 
+            this.NodeTree.Location = new System.Drawing.Point(12, 12);
+            this.NodeTree.Name = "NodeTree";
+            this.NodeTree.Size = new System.Drawing.Size(244, 277);
+            this.NodeTree.TabIndex = 30;
+            // 
+            // AddNode
+            // 
+            this.AddNode.Location = new System.Drawing.Point(3, 3);
+            this.AddNode.Name = "AddNode";
+            this.AddNode.Size = new System.Drawing.Size(75, 22);
+            this.AddNode.TabIndex = 31;
+            this.AddNode.Text = "Add";
+            this.AddNode.UseVisualStyleBackColor = true;
+            // 
+            // DeleteNode
+            // 
+            this.DeleteNode.Location = new System.Drawing.Point(84, 3);
+            this.DeleteNode.Name = "DeleteNode";
+            this.DeleteNode.Size = new System.Drawing.Size(75, 22);
+            this.DeleteNode.TabIndex = 32;
+            this.DeleteNode.Text = "Delete";
+            this.DeleteNode.UseVisualStyleBackColor = true;
+            // 
+            // Subscription
+            // 
+            this.Subscription.Location = new System.Drawing.Point(165, 3);
+            this.Subscription.Name = "Subscription";
+            this.Subscription.Size = new System.Drawing.Size(75, 22);
+            this.Subscription.TabIndex = 33;
+            this.Subscription.Text = "Subscribe";
+            this.Subscription.UseVisualStyleBackColor = true;
+            // 
+            // tableLayoutPanel4
+            // 
+            this.tableLayoutPanel4.ColumnCount = 3;
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel4.Controls.Add(this.AddNode, 0, 0);
+            this.tableLayoutPanel4.Controls.Add(this.Subscription, 2, 0);
+            this.tableLayoutPanel4.Controls.Add(this.DeleteNode, 1, 0);
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(12, 298);
+            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
+            this.tableLayoutPanel4.RowCount = 1;
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(244, 28);
+            this.tableLayoutPanel4.TabIndex = 34;
+            // 
+            // NodeNameBox
+            // 
+            this.NodeNameBox.Location = new System.Drawing.Point(368, 14);
+            this.NodeNameBox.Name = "NodeNameBox";
+            this.NodeNameBox.Size = new System.Drawing.Size(232, 21);
+            this.NodeNameBox.TabIndex = 35;
+            this.NodeNameBox.TextChanged += new System.EventHandler(this.NodeNameBox_TextChanged);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(270, 18);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(65, 12);
+            this.label10.TabIndex = 36;
+            this.label10.Text = "Node Name:";
             // 
             // TCS
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(359, 308);
+            this.ClientSize = new System.Drawing.Size(619, 337);
+            this.Controls.Add(this.NodeNameBox);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.tableLayoutPanel4);
+            this.Controls.Add(this.NodeTree);
             this.Controls.Add(this.SniBox);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.tableLayoutPanel3);
@@ -585,6 +665,7 @@
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel3.PerformLayout();
+            this.tableLayoutPanel4.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -636,6 +717,13 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         public System.Windows.Forms.TextBox SniBox;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TreeView NodeTree;
+        private System.Windows.Forms.Button AddNode;
+        private System.Windows.Forms.Button DeleteNode;
+        private System.Windows.Forms.Button Subscription;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
+        public System.Windows.Forms.TextBox NodeNameBox;
+        private System.Windows.Forms.Label label10;
     }
 }
 

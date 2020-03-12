@@ -13,6 +13,18 @@ namespace TrojanClientSlim.Util
                 string tsl = trojanShareLink.Substring(9);
                 string[] temp = tsl.Split(':');
                 string[] temp_3 = temp[temp.Length - 1].Split('#');
+
+                // Node Name
+                if (temp_3.Length == 2)
+                {
+                    tmp[3] = temp_3[1];
+                }
+                else
+                {
+                    tmp[3] = "Untitled";
+                }
+
+                // Port
                 tmp[1] = temp_3[0];
                 try
                 {
@@ -28,10 +40,14 @@ namespace TrojanClientSlim.Util
                 tsl = CombineToString(temp);
                 //Current: password@ip
                 string[] temp_1 = tsl.Split('@');
-                if (temp_1.Length == 1) 
+                if (temp_1.Length == 1)
                     return null;
+
+                // Server
                 tmp[0] = temp_1[temp_1.Length - 1];
                 temp_1[temp_1.Length - 1] = "";
+
+                // Password
                 try
                 {
                     tmp[2] = HttpUtility.UrlDecode(CombineToString(temp_1));
@@ -40,6 +56,12 @@ namespace TrojanClientSlim.Util
                 {
                     return null;
                 }
+                /*
+                 * 0 -> Server
+                 * 1 -> Port
+                 * 2 -> Passwd
+                 * 3 -> Name
+                 */
                 return tmp;
             }
             else
@@ -56,9 +78,11 @@ namespace TrojanClientSlim.Util
             return tmp;
         }
 
-        public static string Generate(string remoteAddress, string remotePort, string password)
+        public static string Generate(string remoteAddress, string remotePort, string password, string nodeName = "Untitled")
         {
-            return "trojan://" + HttpUtility.UrlEncode(password) + "@" + remoteAddress + ":" + remotePort;
+            if (string.IsNullOrEmpty(nodeName))
+                nodeName = "Untitled";
+            return "trojan://" + HttpUtility.UrlEncode(password) + "@" + remoteAddress + ":" + remotePort + "#" + nodeName;
         }
     }
 }
