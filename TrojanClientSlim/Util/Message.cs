@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace TrojanClientSlim.Util
+namespace TCS.Util
 {
     class Message
     {
@@ -22,7 +22,7 @@ namespace TrojanClientSlim.Util
                 default:
                     throw new IndexOutOfRangeException();
             }
-            
+
         }
     }
 }

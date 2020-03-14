@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace TrojanClientSlim.Util
+namespace TCS.Util
 {
     public static class Encrypt
     {

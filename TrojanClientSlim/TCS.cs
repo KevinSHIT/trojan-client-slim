@@ -4,12 +4,12 @@ using System.IO;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Windows.Forms;
-using TrojanClientSlim.Util;
+using TCS.Util;
 using IniParser;
 using IniParser.Model;
-using Message = TrojanClientSlim.Util.Message;
+using Message = TCS.Util.Message;
 
-namespace TrojanClientSlim
+namespace TCS
 {
     public partial class TCS : Form
     {

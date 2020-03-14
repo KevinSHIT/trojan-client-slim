@@ -1,7 +1,7 @@
 ﻿using IniParser.Model;
 using System.Diagnostics;
 
-namespace TrojanClientSlim.Util
+namespace TCS.Util
 {
     public static class Config
     {

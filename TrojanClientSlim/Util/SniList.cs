@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TrojanClientSlim.Util
+namespace TCS.Util
 {
     public class SniList
     {

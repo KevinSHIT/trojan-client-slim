@@ -2,7 +2,7 @@
 using System.IO;
 using System.Reflection;
 
-namespace TrojanClientSlim.Util
+namespace TCS.Util
 {
     public static class LnkHelper
     {

@@ -1,6 +1,6 @@
 ﻿using System.Web;
 
-namespace TrojanClientSlim.Util
+namespace TCS.Util
 {
     public static class ShareLink
     {

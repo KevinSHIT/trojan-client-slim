@@ -2,22 +2,22 @@
 using System.Diagnostics;
 using System.IO;
 
-namespace TrojanClientSlim.Util
+namespace TCS.Util
 {
     class Command
     {
 
-        /* 
+        /*
          * CLASH
          * {CLASH_SOCKS_LISTEN}
          * {CLASH_HTTP_LISTEN}
-         * 
+         *
          * TROJAN
          * {TROJAN_SOCKS_LISTEN}
-         * 
+         *
          * PRIVOXY
          * {PRIVOXY_HTTP_LISTEN}
-         * 
+         *
          */
 
         public static void RunTrojan()

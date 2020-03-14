@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Net;
 
-namespace TrojanClientSlim.Util
+namespace TCS.Util
 {
     class Http
     {
