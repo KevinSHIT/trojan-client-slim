@@ -224,5 +224,10 @@ namespace TCS.Util
 
         public static SniList sniList;
 
+        public const string DEFAULT_NODELIST_JSON =
+            "ewogICJEZWZhdWx0IjogWwogICAgInRyb2phbjovL0hlbGxv" +
+            "V29ybGRAZ29vZ2xlLmNvbTo0NDMjRGVmYXVsdCIKICBdCn0K";
+
+
     }
 }

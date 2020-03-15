@@ -29,7 +29,6 @@ namespace TCS.Util
 
         public void Add(string ip, string sni) => dic.Add(ip, sni);
 
-
         public void Remove(string ip) => dic.Remove(ip);
 
         public string[] ToArray()

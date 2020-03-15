@@ -6,7 +6,7 @@ namespace TCS.Util
     class Message
     {
         public enum Mode { Info = 0, Warning = 1, Error = 2};
-        public static void Show(string content, Mode messageMode)
+        public static void Show(string content, Mode messageMode = Mode.Info)
         {
             switch (messageMode)
             {
@@ -24,5 +24,7 @@ namespace TCS.Util
             }
 
         }
+
+        public Message(string content, Mode messageMode = Mode.Info) => Show(content, messageMode);
     }
 }

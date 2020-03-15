@@ -39,40 +39,48 @@ namespace TCS
             ReadConfig();
 
             //TODO:SNI
-            if (File.Exists("sni.tcsdb"))
+            if (File.Exists(TCSPath.Sni))
             {
                 try
                 {
-                    Config.sniList = new SniList(File.ReadAllLines("sni.tcsdb"));
+                    Config.sniList = new SniList(File.ReadAllLines(TCSPath.Sni));
                 }
                 catch
                 {
-                    File.Create("sni.tcsdb");
+                    File.Create(TCSPath.Sni);
                 }
             }
             else
             {
-                File.Create("sni.tcsdb");
+                File.Create(TCSPath.Sni);
                 Config.sniList = new SniList();
             }
 
-            if (File.Exists("node.tcsdb"))
+            if (File.Exists(TCSPath.Node))
             {
-                string[] tmp = ShareLink.ConvertShareToTrojanConf(File.ReadAllText("node.tcsdb"));
-                if (!SetTrojanConf(File.ReadAllText("node.tcsdb")))
+                string[] tmp = ShareLink.ConvertShareToTrojanConf(File.ReadAllText(TCSPath.Node));
+                if (!SetTrojanConf(File.ReadAllText(TCSPath.Node)))
                 {
-                    File.Create("node.tcsdb").Dispose();
-
+                    File.Create(TCSPath.Node).Dispose();
                 }
             }
             else
-                File.Create("node.tcsdb").Dispose();
+                File.Create(TCSPath.Node).Dispose();
 
 
             this.SniBox.Text = Config.sniList[this.RemoteAddressBox.Text];
 #if DEBUG
             this.Text = "[D]" + this.Text;
 #endif
+            //TODO:NODELIST
+            try
+            {
+                NodeList.BindTreeView(NodeTree, File.ReadAllText(TCSPath.NodeList));
+            }
+            catch
+            {
+
+            }
 
             if (File.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Startup), "TCS.lnk")))
             {
@@ -92,6 +100,7 @@ namespace TCS
                 this.ShowInTaskbar = false;
                 this.WindowState = FormWindowState.Minimized;
             }
+
         }
 
         private void TCS_Load(object sender, EventArgs e)
@@ -359,7 +368,13 @@ namespace TCS
             final:;
         }
 
-        private bool IsConfigValid() => (!string.IsNullOrEmpty(RemoteAddressBox.Text.Trim()) && !string.IsNullOrEmpty(RemotePortBox.Text.Trim()) && !string.IsNullOrEmpty(PasswordBox.Text.Trim()));
+        private bool IsConfigValid()
+        {
+            if (ShareLink.ConvertShareToTrojanConf(ShareLinkBox.Text) == null)
+                return false;
+            else
+                return true;
+        }
 
         private bool SetTrojanConf(string TcsShareLink) => SetTrojanConf((string[])ShareLink.ConvertShareToTrojanConf(TcsShareLink));
 
@@ -373,6 +388,7 @@ namespace TCS
                 NodeNameBox.Text = trojanConf[3];
                 return true;
             }
+            RemotePortBox.Text = RemoteAddressBox.Text = PasswordBox.Text = NodeNameBox.Text = string.Empty;
             return false;
         }
 
@@ -551,7 +567,7 @@ namespace TCS
             SetTrojanConf(ShareLinkBox.Text);
             try
             {
-                File.WriteAllText("node.tcsdb",
+                File.WriteAllText(TCSPath.Node,
                     ShareLink.Generate(RemoteAddressBox.Text, RemotePortBox.Text, PasswordBox.Text, NodeNameBox.Text));
             }
             catch
@@ -654,7 +670,16 @@ namespace TCS
             else
                 if (!string.IsNullOrWhiteSpace(RemoteAddressBox.Text))
                 Config.sniList[RemoteAddressBox.Text] = SniBox.Text;
-            File.WriteAllLines("sni.tcsdb", Config.sniList.ToArray());
+            File.WriteAllLines(TCSPath.Sni, Config.sniList.ToArray());
+        }
+
+        private void NodeTree_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            if (NodeTree.SelectedNode.Tag != null)
+            {
+                string v = NodeTree.SelectedNode.Tag.ToString();
+                ShareLinkBox.Text = v;
+            }
         }
     }
 }
