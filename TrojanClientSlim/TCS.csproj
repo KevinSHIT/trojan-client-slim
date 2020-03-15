@@ -112,6 +112,7 @@
     <Compile Include="Util\LnkHelper.cs" />
     <Compile Include="Util\Message.cs" />
     <Compile Include="Util\NodeList.cs" />
+    <Compile Include="Util\TCSPath.cs" />
     <Compile Include="Util\ShareLink.cs" />
     <Compile Include="TCS.cs">
       <SubType>Form</SubType>

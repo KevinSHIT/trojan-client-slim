@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TCS.Util
 {
-    public static class Path
+    public static class TCSPath
     {
         public const string NodeList = "db\\list.tcsdb";
 
