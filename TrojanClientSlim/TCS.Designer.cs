@@ -323,7 +323,7 @@
             this.aboutStripMenuItem.Name = "aboutStripMenuItem";
             this.aboutStripMenuItem.Size = new System.Drawing.Size(259, 22);
             this.aboutStripMenuItem.Text = "TCS v3.0.0 Insider";
-            this.aboutStripMenuItem.Click += new System.EventHandler(this.aboutStripMenuItem_Click);
+            this.aboutStripMenuItem.Click += new System.EventHandler(this.AboutStripMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
@@ -562,6 +562,7 @@
             this.NodeTree.Size = new System.Drawing.Size(244, 277);
             this.NodeTree.TabIndex = 30;
             this.NodeTree.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.NodeTree_AfterSelect);
+            this.NodeTree.Validated += new System.EventHandler(this.NodeTree_Validated);
             // 
             // AddNode
             // 
@@ -571,6 +572,7 @@
             this.AddNode.TabIndex = 31;
             this.AddNode.Text = "Add";
             this.AddNode.UseVisualStyleBackColor = true;
+            this.AddNode.Click += new System.EventHandler(this.AddNode_Click);
             // 
             // DeleteNode
             // 
@@ -580,6 +582,7 @@
             this.DeleteNode.TabIndex = 32;
             this.DeleteNode.Text = "Delete";
             this.DeleteNode.UseVisualStyleBackColor = true;
+            this.DeleteNode.Click += new System.EventHandler(this.DeleteNode_Click);
             // 
             // Subscription
             // 

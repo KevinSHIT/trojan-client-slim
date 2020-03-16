@@ -14,7 +14,7 @@ using System.Windows.Forms;
 
 namespace TCS.Util
 {
-    public class NodeList
+    public static class NodeList
     {
         /* Node.json Example
          * {
@@ -27,6 +27,9 @@ namespace TCS.Util
          *     "Node#1"
          *   ]
          * }
+         *
+         * Tree0 & Tree1 is Group
+         * Node* is node(share link)
          *
          * NodeInfo
          * Name -> Node Name
@@ -102,6 +105,27 @@ namespace TCS.Util
                 return false;
             }
         }
+
+        public static JObject ToJObject(this TreeView tv)
+        {
+            var jo = new JObject();
+            JArray ja;
+            for (int i = 0; i < tv.Nodes.Count; i++)
+            {
+                ja = new JArray();
+                foreach (TreeNode v in tv.Nodes[i].Nodes)
+                {
+                    // Tag storages share link
+                    if (v.Tag != null)
+                        ja.Add(v.Tag);
+                }
+                // Root node's name is group name
+                jo.Add(tv.Nodes[i].Text, ja);
+            }
+
+            return jo;
+        }
+
 
     }
 }

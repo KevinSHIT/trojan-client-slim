@@ -8,6 +8,7 @@ using TCS.Util;
 using IniParser;
 using IniParser.Model;
 using Message = TCS.Util.Message;
+using System.Drawing;
 
 namespace TCS
 {
@@ -15,6 +16,8 @@ namespace TCS
     {
 
         readonly public static FileIniDataParser iniParser = new FileIniDataParser();
+
+        #region Startup
 
         void InitialTemp()
         {
@@ -60,9 +63,7 @@ namespace TCS
             {
                 string[] tmp = ShareLink.ConvertShareToTrojanConf(File.ReadAllText(TCSPath.Node));
                 if (!SetTrojanConf(File.ReadAllText(TCSPath.Node)))
-                {
                     File.Create(TCSPath.Node).Dispose();
-                }
             }
             else
                 File.Create(TCSPath.Node).Dispose();
@@ -78,18 +79,12 @@ namespace TCS
                 NodeList.BindTreeView(NodeTree, File.ReadAllText(TCSPath.NodeList));
             }
             catch
-            {
-
-            }
+            { }
 
             if (File.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Startup), "TCS.lnk")))
-            {
                 StartupToolStripMenuItem.Checked = true;
-            }
             else
-            {
                 StartupToolStripMenuItem.Checked = false;
-            }
 
             if (args.Length == 1 && args[0].Trim().ToLower() == "silence")
             {
@@ -226,8 +221,11 @@ namespace TCS
             }
 
         }
+        #endregion
 
+        #region Button Click
         private void Run_Click(object sender, EventArgs e) => RunTrojan();
+
         private void Stop_Click(object sender, EventArgs e)
         {
             StopTrojan();
@@ -236,7 +234,9 @@ namespace TCS
         }
 
         private void Cancle_Click(object sender, EventArgs e) => ExitTCS();
+        #endregion
 
+        #region Helper
         private void ExitTCS()
         {
             StopTrojan();
@@ -268,6 +268,7 @@ namespace TCS
         {
             Silence, Normal
         }
+
         private void RunTrojan(RunMode mode = RunMode.Normal)
         {
             if (IsConfigValid())
@@ -392,6 +393,8 @@ namespace TCS
             return false;
         }
 
+        private void Conf2ShareLink() => ShareLinkBox.Text = ShareLink.Generate(RemoteAddressBox.Text, RemotePortBox.Text, PasswordBox.Text, NodeNameBox.Text);
+
         private static bool IsPortUsed(int port)
         {
             bool isPortUsed = false;
@@ -407,6 +410,7 @@ namespace TCS
             }
             return isPortUsed;
         }
+        #endregion
 
         private void TCS_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -544,8 +548,6 @@ namespace TCS
 
         #endregion
 
-        private void Conf2ShareLink() => ShareLinkBox.Text = ShareLink.Generate(RemoteAddressBox.Text, RemotePortBox.Text, PasswordBox.Text, NodeNameBox.Text);
-
         #region TextChanged
         private void RemoteAddressBox_TextChanged(object sender, EventArgs e)
         {
@@ -599,18 +601,22 @@ namespace TCS
                 Message.Show("Port can only be an integer", Message.Mode.Error);
             }
         }
+
+        private void SniBox_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(SniBox.Text))
+                Config.sniList.Remove(Config.remoteAddress);
+            else
+                if (!string.IsNullOrWhiteSpace(RemoteAddressBox.Text))
+                Config.sniList[RemoteAddressBox.Text] = SniBox.Text;
+            File.WriteAllLines(TCSPath.Sni, Config.sniList.ToArray());
+        }
         #endregion
 
         #region CheckedChanged
-        private void IsVerifyCert_CheckedChanged(object sender, EventArgs e)
-        {
-            Config.verifyCert = isVerifyCert.Checked;
-        }
+        private void IsVerifyCert_CheckedChanged(object sender, EventArgs e) => Config.verifyCert = isVerifyCert.Checked;
 
-        private void IsVerifyHostname_CheckedChanged(object sender, EventArgs e)
-        {
-            Config.verifyHostname = isVerifyHostname.Checked;
-        }
+        private void IsVerifyHostname_CheckedChanged(object sender, EventArgs e) => Config.verifyHostname = isVerifyHostname.Checked;
 
         private void IsHttp_CheckedChanged(object sender, EventArgs e)
         {
@@ -627,13 +633,9 @@ namespace TCS
                 //HttpPortBox.Enabled = false;
                 GFWList.Enabled = false;
                 if (GFWList.Checked)
-                {
                     GeoIP.Checked = true;
-                }
                 if (Global.Checked)
-                {
                     HttpPortBox.Enabled = false;
-                }
             }
         }
         #endregion
@@ -652,7 +654,7 @@ namespace TCS
             }
         }
 
-        private void aboutStripMenuItem_Click(object sender, EventArgs e)
+        private void AboutStripMenuItem_Click(object sender, EventArgs e)
         {
             Message.Show(
                 "[Trojan]\r\n" +
@@ -663,18 +665,77 @@ namespace TCS
                 "Author: KevinZonda and other contributors\r\n", Message.Mode.Info);
         }
 
-        private void SniBox_TextChanged(object sender, EventArgs e)
+
+
+        private void AddNode_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(SniBox.Text))
-                Config.sniList.Remove(Config.remoteAddress);
+            TreeNode tn = new TreeNode()
+            {
+                Text = "Default",
+                Tag = "trojan://HelloWorld@google.com:443#Default"
+            };
+
+            if (NodeTree.SelectedNode != null)
+            {
+                if (NodeTree.SelectedNode.Level == 0)
+                {
+                    NodeTree.SelectedNode.Nodes.Add(tn);
+                    NodeTree.SelectedNode = NodeTree.SelectedNode.Nodes[NodeTree.SelectedNode.Nodes.Count - 1];
+                }
+                else
+                {
+                    NodeTree.SelectedNode.Parent.Nodes.Add(tn);
+                    NodeTree.SelectedNode = NodeTree.SelectedNode.Parent.Nodes[NodeTree.SelectedNode.Parent.Nodes.Count - 1];
+                }
+
+            }
+        }
+
+        private void DeleteNode_Click(object sender, EventArgs e)
+        {
+            int v = NodeTree.SelectedNode.Index;
+            TreeNode tv;
+
+            if (NodeTree.SelectedNode.Level == 0)
+            {
+                tv = NodeTree.SelectedNode;
+                if (MessageBox.Show("Do you want to remove this group?", "Info",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                    goto final;
+            }
             else
-                if (!string.IsNullOrWhiteSpace(RemoteAddressBox.Text))
-                Config.sniList[RemoteAddressBox.Text] = SniBox.Text;
-            File.WriteAllLines(TCSPath.Sni, Config.sniList.ToArray());
+                tv = NodeTree.SelectedNode.Parent;
+
+            NodeTree.SelectedNode.Remove();
+
+            if (v > tv.Nodes.Count - 1)
+                NodeTree.SelectedNode = NodeTree.Nodes[tv.Nodes.Count - 1];
+            else
+                NodeTree.SelectedNode = NodeTree.Nodes[v];
+
+            final:;
+        }
+
+        private TreeNode previousSelectedNode;
+        private void NodeTree_Validated(object sender, EventArgs e)
+        {
+
+            if (NodeTree.SelectedNode != null)
+            {
+                NodeTree.SelectedNode.BackColor = SystemColors.Highlight;
+                NodeTree.SelectedNode.ForeColor = Color.White;
+                previousSelectedNode = NodeTree.SelectedNode;
+            }
         }
 
         private void NodeTree_AfterSelect(object sender, TreeViewEventArgs e)
         {
+            if (previousSelectedNode != null)
+            {
+                previousSelectedNode.BackColor = NodeTree.BackColor;
+                previousSelectedNode.ForeColor = NodeTree.ForeColor;
+            }
+
             if (NodeTree.SelectedNode.Tag != null)
             {
                 string v = NodeTree.SelectedNode.Tag.ToString();
