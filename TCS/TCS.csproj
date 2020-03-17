@@ -254,15 +254,15 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PostBuildEvent>rmdir /s/q clash
-rmdir /s/q trojan
-rmdir /s/q privoxy
-mkdir clash
-mkdir trojan
-mkdir privoxy
-xcopy $(ProjectDir)clash clash
-xcopy $(ProjectDir)trojan trojan
-xcopy $(ProjectDir)privoxy privoxy
+    <PostBuildEvent>::rmdir /s/q clash
+::rmdir /s/q trojan
+::rmdir /s/q privoxy
+::mkdir clash
+::mkdir trojan
+::mkdir privoxy
+::xcopy $(ProjectDir)clash clash
+::xcopy $(ProjectDir)trojan trojan
+::xcopy $(ProjectDir)privoxy privoxy
 </PostBuildEvent>
   </PropertyGroup>
 </Project>

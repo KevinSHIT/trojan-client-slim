@@ -81,6 +81,7 @@
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.NodeNameBox = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
+            this.AddGroup = new System.Windows.Forms.Button();
             this.contextMenu.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -90,11 +91,12 @@
             // 
             // Exit
             // 
-            this.Exit.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.Exit.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.Exit.Location = new System.Drawing.Point(233, 3);
+            this.Exit.Location = new System.Drawing.Point(227, 3);
             this.Exit.Name = "Exit";
-            this.Exit.Size = new System.Drawing.Size(100, 22);
+            this.Exit.Size = new System.Drawing.Size(106, 22);
             this.Exit.TabIndex = 16;
             this.Exit.Text = "Exit";
             this.Exit.UseVisualStyleBackColor = true;
@@ -102,10 +104,12 @@
             // 
             // Stop
             // 
-            this.Stop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
-            this.Stop.Location = new System.Drawing.Point(118, 3);
+            this.Stop.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.Stop.Location = new System.Drawing.Point(115, 3);
             this.Stop.Name = "Stop";
-            this.Stop.Size = new System.Drawing.Size(100, 22);
+            this.Stop.Size = new System.Drawing.Size(106, 22);
             this.Stop.TabIndex = 15;
             this.Stop.Text = "Stop";
             this.Stop.UseVisualStyleBackColor = true;
@@ -122,8 +126,8 @@
             // 
             // isSock5
             // 
-            this.isSock5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.isSock5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.isSock5.AutoSize = true;
             this.isSock5.Checked = true;
@@ -182,8 +186,8 @@
             // 
             // isHttp
             // 
-            this.isHttp.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.isHttp.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.isHttp.AutoSize = true;
             this.isHttp.Checked = true;
@@ -216,8 +220,8 @@
             // 
             // isVerifyCert
             // 
-            this.isVerifyCert.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.isVerifyCert.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.isVerifyCert.AutoSize = true;
             this.isVerifyCert.Checked = true;
@@ -232,11 +236,12 @@
             // 
             // Run
             // 
-            this.Run.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.Run.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.Run.Location = new System.Drawing.Point(3, 3);
             this.Run.Name = "Run";
-            this.Run.Size = new System.Drawing.Size(100, 22);
+            this.Run.Size = new System.Drawing.Size(106, 22);
             this.Run.TabIndex = 14;
             this.Run.Text = "Run";
             this.Run.UseVisualStyleBackColor = true;
@@ -244,8 +249,8 @@
             // 
             // Global
             // 
-            this.Global.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.Global.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Global.AutoSize = true;
             this.Global.Checked = true;
@@ -260,8 +265,8 @@
             // 
             // GFWList
             // 
-            this.GFWList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.GFWList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.GFWList.AutoSize = true;
             this.GFWList.Location = new System.Drawing.Point(81, 53);
@@ -413,8 +418,8 @@
             // 
             // GeoIP
             // 
-            this.GeoIP.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.GeoIP.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.GeoIP.AutoSize = true;
             this.GeoIP.Location = new System.Drawing.Point(159, 53);
@@ -449,7 +454,7 @@
             // 
             // isVerifyHostname
             // 
-            this.isVerifyHostname.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.isVerifyHostname.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.isVerifyHostname.AutoSize = true;
             this.isVerifyHostname.Location = new System.Drawing.Point(81, 28);
@@ -559,26 +564,32 @@
             // 
             this.NodeTree.Location = new System.Drawing.Point(12, 12);
             this.NodeTree.Name = "NodeTree";
-            this.NodeTree.Size = new System.Drawing.Size(244, 277);
+            this.NodeTree.Size = new System.Drawing.Size(244, 240);
             this.NodeTree.TabIndex = 30;
             this.NodeTree.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.NodeTree_AfterSelect);
             this.NodeTree.Validated += new System.EventHandler(this.NodeTree_Validated);
             // 
             // AddNode
             // 
+            this.AddNode.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.AddNode.Location = new System.Drawing.Point(3, 3);
             this.AddNode.Name = "AddNode";
-            this.AddNode.Size = new System.Drawing.Size(75, 22);
+            this.AddNode.Size = new System.Drawing.Size(116, 25);
             this.AddNode.TabIndex = 31;
-            this.AddNode.Text = "Add";
+            this.AddNode.Text = "Add Node";
             this.AddNode.UseVisualStyleBackColor = true;
             this.AddNode.Click += new System.EventHandler(this.AddNode_Click);
             // 
             // DeleteNode
             // 
-            this.DeleteNode.Location = new System.Drawing.Point(84, 3);
+            this.DeleteNode.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.DeleteNode.Location = new System.Drawing.Point(125, 3);
             this.DeleteNode.Name = "DeleteNode";
-            this.DeleteNode.Size = new System.Drawing.Size(75, 22);
+            this.DeleteNode.Size = new System.Drawing.Size(116, 25);
             this.DeleteNode.TabIndex = 32;
             this.DeleteNode.Text = "Delete";
             this.DeleteNode.UseVisualStyleBackColor = true;
@@ -586,28 +597,33 @@
             // 
             // Subscription
             // 
-            this.Subscription.Location = new System.Drawing.Point(165, 3);
+            this.Subscription.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.Subscription.Location = new System.Drawing.Point(125, 34);
             this.Subscription.Name = "Subscription";
-            this.Subscription.Size = new System.Drawing.Size(75, 22);
+            this.Subscription.Size = new System.Drawing.Size(116, 25);
             this.Subscription.TabIndex = 33;
             this.Subscription.Text = "Subscribe";
             this.Subscription.UseVisualStyleBackColor = true;
+            this.Subscription.Click += new System.EventHandler(this.Subscription_Click);
             // 
             // tableLayoutPanel4
             // 
-            this.tableLayoutPanel4.ColumnCount = 3;
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel4.ColumnCount = 2;
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel4.Controls.Add(this.AddGroup, 0, 1);
+            this.tableLayoutPanel4.Controls.Add(this.Subscription, 1, 1);
             this.tableLayoutPanel4.Controls.Add(this.AddNode, 0, 0);
-            this.tableLayoutPanel4.Controls.Add(this.Subscription, 2, 0);
             this.tableLayoutPanel4.Controls.Add(this.DeleteNode, 1, 0);
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(12, 298);
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(12, 264);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
-            this.tableLayoutPanel4.RowCount = 1;
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(244, 28);
+            this.tableLayoutPanel4.RowCount = 2;
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(244, 62);
             this.tableLayoutPanel4.TabIndex = 34;
             // 
             // NodeNameBox
@@ -626,6 +642,19 @@
             this.label10.Size = new System.Drawing.Size(65, 12);
             this.label10.TabIndex = 36;
             this.label10.Text = "Node Name:";
+            // 
+            // AddGroup
+            // 
+            this.AddGroup.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.AddGroup.Location = new System.Drawing.Point(3, 34);
+            this.AddGroup.Name = "AddGroup";
+            this.AddGroup.Size = new System.Drawing.Size(116, 25);
+            this.AddGroup.TabIndex = 34;
+            this.AddGroup.Text = "Add Group";
+            this.AddGroup.UseVisualStyleBackColor = true;
+            this.AddGroup.Click += new System.EventHandler(this.AddGroup_Click);
             // 
             // TCS
             // 
@@ -659,7 +688,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "TCS";
-            this.Text = "TCS v3.0.0 Insider B031153";
+            this.Text = "TCS v3.0.0 Insider Preview 1";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TCS_FormClosing);
             this.Load += new System.EventHandler(this.TCS_Load);
             this.SizeChanged += new System.EventHandler(this.TCS_SizeChanged);
@@ -728,6 +757,7 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
         public System.Windows.Forms.TextBox NodeNameBox;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Button AddGroup;
     }
 }
 

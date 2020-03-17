@@ -44,6 +44,7 @@ namespace TCS
 
             ReadConfig();
 
+
             if (File.Exists(TCSPath.Sni))
             {
                 try
@@ -61,15 +62,15 @@ namespace TCS
                 Config.sniList = new SniList();
             }
 
-            if (File.Exists(TCSPath.Node))
-            {
-                string[] tmp = ShareLink.ConvertShareToTrojanConf(File.ReadAllText(TCSPath.Node));
-                if (!SetTrojanConf(File.ReadAllText(TCSPath.Node)))
-                    File.Create(TCSPath.Node).Dispose();
-            }
-            else
-                File.Create(TCSPath.Node).Dispose();
-
+            //FIXME: node.tcs make failed? May cause problem!
+            //if (File.Exists(TCSPath.Node))
+            //{
+            //    string[] tmp = ShareLink.ConvertShareToTrojanConf(File.ReadAllText(TCSPath.Node));
+            //    if (!SetTrojanConf(File.ReadAllText(TCSPath.Node)))
+            //        File.Create(TCSPath.Node).Dispose();
+            //}
+            //else
+            //    File.Create(TCSPath.Node);
 
             this.SniBox.Text = Config.sniList[this.RemoteAddressBox.Text];
 #if DEBUG
@@ -86,8 +87,9 @@ namespace TCS
                     throw new ArgumentException();
                 Newtonsoft.Json.Linq.JObject.Parse(a);
             }
-            catch
+            catch (Exception ex)
             {
+                Message.Show(ex.ToString());
                 File.WriteAllText(TCSPath.Node, Config.DEFAULT_NODELIST_JSON);
                 a = Encrypt.DeBase64(File.ReadAllText(TCSPath.NodeList)).Trim();
             }
@@ -105,7 +107,7 @@ namespace TCS
             {
                 //this.WindowState = FormWindowState.Minimized;
 
-                RunTrojan(RunMode.Silence);
+                RunTrojan(File.ReadAllText(TCSPath.Node), RunMode.Silence);
                 notifyIcon.Visible = true;
                 this.ShowInTaskbar = false;
                 this.WindowState = FormWindowState.Minimized;
@@ -239,7 +241,7 @@ namespace TCS
         #endregion
 
         #region Button Click
-        private void Run_Click(object sender, EventArgs e) => RunTrojan();
+        private void Run_Click(object sender, EventArgs e) => RunTrojan(ShareLinkBox.Text);
 
         private void Stop_Click(object sender, EventArgs e)
         {
@@ -284,9 +286,9 @@ namespace TCS
             Silence, Normal
         }
 
-        private void RunTrojan(RunMode mode = RunMode.Normal)
+        private void RunTrojan(string sharelink, RunMode mode = RunMode.Normal)
         {
-            if (IsConfigValid())
+            if (IsConfigValid(sharelink))
             {
                 int status = 0;
 
@@ -384,9 +386,9 @@ namespace TCS
             final:;
         }
 
-        private bool IsConfigValid()
+        private bool IsConfigValid(string sharelink)
         {
-            if (ShareLink.ConvertShareToTrojanConf(ShareLinkBox.Text) == null)
+            if (ShareLink.ConvertShareToTrojanConf(sharelink) == null)
                 return false;
             else
                 return true;
@@ -529,7 +531,7 @@ namespace TCS
             }
         }
 
-        private void RunToolStripMenuItem_Click(object sender, EventArgs e) => RunTrojan();
+        private void RunToolStripMenuItem_Click(object sender, EventArgs e) => RunTrojan(ShareLinkBox.Text);
 
         private void StopToolStripMenuItem_Click(object sender, EventArgs e) => StopTrojan();
 
@@ -569,8 +571,24 @@ namespace TCS
             SniBox.Text = Config.sniList[RemoteAddressBox.Text];
             Conf2ShareLink();
         }
+
         private void NodeNameBox_TextChanged(object sender, EventArgs e)
         {
+            if (NodeTree.SelectedNode != null)
+            {
+                if (NodeTree.SelectedNode.Level == 0)
+                {
+                    if (NodeTree.Nodes.ContainsKey(NodeNameBox.Text))
+                    {
+                        Message.Show("Please set different group name!");
+                    }
+                    else
+                    {
+                        NodeTree.SelectedNode.Text = NodeNameBox.Text;
+                        File.WriteAllText(TCSPath.NodeList, NodeTree.ToJObject().ToString());
+                    }
+                }
+            }
             NodeNameBox.Text = NodeNameBox.Text.Replace(":", "");
             Conf2ShareLink();
         }
@@ -594,6 +612,8 @@ namespace TCS
             {
                 Message.Show("Node written failed!", Message.Mode.Error);
             }
+
+            File.WriteAllText(TCSPath.NodeList, Encrypt.Base64(NodeTree.ToJObject().ToString()));
         }
 
         private void SocksPortBox_TextChanged(object sender, EventArgs e)
@@ -713,9 +733,10 @@ namespace TCS
         {
             int v = NodeTree.SelectedNode.Index;
             TreeNode tv;
-
+            bool isRoot = false;
             if (NodeTree.SelectedNode.Level == 0)
             {
+                isRoot = true;
                 tv = NodeTree.SelectedNode;
                 if (MessageBox.Show("Do you want to remove this group?", "Info",
                     MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
@@ -723,14 +744,13 @@ namespace TCS
             }
             else
                 tv = NodeTree.SelectedNode.Parent;
-            Message.Show(tv.FullPath + " Index" + v);
 
             NodeTree.SelectedNode.Remove();
 
             if (v == tv.Nodes.Count)
                 v -= 1;
-
-            NodeTree.SelectedNode = tv.Nodes[v];
+            if (v > 0 && !isRoot)
+                NodeTree.SelectedNode = tv.Nodes[v];
 
             final:;
         }
@@ -769,6 +789,30 @@ namespace TCS
                 NodeNameBox.Text = NodeTree.SelectedNode.Text;
                 RemotePortBox.Text = "0";
             }
+        }
+
+        private void AddGroup_Click(object sender, EventArgs e)
+        {
+            NodeTree.Nodes.Add(GetRandomString(8));
+        }
+
+        public static string GetRandomString(int length)
+        {
+            byte[] b = new byte[4];
+            new System.Security.Cryptography.RNGCryptoServiceProvider().GetBytes(b);
+            Random r = new Random(BitConverter.ToInt32(b, 0));
+            string s = null, str = "";
+            str += "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            for (int i = 0; i < length; i++)
+            {
+                s += str.Substring(r.Next(0, str.Length - 1), 1);
+            }
+            return s;
+        }
+
+        private void Subscription_Click(object sender, EventArgs e)
+        {
+            Message.Show("Undeveloped Module");
         }
     }
 }
