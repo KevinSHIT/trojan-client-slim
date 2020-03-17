@@ -71,13 +71,22 @@ namespace TCS.Util
                 {
                     string v = item.ToString();
                     string[] vv = v.Split('#');
+                    TreeNode tOb = new TreeNode();
                     if (vv.Length == 2)
                     {
-                        var tOb = new TreeNode(vv[0]);
-                        tOb.Tag = vv[1];
-                        parantNode.Nodes.Add(tOb);
+                        tOb.Text = vv[1];
                     }
-
+                    else if (vv.Length == 1)
+                    {
+                        tOb.Text = "Untitled";
+                    }
+                    else
+                    {
+                        vv[0] = string.Empty;
+                        tOb.Text = ShareLink.CombineToString(vv);
+                    }
+                    tOb.Tag = v;
+                    parantNode.Nodes.Add(tOb);
                 }
             }
         }

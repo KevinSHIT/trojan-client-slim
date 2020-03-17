@@ -39,9 +39,11 @@ namespace TCS
 
             InitialTemp();
 
+            if (!Directory.Exists("db"))
+                Directory.CreateDirectory("db");
+
             ReadConfig();
 
-            //TODO:SNI
             if (File.Exists(TCSPath.Sni))
             {
                 try
@@ -74,12 +76,25 @@ namespace TCS
             this.Text = "[D]" + this.Text;
 #endif
             //TODO:NODELIST
+            if (!File.Exists(TCSPath.NodeList))
+                File.WriteAllText(TCSPath.NodeList, Config.DEFAULT_NODELIST_JSON);
+            string a = string.Empty;
             try
             {
-                NodeList.BindTreeView(NodeTree, File.ReadAllText(TCSPath.NodeList));
+                a = Encrypt.DeBase64(File.ReadAllText(TCSPath.NodeList)).Trim();
+                if (string.IsNullOrEmpty(a))
+                    throw new ArgumentException();
+                Newtonsoft.Json.Linq.JObject.Parse(a);
             }
             catch
-            { }
+            {
+                File.WriteAllText(TCSPath.Node, Config.DEFAULT_NODELIST_JSON);
+                a = Encrypt.DeBase64(File.ReadAllText(TCSPath.NodeList)).Trim();
+            }
+            finally
+            {
+                NodeList.BindTreeView(NodeTree, a);
+            }
 
             if (File.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Startup), "TCS.lnk")))
                 StartupToolStripMenuItem.Checked = true;
@@ -571,6 +586,9 @@ namespace TCS
             {
                 File.WriteAllText(TCSPath.Node,
                     ShareLink.Generate(RemoteAddressBox.Text, RemotePortBox.Text, PasswordBox.Text, NodeNameBox.Text));
+                if (NodeTree.SelectedNode != null)
+                    if (NodeTree.SelectedNode.Level != 0)
+                        NodeTree.SelectedNode.Tag = ShareLinkBox.Text;
             }
             catch
             {
@@ -705,13 +723,14 @@ namespace TCS
             }
             else
                 tv = NodeTree.SelectedNode.Parent;
+            Message.Show(tv.FullPath + " Index" + v);
 
             NodeTree.SelectedNode.Remove();
 
-            if (v > tv.Nodes.Count - 1)
-                NodeTree.SelectedNode = NodeTree.Nodes[tv.Nodes.Count - 1];
-            else
-                NodeTree.SelectedNode = NodeTree.Nodes[v];
+            if (v == tv.Nodes.Count)
+                v -= 1;
+
+            NodeTree.SelectedNode = tv.Nodes[v];
 
             final:;
         }
@@ -736,10 +755,19 @@ namespace TCS
                 previousSelectedNode.ForeColor = NodeTree.ForeColor;
             }
 
-            if (NodeTree.SelectedNode.Tag != null)
+            if (NodeTree.SelectedNode.Level != 0)
             {
-                string v = NodeTree.SelectedNode.Tag.ToString();
-                ShareLinkBox.Text = v;
+                if (NodeTree.SelectedNode.Tag != null)
+                {
+                    string v = NodeTree.SelectedNode.Tag.ToString();
+                    ShareLinkBox.Text = v;
+                }
+            }
+            else
+            {
+                RemoteAddressBox.Text = PasswordBox.Text = string.Empty;
+                NodeNameBox.Text = NodeTree.SelectedNode.Text;
+                RemotePortBox.Text = "0";
             }
         }
     }

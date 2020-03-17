@@ -5,7 +5,7 @@ namespace TCS.Util
 {
     class Message
     {
-        public enum Mode { Info = 0, Warning = 1, Error = 2};
+        public enum Mode { Info = 0, Warning = 1, Error = 2 };
         public static void Show(string content, Mode messageMode = Mode.Info)
         {
             switch (messageMode)

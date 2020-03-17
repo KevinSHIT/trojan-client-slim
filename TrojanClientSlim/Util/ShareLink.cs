@@ -82,6 +82,8 @@ namespace TCS.Util
         {
             if (string.IsNullOrEmpty(nodeName))
                 nodeName = "Untitled";
+            if (string.IsNullOrEmpty(remotePort))
+                remotePort = "443";
             return "trojan://" + HttpUtility.UrlEncode(password) + "@" + remoteAddress + ":" + remotePort + "#" + nodeName;
         }
     }
