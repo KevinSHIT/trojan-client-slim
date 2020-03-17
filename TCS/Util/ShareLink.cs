@@ -1,4 +1,7 @@
 ﻿using System.Web;
+using System.Net;
+using System;
+using System.Diagnostics;
 
 namespace TCS.Util
 {
@@ -9,59 +12,39 @@ namespace TCS.Util
             //Example: trojan://password@ip:port#node_name
             if (trojanShareLink.StartsWith("trojan://"))
             {
-                string[] tmp = new string[5];
-                string tsl = trojanShareLink.Substring(9);
-                string[] temp = tsl.Split(':');
-                string[] temp_3 = temp[temp.Length - 1].Split('#');
 
-                // Node Name
-                if (temp_3.Length == 2)
-                {
-                    tmp[3] = temp_3[1];
-                }
-                else
-                {
-                    tmp[3] = "Untitled";
-                }
-
-                // Port
-                tmp[1] = temp_3[0];
-                try
-                {
-                    int.Parse(tmp[1]);
-                    temp[temp.Length - 1] = "";
-                }
-                catch
-                {
-                    return null;
-                }
-                temp_3[0] = "";
-                tmp[4] = temp_3.CombineToString();
-                tsl = CombineToString(temp);
-                //Current: password@ip
-                string[] temp_1 = tsl.Split('@');
-                if (temp_1.Length == 1)
-                    return null;
-
-                // Server
-                tmp[0] = temp_1[temp_1.Length - 1];
-                temp_1[temp_1.Length - 1] = "";
-
-                // Password
-                try
-                {
-                    tmp[2] = HttpUtility.UrlDecode(CombineToString(temp_1));
-                }
-                catch
-                {
-                    return null;
-                }
                 /*
                  * 0 -> Server
                  * 1 -> Port
                  * 2 -> Passwd
                  * 3 -> Name
                  */
+                string[] tmp = new string[5];
+
+                string tsl = trojanShareLink.Substring(9);
+                string[] tmp_1 = tsl.Split('#');
+                if (tmp_1.Length == 2)
+                    tmp[3] = tmp_1[1];
+                else
+                    tmp[3] = "Untitled";
+
+                //tmp_1[0] -> pass@serv:port
+
+                string[] tmp_2 = tmp_1[0].Split('@');
+                tmp[2] = HttpUtility.UrlDecode(tmp_2[0]);
+
+                //tmp_2[1] -> serv:port
+                string[] tmp_3 = tmp_2[1].Split(':');
+
+                if(int.TryParse(tmp_3[tmp_3.Length -1], out int p))
+                    tmp[1] = p.ToString();
+                else
+                    return null;
+
+                tmp[0] = tmp_2[1].Substring(0, tmp_2[1].Length - tmp[1].Length - 1);
+
+                SetRightIP(ref tmp[0]);
+
                 return tmp;
             }
             else
@@ -84,7 +67,27 @@ namespace TCS.Util
                 nodeName = "Untitled";
             if (string.IsNullOrEmpty(remotePort))
                 remotePort = "443";
-            return "trojan://" + HttpUtility.UrlEncode(password) + "@" + remoteAddress + ":" + remotePort + "#" + nodeName;
+
+            SetRightIP(ref remoteAddress);
+
+            try
+            {
+                int.Parse(remotePort);
+            }
+            catch
+            {
+                remotePort = "443";
+            }
+
+            return "trojan://" + HttpUtility.UrlEncode(password) + "@" + remoteAddress.Trim() + ":" + remotePort + "#" + nodeName;
+        }
+
+        private static void SetRightIP(ref string ip)
+        {
+            if (IPAddress.TryParse(ip, out IPAddress address))
+                if (address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetworkV6)
+                    ip = "[" + address.ToString() + "]";
+
         }
     }
 }

@@ -79,9 +79,9 @@
             this.DeleteNode = new System.Windows.Forms.Button();
             this.Subscription = new System.Windows.Forms.Button();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
+            this.AddGroup = new System.Windows.Forms.Button();
             this.NodeNameBox = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
-            this.AddGroup = new System.Windows.Forms.Button();
             this.contextMenu.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -626,6 +626,19 @@
             this.tableLayoutPanel4.Size = new System.Drawing.Size(244, 62);
             this.tableLayoutPanel4.TabIndex = 34;
             // 
+            // AddGroup
+            // 
+            this.AddGroup.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.AddGroup.Location = new System.Drawing.Point(3, 34);
+            this.AddGroup.Name = "AddGroup";
+            this.AddGroup.Size = new System.Drawing.Size(116, 25);
+            this.AddGroup.TabIndex = 34;
+            this.AddGroup.Text = "Add Group";
+            this.AddGroup.UseVisualStyleBackColor = true;
+            this.AddGroup.Click += new System.EventHandler(this.AddGroup_Click);
+            // 
             // NodeNameBox
             // 
             this.NodeNameBox.Location = new System.Drawing.Point(368, 14);
@@ -642,19 +655,6 @@
             this.label10.Size = new System.Drawing.Size(65, 12);
             this.label10.TabIndex = 36;
             this.label10.Text = "Node Name:";
-            // 
-            // AddGroup
-            // 
-            this.AddGroup.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.AddGroup.Location = new System.Drawing.Point(3, 34);
-            this.AddGroup.Name = "AddGroup";
-            this.AddGroup.Size = new System.Drawing.Size(116, 25);
-            this.AddGroup.TabIndex = 34;
-            this.AddGroup.Text = "Add Group";
-            this.AddGroup.UseVisualStyleBackColor = true;
-            this.AddGroup.Click += new System.EventHandler(this.AddGroup_Click);
             // 
             // TCS
             // 

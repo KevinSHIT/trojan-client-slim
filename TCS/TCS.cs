@@ -569,7 +569,9 @@ namespace TCS
         private void RemoteAddressBox_TextChanged(object sender, EventArgs e)
         {
             SniBox.Text = Config.sniList[RemoteAddressBox.Text];
-            Conf2ShareLink();
+
+            if (!string.IsNullOrWhiteSpace(RemoteAddressBox.Text))
+                Conf2ShareLink();
         }
 
         private void NodeNameBox_TextChanged(object sender, EventArgs e)
@@ -588,12 +590,35 @@ namespace TCS
                         File.WriteAllText(TCSPath.NodeList, NodeTree.ToJObject().ToString());
                     }
                 }
+                else
+                {
+                    NodeTree.SelectedNode.Text = NodeNameBox.Text;
+                    File.WriteAllText(TCSPath.NodeList, NodeTree.ToJObject().ToString());
+                }
             }
             NodeNameBox.Text = NodeNameBox.Text.Replace(":", "");
-            Conf2ShareLink();
+            if (!string.IsNullOrWhiteSpace(NodeNameBox.Text))
+                Conf2ShareLink();
         }
 
-        private void RemotePortBox_TextChanged(object sender, EventArgs e) => Conf2ShareLink();
+        private string lastRP = "443";
+        private void RemotePortBox_TextChanged(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(RemotePortBox.Text))
+            {
+                Conf2ShareLink();
+                //int i = int.Parse(RemotePortBox.Text.Trim());
+                /*if (i >= 1 && i <= 65535)
+                    lastRP = RemotePortBox.Text;
+                else
+                {
+                    Message.Show("Range of port is 1-65535!", Message.Mode.Error);
+                    RemotePortBox.Text = lastRP;
+                }
+                */
+            }
+        }
+
 
         private void PasswordBox_TextChanged(object sender, EventArgs e) => Conf2ShareLink();
 

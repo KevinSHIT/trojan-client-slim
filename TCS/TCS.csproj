@@ -105,6 +105,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="UrlNode.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UrlNode.Designer.cs">
+      <DependentUpon>UrlNode.cs</DependentUpon>
+    </Compile>
     <Compile Include="Util\Command.cs" />
     <Compile Include="Util\Config.cs" />
     <Compile Include="Util\Encrypt.cs" />
