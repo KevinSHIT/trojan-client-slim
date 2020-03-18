@@ -82,6 +82,7 @@
             this.AddGroup = new System.Windows.Forms.Button();
             this.NodeNameBox = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
+            this.QrCodeBox = new Gma.QrCodeNet.Encoding.Windows.Forms.QrCodeGraphicControl();
             this.contextMenu.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -96,7 +97,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Exit.Location = new System.Drawing.Point(227, 3);
             this.Exit.Name = "Exit";
-            this.Exit.Size = new System.Drawing.Size(106, 22);
+            this.Exit.Size = new System.Drawing.Size(106, 25);
             this.Exit.TabIndex = 16;
             this.Exit.Text = "Exit";
             this.Exit.UseVisualStyleBackColor = true;
@@ -109,7 +110,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Stop.Location = new System.Drawing.Point(115, 3);
             this.Stop.Name = "Stop";
-            this.Stop.Size = new System.Drawing.Size(106, 22);
+            this.Stop.Size = new System.Drawing.Size(106, 25);
             this.Stop.TabIndex = 15;
             this.Stop.Text = "Stop";
             this.Stop.UseVisualStyleBackColor = true;
@@ -241,7 +242,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Run.Location = new System.Drawing.Point(3, 3);
             this.Run.Name = "Run";
-            this.Run.Size = new System.Drawing.Size(106, 22);
+            this.Run.Size = new System.Drawing.Size(106, 25);
             this.Run.TabIndex = 14;
             this.Run.Text = "Run";
             this.Run.UseVisualStyleBackColor = true;
@@ -479,9 +480,9 @@
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(336, 28);
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(336, 31);
             this.tableLayoutPanel2.TabIndex = 26;
             // 
             // tableLayoutPanel3
@@ -656,12 +657,23 @@
             this.label10.TabIndex = 36;
             this.label10.Text = "Node Name:";
             // 
+            // QrCodeBox
+            // 
+            this.QrCodeBox.ErrorCorrectLevel = Gma.QrCodeNet.Encoding.ErrorCorrectionLevel.M;
+            this.QrCodeBox.Location = new System.Drawing.Point(615, 14);
+            this.QrCodeBox.Name = "QrCodeBox";
+            this.QrCodeBox.QuietZoneModule = Gma.QrCodeNet.Encoding.Windows.Render.QuietZoneModules.Two;
+            this.QrCodeBox.Size = new System.Drawing.Size(234, 312);
+            this.QrCodeBox.TabIndex = 37;
+            this.QrCodeBox.Text = "Hello, TCS!";
+            // 
             // TCS
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(619, 337);
+            this.ClientSize = new System.Drawing.Size(861, 337);
+            this.Controls.Add(this.QrCodeBox);
             this.Controls.Add(this.NodeNameBox);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.tableLayoutPanel4);
@@ -758,6 +770,7 @@
         public System.Windows.Forms.TextBox NodeNameBox;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Button AddGroup;
+        private Gma.QrCodeNet.Encoding.Windows.Forms.QrCodeGraphicControl QrCodeBox;
     }
 }
 

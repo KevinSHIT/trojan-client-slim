@@ -546,11 +546,30 @@ namespace TCS
             IDataObject iData = Clipboard.GetDataObject();
             if (iData.GetDataPresent(DataFormats.Text))
             {
-                string[] clipboardLines = ((string)iData.GetData(DataFormats.Text)).Split(new string[] { "\r\n" }, StringSplitOptions.None);
+                string[] clipboardLines = ((string)iData.GetData(DataFormats.Text)).Split(new string[] { "\n" }, StringSplitOptions.None);
                 foreach (string clipboardLine in clipboardLines)
                 {
-                    if (SetTrojanConf(clipboardLine))
+                    bool hasDefaultNode = false;
+                    int defaultIndex = 0;
+                    for (int i = 0; i < NodeTree.Nodes.Count; i++)
                     {
+                        if (NodeTree.Nodes[i].Text == "Default")
+                        {
+                            hasDefaultNode = true;
+                            defaultIndex = i;
+                        }
+                    }
+                    if (!hasDefaultNode)
+                    {
+                        NodeTree.Nodes.Add(new TreeNode { Text = "Default" });
+                        defaultIndex = NodeTree.Nodes.Count - 1;
+                    }
+                    if (ShareLink.ConvertShareToTrojanConf(clipboardLine) != null)
+                    {
+                        string v = "Untitled";
+                        if (clipboardLine.Split('#').Length == 2)
+                            v = clipboardLine.Split('#')[1];
+                        NodeTree.Nodes[defaultIndex].Nodes.Add(new TreeNode { Text = v, Tag = clipboardLine });
                         if (WindowState == FormWindowState.Minimized)
                         {
                             WindowState = FormWindowState.Normal;
@@ -624,6 +643,7 @@ namespace TCS
 
         private void ShareLinkBox_TextChanged(object sender, EventArgs e)
         {
+            QrCodeBox.Text = ShareLinkBox.Text;
             SetTrojanConf(ShareLinkBox.Text);
             try
             {
