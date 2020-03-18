@@ -28,8 +28,7 @@ namespace TCS.Util
                 .Replace("\"{VERIFY_HOSTNAME}\"", Config.verifyHostname.ToString().ToLower())
                 .Replace("{SNI}", Config.sniList[Config.remoteAddress]);
 
-            JObject jo = new JObject();
-            jo = JObject.Parse(trojanJson);
+            JObject jo = JObject.Parse(trojanJson);
 
             jo["local_port"] = Config.localSocksPort;
             jo["remote_addr"] = Config.remoteAddress;
@@ -46,12 +45,13 @@ namespace TCS.Util
             Process p = new Process();
             p.StartInfo.FileName = @"trojan\trojan.exe";
             p.StartInfo.Arguments = @"-c temp\trojan.json";
-#if DEBUG
-            p.StartInfo.UseShellExecute = true;
-#else
-            p.StartInfo.UseShellExecute = false;
-            p.StartInfo.CreateNoWindow = true;
-#endif
+            if (Config.Debug)
+                p.StartInfo.UseShellExecute = true;
+            else
+            {
+                p.StartInfo.UseShellExecute = false;
+                p.StartInfo.CreateNoWindow = true;
+            }
             p.Start();
         }
 
@@ -111,12 +111,13 @@ namespace TCS.Util
 
                     p.StartInfo.FileName = @"clash\clash.exe";
                     p.StartInfo.Arguments = @"-d temp";
-#if DEBUG
-                    p.StartInfo.UseShellExecute = true;
-#else
-                    p.StartInfo.UseShellExecute = false;
-                    p.StartInfo.CreateNoWindow = true;
-#endif
+                    if (Config.Debug)
+                        p.StartInfo.UseShellExecute = true;
+                    else
+                    {
+                        p.StartInfo.UseShellExecute = false;
+                        p.StartInfo.CreateNoWindow = true;
+                    }
                     break;
             }
             p.Start();
@@ -140,12 +141,13 @@ namespace TCS.Util
 
             p.StartInfo.FileName = @"clash\clash.exe";
             p.StartInfo.Arguments = @"-d temp";
-#if DEBUG
-            p.StartInfo.UseShellExecute = true;
-#else
-            p.StartInfo.UseShellExecute = false;
-            p.StartInfo.CreateNoWindow = true;
-#endif
+            if (Config.Debug)
+                p.StartInfo.UseShellExecute = true;
+            else
+            {
+                p.StartInfo.UseShellExecute = false;
+                p.StartInfo.CreateNoWindow = true;
+            }
 
             p.Start();
 

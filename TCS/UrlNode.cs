@@ -36,9 +36,8 @@ namespace TCS
                 {
                     if (tv.Nodes[i].Text == n)
                     {
-                        MessageBox.Show($"Index {i}");
                         tv.Nodes[i].Remove();
-                        i -= 1;
+                        break;
                     }
                 }
 

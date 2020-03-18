@@ -73,9 +73,10 @@ namespace TCS
             //    File.Create(TCSPath.Node);
 
             this.SniBox.Text = Config.sniList[this.RemoteAddressBox.Text];
-#if DEBUG
-            this.Text = "[D]" + this.Text;
-#endif
+
+            if(Config.Debug)
+                this.Text = "[D]" + this.Text;
+
             //TODO:NODELIST
             if (!File.Exists(TCSPath.NodeList))
                 File.WriteAllText(TCSPath.NodeList, Config.DEFAULT_NODELIST_JSON);
@@ -221,6 +222,13 @@ namespace TCS
                     Config.iniData["TCS"]["LocalHttpPort"] = Config.DEFAULT_HTTP_PORT.ToString();
                     needWrite = true;
                 }
+
+                try
+                {
+                    if (bool.Parse(Config.iniData["TCS"]["Debug"]))
+                        Config.Debug = true;
+                }
+                catch { }
 
 
                 if (needWrite)
@@ -596,23 +604,40 @@ namespace TCS
         {
             if (NodeTree.SelectedNode != null)
             {
+                NodeTree.SelectedNode.Text = NodeNameBox.Text;
                 if (NodeTree.SelectedNode.Level == 0)
                 {
-                    if (NodeTree.Nodes.ContainsKey(NodeNameBox.Text))
+                    ShareLinkBox.TextChanged -= ShareLinkBox_TextChanged;
+                    bool Has=false;
+                    int inx = 0;
+                    for(int i = 0; i< NodeTree.Nodes.Count; i++)
+                    {
+                        if(NodeTree.Nodes[i].Text == NodeNameBox.Text)
+                        {
+                            ++inx;
+                            if (inx == 2)
+                            {
+                                Has = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (Has)
                     {
                         Message.Show("Please set different group name!");
+                        NodeTree.Enabled = false;
                     }
                     else
                     {
-                        NodeTree.SelectedNode.Text = NodeNameBox.Text;
+                        NodeTree.Enabled = true;
                         File.WriteAllText(TCSPath.NodeList, NodeTree.ToJObject().ToString());
+                        ShareLinkBox.TextChanged += ShareLinkBox_TextChanged;
+
                     }
                 }
                 else
-                {
-                    NodeTree.SelectedNode.Text = NodeNameBox.Text;
                     File.WriteAllText(TCSPath.NodeList, NodeTree.ToJObject().ToString());
-                }
+
             }
             NodeNameBox.Text = NodeNameBox.Text.Replace("#", "");
             if (!string.IsNullOrWhiteSpace(NodeNameBox.Text))

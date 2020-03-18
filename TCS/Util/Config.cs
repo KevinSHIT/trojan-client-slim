@@ -9,6 +9,7 @@ namespace TCS.Util
 
         public static TCS tcs;
 
+        public static bool Debug = false;
         public enum ProxyMode
         {
             Full = 0,
@@ -101,10 +102,7 @@ namespace TCS.Util
                 iniData["TCS"]["VerifyHostname"] = value.ToString();
                 TCS.iniParser.WriteFile(Config.DEFAULT_CONFIG_PATH, Config.iniData);
             }
-            get
-            {
-                return tcs.isVerifyHostname.Checked;
-            }
+            get => tcs.isVerifyHostname.Checked;
         }
         public static bool verifyCert
         {
@@ -114,11 +112,7 @@ namespace TCS.Util
                 iniData["TCS"]["VerifyCert"] = value.ToString();
                 TCS.iniParser.WriteFile(Config.DEFAULT_CONFIG_PATH, Config.iniData);
             }
-            get
-            {
-                //Debug.WriteLine
-                return tcs.isVerifyCert.Checked;
-            }
+            get => tcs.isVerifyCert.Checked;
 
         }
 
@@ -131,10 +125,7 @@ namespace TCS.Util
                 TCS.iniParser.WriteFile(Config.DEFAULT_CONFIG_PATH, Config.iniData);
 
             }
-            get
-            {
-                return tcs.isHttp.Checked;
-            }
+            get => tcs.isHttp.Checked;
 
         }
 
@@ -143,15 +134,9 @@ namespace TCS.Util
             set
             {
                 tcs.HttpPortBox.Text = iniData["TCS"]["LocalHttpPort"] = value.ToString();
-                Debug.WriteLine("HttpPortBox ->" + tcs.HttpPortBox.Text);
                 TCS.iniParser.WriteFile(Config.DEFAULT_CONFIG_PATH, Config.iniData);
-
-                //TCS.iniParser.WriteFile(Config.DEFAULT_CONFIG_PATH, Config.iniData);
             }
-            get
-            {
-                return int.Parse(tcs.HttpPortBox.Text);
-            }
+            get => int.Parse(tcs.HttpPortBox.Text);
         }
 
         public static int localSocksPort
@@ -161,49 +146,26 @@ namespace TCS.Util
                 tcs.SocksPortBox.Text = iniData["TCS"]["LocalSocksPort"] = value.ToString();
 
                 TCS.iniParser.WriteFile(Config.DEFAULT_CONFIG_PATH, Config.iniData);
-
-                //TCS.iniParser.WriteFile(Config.DEFAULT_CONFIG_PATH, Config.iniData);
             }
-            get
-            {
-                return int.Parse(tcs.SocksPortBox.Text);
-            }
+            get => int.Parse(tcs.SocksPortBox.Text);
         }
 
         public static string remoteAddress
         {
-            set
-            {
-                tcs.RemoteAddressBox.Text = value;
-            }
-            get
-            {
-                return tcs.RemoteAddressBox.Text;
-            }
+            set => tcs.RemoteAddressBox.Text = value;
+            get => tcs.RemoteAddressBox.Text;
         }
 
         public static int remotePort
         {
-            set
-            {
-                tcs.RemotePortBox.Text = value.ToString();
-            }
-            get
-            {
-                return int.Parse(tcs.RemotePortBox.Text);
-            }
+            set => tcs.RemotePortBox.Text = value.ToString();
+            get => int.Parse(tcs.RemotePortBox.Text);
         }
 
         public static string password
         {
-            set
-            {
-                tcs.PasswordBox.Text = value;
-            }
-            get
-            {
-                return tcs.PasswordBox.Text;
-            }
+            set => tcs.PasswordBox.Text = value;
+            get => tcs.PasswordBox.Text;
         }
 
         public const string DEFAULT_CONFIG_SECTION = "TCS";
@@ -217,7 +179,8 @@ namespace TCS.Util
                     "LocalHttpPort = 56784\r\n" +
                     "VerifyCert = true\r\n" +
                     "VerifyHostname = true\r\n" +
-                    "Proxy = GFWList";
+                    "Proxy = GFWList\r\n" +
+                    "Debug = false";
 
         public const string DEFAULT_CLASH_CONFIG_PATH = "clash\\config.yaml";
         public const string DEFAULT_PRIVOXY_FILE_PATH = "privoxy";
