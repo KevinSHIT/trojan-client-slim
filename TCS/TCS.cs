@@ -360,9 +360,8 @@ namespace TCS
                 //}
                 //File.CreateText("logs" + DateTime.Now.ToString(""))
 
-                InitialTemp();
-
                 Command.StopProcess();
+                InitialTemp();
                 Command.RunTrojan();
                 if (isHttp.Checked == true)
                 {

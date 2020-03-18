@@ -32,17 +32,16 @@ namespace TCS
                 "Info", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 string n = Encrypt.SHA1(UrlBox.Text);
-                if (tv.Nodes.ContainsKey(n))
+                for (int i = 0; i < tv.Nodes.Count; i++)
                 {
-                    for (int i = 0; i < tv.Nodes.Count; i++)
+                    if (tv.Nodes[i].Text == n)
                     {
-                        if (tv.Nodes[i].Text == n)
-                        {
-                            tv.Nodes[i].Remove();
-                            i -= 1;
-                        }
+                        MessageBox.Show($"Index {i}");
+                        tv.Nodes[i].Remove();
+                        i -= 1;
                     }
                 }
+
                 tv.Nodes.Add(new TreeNode()
                 {
                     Text = n
