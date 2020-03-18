@@ -3,16 +3,27 @@ using System.Net;
 
 namespace TCS.Util
 {
-    class Http
+    public class Http
     {
-        static string Get(string url)
+        public static string GET(string url)
         {
-            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
+            if (url.ToLower().StartsWith("https"))
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11;
+            WebRequest request = WebRequest.Create(url);
+            request.ContentType = "text/html; charset=utf-8";
             request.Method = "GET";
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            Stream stream = response.GetResponseStream();
-            StreamReader reader = new StreamReader(stream);
-            return reader.ReadToEnd();
+            WebResponse response = request.GetResponse();
+            string v;
+            using (Stream dataStream = response.GetResponseStream())
+            {
+                StreamReader reader = new StreamReader(dataStream);
+                v = reader.ReadToEnd();
+            }
+
+            response.Close();
+
+            return v;
         }
+
     }
 }

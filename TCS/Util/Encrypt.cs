@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace TCS.Util
@@ -9,7 +10,7 @@ namespace TCS.Util
         {
             try
             {
-                return Convert.ToBase64String((byte[])Encoding.Default.GetBytes(str));
+                return Convert.ToBase64String((byte[])Encoding.UTF8.GetBytes(str));
             }
             catch
             {
@@ -21,13 +22,16 @@ namespace TCS.Util
         {
             try
             {
-                return Encoding.Default.GetString((byte[])Convert.FromBase64String(str));
+                return Encoding.UTF8.GetString((byte[])Convert.FromBase64String(str));
             }
             catch
             {
                 throw new InvalidCastException();
             }
         }
+
+        private static readonly SHA1CryptoServiceProvider _sha1 = new SHA1CryptoServiceProvider();
+        public static string SHA1(string str) => BitConverter.ToString((byte[])_sha1.ComputeHash((byte[])Encoding.UTF8.GetBytes(str))).Replace("-", string.Empty).ToLower();
 
     }
 }

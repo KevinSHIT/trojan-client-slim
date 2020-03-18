@@ -28,7 +28,6 @@ namespace TCS.Util
                 .Replace("\"{VERIFY_HOSTNAME}\"", Config.verifyHostname.ToString().ToLower())
                 .Replace("{SNI}", Config.sniList[Config.remoteAddress]);
 
-            Debug.WriteLine(trojanJson);
             JObject jo = new JObject();
             jo = JObject.Parse(trojanJson);
 

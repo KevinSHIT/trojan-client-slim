@@ -596,7 +596,7 @@ namespace TCS
                     File.WriteAllText(TCSPath.NodeList, NodeTree.ToJObject().ToString());
                 }
             }
-            NodeNameBox.Text = NodeNameBox.Text.Replace(":", "");
+            NodeNameBox.Text = NodeNameBox.Text.Replace("#", "");
             if (!string.IsNullOrWhiteSpace(NodeNameBox.Text))
                 Conf2ShareLink();
         }
@@ -837,7 +837,9 @@ namespace TCS
 
         private void Subscription_Click(object sender, EventArgs e)
         {
-            Message.Show("Undeveloped Module");
+            UrlNode u = new UrlNode(NodeTree);
+            u.ShowDialog();
+            //Message.Show("Undeveloped Module");
         }
     }
 }

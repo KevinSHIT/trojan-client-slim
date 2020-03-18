@@ -688,7 +688,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "TCS";
-            this.Text = "TCS v3.0.0 Insider Preview 1";
+            this.Text = "TCS v3.0.0 Insider Preview 2";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TCS_FormClosing);
             this.Load += new System.EventHandler(this.TCS_Load);
             this.SizeChanged += new System.EventHandler(this.TCS_SizeChanged);
