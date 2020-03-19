@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 
 namespace TCS.Util
 {
-    class Proxy
+    internal class Proxy
     {
         public static bool UnsetProxy()
         {
@@ -95,7 +95,7 @@ namespace TCS.Util
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
         public struct InternetConnectionOption
         {
-            static readonly int Size = Marshal.SizeOf(typeof(InternetConnectionOption));
+            private static readonly int Size = Marshal.SizeOf(typeof(InternetConnectionOption));
             public PerConnOption m_Option;
             public InternetConnectionOptionValue m_Value;
 

@@ -5,7 +5,7 @@ namespace TCS.Util
 {
     public class SniList
     {
-        private Dictionary<string, string> dic;
+        private readonly Dictionary<string, string> dic;
         public SniList()
         {
             dic = new Dictionary<string, string> { };
@@ -14,7 +14,7 @@ namespace TCS.Util
         public SniList(string[] snis)
         {
             dic = new Dictionary<string, string> { };
-            foreach (var sni in snis)
+            foreach (string sni in snis)
             {
                 if (!string.IsNullOrWhiteSpace(sni) && sni.Contains(":"))
                 {
@@ -30,8 +30,8 @@ namespace TCS.Util
         public string[] ToArray()
         {
 
-            var al = new List<string>();
-            foreach (var ip in dic)
+            List<string> al = new List<string>();
+            foreach (KeyValuePair<string, string> ip in dic)
             {
                 al.Add($"{ip.Key}:{ip.Value}");
             }

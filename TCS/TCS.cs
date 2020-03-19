@@ -1,14 +1,15 @@
-﻿using System;
-using System.Diagnostics;
+﻿using IniParser;
+
+using System;
+using System.Drawing;
 using System.IO;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Windows.Forms;
+
 using TCS.Util;
-using IniParser;
-using IniParser.Model;
+
 using Message = TCS.Util.Message;
-using System.Drawing;
 
 namespace TCS
 {
@@ -19,7 +20,7 @@ namespace TCS
 
         #region Startup
 
-        void InitialTemp()
+        private void InitialTemp()
         {
             try
             {
@@ -72,10 +73,10 @@ namespace TCS
             //else
             //    File.Create(TCSPath.Node);
 
-            this.SniBox.Text = Config.sniList[this.RemoteAddressBox.Text];
+            SniBox.Text = Config.sniList[RemoteAddressBox.Text];
 
-            if(Config.Debug)
-                this.Text = "[D]" + this.Text;
+            if (Config.Debug)
+                Text = "[D]" + Text;
 
             //TODO:NODELIST
             if (!File.Exists(TCSPath.NodeList))
@@ -110,8 +111,8 @@ namespace TCS
 
                 RunTrojan(File.ReadAllText(TCSPath.Node), RunMode.Silence);
                 notifyIcon.Visible = true;
-                this.ShowInTaskbar = false;
-                this.WindowState = FormWindowState.Minimized;
+                ShowInTaskbar = false;
+                WindowState = FormWindowState.Minimized;
             }
 
         }
@@ -310,26 +311,17 @@ namespace TCS
                  */
 
                 if (IsPortUsed(Config.localSocksPort))
-                {
                     status = 1;
-                }
                 if (IsPortUsed(Config.localHttpPort))
-                {
                     if (status == 0)
-                    {
                         if (Config.httpProxy)
                             status = 3;
                         else
                             status = 4;
-                    }
+                    else if (Config.httpProxy)
+                        status = 2;
                     else
-                    {
-                        if (Config.httpProxy)
-                            status = 2;
-                        else
-                            status = 5;
-                    }
-                }
+                        status = 5;
 
                 string message = string.Empty;
                 if (status != 0)
@@ -501,7 +493,7 @@ namespace TCS
             }
         }
 
-        char r = ' ';
+        private char r = ' ';
         private new void KeyPress(object sender, KeyPressEventArgs e)
         {
             r = e.KeyChar;
@@ -522,7 +514,7 @@ namespace TCS
         {
             if (WindowState == FormWindowState.Minimized)
             {
-                this.ShowInTaskbar = false;
+                ShowInTaskbar = false;
                 notifyIcon.Visible = true;
             }
         }
@@ -532,8 +524,8 @@ namespace TCS
             if (WindowState == FormWindowState.Minimized)
             {
                 WindowState = FormWindowState.Normal;
-                this.Activate();
-                this.ShowInTaskbar = true;
+                Activate();
+                ShowInTaskbar = true;
                 notifyIcon.Visible = false;
             }
         }
@@ -580,8 +572,8 @@ namespace TCS
                         if (WindowState == FormWindowState.Minimized)
                         {
                             WindowState = FormWindowState.Normal;
-                            this.Activate();
-                            this.ShowInTaskbar = true;
+                            Activate();
+                            ShowInTaskbar = true;
                             notifyIcon.Visible = false;
                         }
                     }
@@ -604,15 +596,17 @@ namespace TCS
         {
             if (NodeTree.SelectedNode != null)
             {
-                NodeTree.SelectedNode.Text = NodeNameBox.Text;
+                //NodeTree.SelectedNode.Text = NodeNameBox.Text;
                 if (NodeTree.SelectedNode.Level == 0)
                 {
+                    NodeTree.SelectedNode.Text = NodeNameBox.Text = System.Text.RegularExpressions.Regex.Replace(NodeNameBox.Text, @"\p{Cs}", "");
+
                     ShareLinkBox.TextChanged -= ShareLinkBox_TextChanged;
-                    bool Has=false;
+                    bool Has = false;
                     int inx = 0;
-                    for(int i = 0; i< NodeTree.Nodes.Count; i++)
+                    for (int i = 0; i < NodeTree.Nodes.Count; i++)
                     {
-                        if(NodeTree.Nodes[i].Text == NodeNameBox.Text)
+                        if (NodeTree.Nodes[i].Text == NodeNameBox.Text)
                         {
                             ++inx;
                             if (inx == 2)
@@ -630,13 +624,16 @@ namespace TCS
                     else
                     {
                         NodeTree.Enabled = true;
-                        File.WriteAllText(TCSPath.NodeList, NodeTree.ToJObject().ToString());
+                        File.WriteAllText(TCSPath.NodeList, Encrypt.Base64(NodeTree.ToJObject().ToString()));
                         ShareLinkBox.TextChanged += ShareLinkBox_TextChanged;
 
                     }
                 }
                 else
-                    File.WriteAllText(TCSPath.NodeList, NodeTree.ToJObject().ToString());
+                {
+                    NodeTree.SelectedNode.Text = NodeNameBox.Text;
+                    File.WriteAllText(TCSPath.NodeList, Encrypt.Base64(NodeTree.ToJObject().ToString()));
+                }
 
             }
             NodeNameBox.Text = NodeNameBox.Text.Replace("#", "");
@@ -644,7 +641,6 @@ namespace TCS
                 Conf2ShareLink();
         }
 
-        private string lastRP = "443";
         private void RemotePortBox_TextChanged(object sender, EventArgs e)
         {
             if (!string.IsNullOrWhiteSpace(RemotePortBox.Text))
@@ -677,12 +673,13 @@ namespace TCS
                     if (NodeTree.SelectedNode.Level != 0)
                         NodeTree.SelectedNode.Tag = ShareLinkBox.Text;
             }
-            catch
+            catch (Exception ex)
             {
-                Message.Show("Node written failed!", Message.Mode.Error);
+                if (ex.GetType() != typeof(System.Text.EncoderFallbackException))
+                    Message.Show($"Node written failed!\r\n{ex.ToString()}", Message.Mode.Error);
             }
-
-            File.WriteAllText(TCSPath.NodeList, Encrypt.Base64(NodeTree.ToJObject().ToString()));
+            if (IsNeedSave)
+                File.WriteAllText(TCSPath.NodeList, Encrypt.Base64(NodeTree.ToJObject().ToString()));
         }
 
         private void SocksPortBox_TextChanged(object sender, EventArgs e)
@@ -695,6 +692,9 @@ namespace TCS
             {
                 Message.Show("Port can only be an integer", Message.Mode.Error);
             }
+
+            if (SocksPortBox.Text == HttpPortBox.Text)
+                Message.Show("Socks port cannot be the same as http port!", Message.Mode.Error);
         }
 
         private void HttpPortBox_TextChanged(object sender, EventArgs e)
@@ -707,6 +707,9 @@ namespace TCS
             {
                 Message.Show("Port can only be an integer", Message.Mode.Error);
             }
+
+            if (SocksPortBox.Text == HttpPortBox.Text)
+                Message.Show("Http port cannot be the same as socks port!", Message.Mode.Error);
         }
 
         private void SniBox_TextChanged(object sender, EventArgs e)
@@ -836,8 +839,10 @@ namespace TCS
             }
         }
 
+        private bool IsNeedSave = true;
         private void NodeTree_AfterSelect(object sender, TreeViewEventArgs e)
         {
+            IsNeedSave = false;
             if (previousSelectedNode != null)
             {
                 previousSelectedNode.BackColor = NodeTree.BackColor;
@@ -858,6 +863,7 @@ namespace TCS
                 NodeNameBox.Text = NodeTree.SelectedNode.Text;
                 RemotePortBox.Text = "0";
             }
+            IsNeedSave = true;
         }
 
         private void AddGroup_Click(object sender, EventArgs e)
@@ -870,8 +876,7 @@ namespace TCS
             byte[] b = new byte[4];
             new System.Security.Cryptography.RNGCryptoServiceProvider().GetBytes(b);
             Random r = new Random(BitConverter.ToInt32(b, 0));
-            string s = null, str = "";
-            str += "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            string s = null, str = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
             for (int i = 0; i < length; i++)
             {
                 s += str.Substring(r.Next(0, str.Length - 1), 1);

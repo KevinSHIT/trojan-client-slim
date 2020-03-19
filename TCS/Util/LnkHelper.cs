@@ -8,9 +8,9 @@ namespace TCS.Util
     {
         public static void SetLnk()
         {
-            var shellType = Type.GetTypeFromProgID("WScript.Shell");
+            Type shellType = Type.GetTypeFromProgID("WScript.Shell");
             dynamic shell = Activator.CreateInstance(shellType);
-            var shortcut = shell.CreateShortcut(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Startup), "TCS.lnk"));
+            dynamic shortcut = shell.CreateShortcut(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Startup), "TCS.lnk"));
             shortcut.TargetPath = Assembly.GetEntryAssembly().Location;
             shortcut.Arguments = "silence";
             shortcut.WorkingDirectory = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;

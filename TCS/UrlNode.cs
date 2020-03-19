@@ -2,14 +2,14 @@
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+
 using TCS.Util;
 
 namespace TCS
 {
     public partial class UrlNode : Form
     {
-
-        TreeView tv;
+        private readonly TreeView tv;
         public UrlNode(TreeView tv)
         {
             InitializeComponent();
@@ -46,7 +46,7 @@ namespace TCS
                     Text = n
                 });
 
-                foreach (var v in b)
+                foreach (string v in b)
                 {
                     if (!string.IsNullOrWhiteSpace(v))
                     {

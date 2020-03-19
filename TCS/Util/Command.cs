@@ -1,10 +1,11 @@
 ﻿using Newtonsoft.Json.Linq;
+
 using System.Diagnostics;
 using System.IO;
 
 namespace TCS.Util
 {
-    class Command
+    internal class Command
     {
 
         /*
