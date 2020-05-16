@@ -6,13 +6,13 @@ using System.Windows.Forms;
 
 namespace TCS
 {
-    internal static class Program
+    static class Program
     {
         /// <summary>
         /// 应用程序的主入口点。
         /// </summary>
         [STAThread]
-        private static void Main(string[] args)
+        static void Main(string[] args)
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

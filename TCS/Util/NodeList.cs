@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-
 using System.Windows.Forms;
 
 namespace TCS.Util
@@ -85,7 +84,7 @@ namespace TCS.Util
         {
             try
             {
-                JObject.Parse(value);
+                JObject ja = JObject.Parse(value);
                 return true;
             }
             catch
@@ -97,7 +96,7 @@ namespace TCS.Util
         {
             try
             {
-                JArray.Parse(value);
+                JArray ja = JArray.Parse(value);
                 return true;
             }
             catch
@@ -108,7 +107,7 @@ namespace TCS.Util
 
         public static JObject ToJObject(this TreeView tv)
         {
-            JObject jo = new JObject();
+            var jo = new JObject();
             JArray ja;
             for (int i = 0; i < tv.Nodes.Count; i++)
             {

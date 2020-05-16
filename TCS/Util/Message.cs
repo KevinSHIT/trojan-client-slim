@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace TCS.Util
 {
-    internal class Message
+    class Message
     {
         public enum Mode { Info = 0, Warning = 1, Error = 2 };
         public static void Show(string content, Mode messageMode = Mode.Info)
