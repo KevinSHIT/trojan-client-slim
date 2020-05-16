@@ -1,7 +1,5 @@
-﻿using System.Web;
-using System.Net;
-using System;
-using System.Diagnostics;
+﻿using System.Net;
+using System.Web;
 
 namespace TCS.Util
 {
@@ -36,7 +34,7 @@ namespace TCS.Util
                 //tmp_2[1] -> serv:port
                 string[] tmp_3 = tmp_2[1].Split(':');
 
-                if(int.TryParse(tmp_3[tmp_3.Length -1], out int p))
+                if (int.TryParse(tmp_3[tmp_3.Length - 1], out int p))
                     tmp[1] = p.ToString();
                 else
                     return null;

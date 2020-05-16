@@ -1,14 +1,15 @@
-﻿using System;
-using System.Diagnostics;
+﻿using IniParser;
+
+using System;
+using System.Drawing;
 using System.IO;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Windows.Forms;
+
 using TCS.Util;
-using IniParser;
-using IniParser.Model;
+
 using Message = TCS.Util.Message;
-using System.Drawing;
 
 namespace TCS
 {
@@ -74,7 +75,7 @@ namespace TCS
 
             this.SniBox.Text = Config.sniList[this.RemoteAddressBox.Text];
 
-            if(Config.Debug)
+            if (Config.Debug)
                 this.Text = "[D]" + this.Text;
 
             //TODO:NODELIST
@@ -608,11 +609,11 @@ namespace TCS
                 if (NodeTree.SelectedNode.Level == 0)
                 {
                     ShareLinkBox.TextChanged -= ShareLinkBox_TextChanged;
-                    bool Has=false;
+                    bool Has = false;
                     int inx = 0;
-                    for(int i = 0; i< NodeTree.Nodes.Count; i++)
+                    for (int i = 0; i < NodeTree.Nodes.Count; i++)
                     {
-                        if(NodeTree.Nodes[i].Text == NodeNameBox.Text)
+                        if (NodeTree.Nodes[i].Text == NodeNameBox.Text)
                         {
                             ++inx;
                             if (inx == 2)

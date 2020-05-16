@@ -18,7 +18,7 @@ namespace TCS.Util
             }
         }
 
-        public static string DeBase64(string str)
+        public static string DeBase64(string str, bool IsExceptionReturnSourceData = false)
         {
             try
             {
@@ -26,7 +26,9 @@ namespace TCS.Util
             }
             catch
             {
-                throw new InvalidCastException();
+                if (IsExceptionReturnSourceData)
+                    return str;
+                throw new FormatException();
             }
         }
 

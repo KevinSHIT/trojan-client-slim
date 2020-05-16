@@ -3,7 +3,7 @@ using System.Net;
 
 namespace TCS.Util
 {
-    public class Http
+    public static class Http
     {
         public static string GET(string url)
         {

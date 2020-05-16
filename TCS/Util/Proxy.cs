@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Runtime.InteropServices;
 
 namespace TCS.Util
@@ -62,8 +61,8 @@ namespace TCS.Util
 
             // and finally, call the API method!
             int returnvalue = NativeMethods.InternetSetOption(IntPtr.Zero,
-               InternetOption.INTERNET_OPTION_PER_CONNECTION_OPTION,
-               ipcoListPtr, list.dwSize) ? -1 : 0;
+                InternetOption.INTERNET_OPTION_PER_CONNECTION_OPTION,
+                ipcoListPtr, list.dwSize) ? -1 : 0;
             if (returnvalue == 0)
             {  // get the error codes, they might be helpful
                 returnvalue = Marshal.GetLastWin32Error();
@@ -72,8 +71,8 @@ namespace TCS.Util
             Marshal.FreeCoTaskMem(optionsPtr);
             Marshal.FreeCoTaskMem(ipcoListPtr);
             if (returnvalue > 0)
-            {  // throw the error codes, they might be helpful
-                throw new Win32Exception(Marshal.GetLastWin32Error());
+            {
+                //throw new Win32Exception(Marshal.GetLastWin32Error());
             }
 
             return (returnvalue < 0);
@@ -84,11 +83,11 @@ namespace TCS.Util
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
         public struct InternetPerConnOptionList
         {
-            public int dwSize;               // size of the INTERNET_PER_CONN_OPTION_LIST struct
-            public IntPtr szConnection;         // connection name to set/query options
-            public int dwOptionCount;        // number of options to set/query
-            public int dwOptionError;           // on error, which option failed
-                                                //[MarshalAs(UnmanagedType.)]
+            public int dwSize;              // size of the INTERNET_PER_CONN_OPTION_LIST struct
+            public IntPtr szConnection;     // connection name to set/query options
+            public int dwOptionCount;       // number of options to set/query
+            public int dwOptionError;       // on error, which option failed
+                                            //[MarshalAs(UnmanagedType.)]
             public IntPtr options;
         };
 
