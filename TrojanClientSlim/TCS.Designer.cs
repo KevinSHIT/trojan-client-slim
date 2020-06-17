@@ -407,6 +407,7 @@
             this.ShareLinkBox.Location = new System.Drawing.Point(145, 177);
             this.ShareLinkBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ShareLinkBox.Name = "ShareLinkBox";
+            this.ShareLinkBox.PasswordChar = '*';
             this.ShareLinkBox.ReadOnly = true;
             this.ShareLinkBox.Size = new System.Drawing.Size(247, 23);
             this.ShareLinkBox.TabIndex = 12;

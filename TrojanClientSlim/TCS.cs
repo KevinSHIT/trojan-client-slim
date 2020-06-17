@@ -462,10 +462,12 @@ namespace TrojanClientSlim
         {
             if (EnableShareLink.Checked)
             {
+                ShareLinkBox.PasswordChar = new char();
                 ShareLinkBox.ReadOnly = false;
             }
             else
             {
+                ShareLinkBox.PasswordChar = '*';
                 ShareLinkBox.ReadOnly = true;
             }
         }
