@@ -607,7 +607,7 @@
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.MaximizeBox = false;
             this.Name = "TCS";
-            this.Text = "TCS v2.4.0";
+            this.Text = "TCS v2.4.1";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TCS_FormClosing);
             this.Load += new System.EventHandler(this.TCS_Load);
             this.SizeChanged += new System.EventHandler(this.TCS_SizeChanged);
