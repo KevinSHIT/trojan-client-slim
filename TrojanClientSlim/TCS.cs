@@ -183,6 +183,15 @@ namespace TrojanClientSlim
                     Config.iniData["TCS"]["LocalHttpPort"] = Config.DEFAULT_HTTP_PORT.ToString();
                     needWrite = true;
                 }
+                try
+                {
+                    Config.Debug = bool.Parse(Config.iniData["TCS"]["Debug"]);
+                }
+                catch
+                {
+                    Config.iniData["TCS"]["Debug"] = "False";
+                    needWrite = true;
+                }
 
 
                 if (needWrite)
