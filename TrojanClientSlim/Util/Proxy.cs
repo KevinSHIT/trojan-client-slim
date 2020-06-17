@@ -73,7 +73,7 @@ namespace TrojanClientSlim.Util
             Marshal.FreeCoTaskMem(ipcoListPtr);
             if (returnvalue > 0)
             {  // throw the error codes, they might be helpful
-                throw new Win32Exception(Marshal.GetLastWin32Error());
+                //throw new Win32Exception(Marshal.GetLastWin32Error());
             }
 
             return (returnvalue < 0);

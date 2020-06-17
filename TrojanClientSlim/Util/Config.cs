@@ -1,5 +1,4 @@
 ﻿using IniParser.Model;
-using System.Diagnostics;
 
 namespace TrojanClientSlim.Util
 {
@@ -8,6 +7,8 @@ namespace TrojanClientSlim.Util
         public static IniData iniData;
 
         public static TCS tcs;
+
+        public static bool Debug = false;
 
         public enum ProxyMode
         {
@@ -146,7 +147,7 @@ namespace TrojanClientSlim.Util
             set
             {
                 tcs.HttpPortBox.Text = iniData["TCS"]["LocalHttpPort"] = value.ToString();
-                Debug.WriteLine("HttpPortBox ->" + tcs.HttpPortBox.Text);
+                //Debug.WriteLine("HttpPortBox ->" + tcs.HttpPortBox.Text);
                 TCS.iniParser.WriteFile(Config.DEFAULT_CONFIG_PATH, Config.iniData);
 
                 //TCS.iniParser.WriteFile(Config.DEFAULT_CONFIG_PATH, Config.iniData);
@@ -220,7 +221,8 @@ namespace TrojanClientSlim.Util
                     "LocalHttpPort = 56784\r\n" +
                     "VerifyCert = true\r\n" +
                     "VerifyHostname = true\r\n" +
-                    "Proxy = GFWList";
+                    "Proxy = GFWList" +
+                    "Debug = False";
 
         //public const string DEFAULT_TROJAN_CONFIG_PATH = "trojan\\conf";
         public const string DEFAULT_CLASH_CONFIG_PATH = "clash\\config.yaml";
@@ -233,8 +235,6 @@ namespace TrojanClientSlim.Util
         //    var _jo = new JObject();
         //    _jo[""]
         //}
-
-
 
     }
 }

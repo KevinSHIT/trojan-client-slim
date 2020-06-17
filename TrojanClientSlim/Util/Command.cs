@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
+
 using System.Diagnostics;
 using System.IO;
 
@@ -44,12 +45,15 @@ namespace TrojanClientSlim.Util
             Process p = new Process();
             p.StartInfo.FileName = @"trojan\trojan.exe";
             p.StartInfo.Arguments = @"-c temp\trojan.json";
-#if DEBUG
-            p.StartInfo.UseShellExecute = true;
-#else
-            p.StartInfo.UseShellExecute = false;
-            p.StartInfo.CreateNoWindow = true;
-#endif
+            if (Config.Debug)
+            {
+                p.StartInfo.UseShellExecute = true;
+            }
+            else
+            {
+                p.StartInfo.UseShellExecute = false;
+                p.StartInfo.CreateNoWindow = true;
+            }
             p.Start();
         }
 
@@ -109,12 +113,15 @@ namespace TrojanClientSlim.Util
 
                     p.StartInfo.FileName = @"clash\clash.exe";
                     p.StartInfo.Arguments = @"-d temp";
-#if DEBUG
-                    p.StartInfo.UseShellExecute = true;
-#else
-                    p.StartInfo.UseShellExecute = false;
-                    p.StartInfo.CreateNoWindow = true;
-#endif
+                    if (Config.Debug)
+                    {
+                        p.StartInfo.UseShellExecute = true;
+                    }
+                    else
+                    {
+                        p.StartInfo.UseShellExecute = false;
+                        p.StartInfo.CreateNoWindow = true;
+                    }
                     break;
             }
             p.Start();
