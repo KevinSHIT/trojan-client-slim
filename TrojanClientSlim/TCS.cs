@@ -52,10 +52,13 @@ namespace TrojanClientSlim
                 }
             }
             else
+            {
                 File.Create("node.tcsdb").Dispose();
-#if DEBUG
-            this.Text = "[D]" + this.Text;
-#endif
+            }
+            if (Config.Debug)
+            {
+                this.Text = "[Debug] " + this.Text;
+            }
 
             if (File.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Startup), "TCS.lnk")))
             {
@@ -115,7 +118,6 @@ namespace TrojanClientSlim
                 {
                     Config.iniData = iniParser.ReadFile(Config.DEFAULT_CONFIG_PATH);
                 }
-
 
 
                 //proxtMode
