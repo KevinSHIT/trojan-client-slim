@@ -2,6 +2,8 @@
 
 using System.Diagnostics;
 using System.IO;
+using System;
+using System.Windows.Forms;
 
 namespace TrojanClientSlim.Util
 {
@@ -51,7 +53,9 @@ namespace TrojanClientSlim.Util
                 {
                     Directory.CreateDirectory("log");
                 }
-                p.StartInfo.Arguments += @" > log\" + DateTime.Now.ToString("yyyy-MM-dd-HH:mm:ss.log");
+                p.StartInfo.FileName = @"cmd";
+                p.StartInfo.Arguments = @"/c START /MIN trojan\trojan.exe -c temp\trojan.json";
+                p.StartInfo.Arguments += @" > log\" + DateTime.Now.ToString("yyyy-MM-dd-HH:mm:ss") + ".log 2>&1";
                 MessageBox.Show("Debug mode is on! log will storage in log folder");
             }
             
