@@ -47,13 +47,17 @@ namespace TrojanClientSlim.Util
             p.StartInfo.Arguments = @"-c temp\trojan.json";
             if (Config.Debug)
             {
-                p.StartInfo.UseShellExecute = true;
+                if (!Directory.Exists("log"))
+                {
+                    Directory.CreateDirectory("log");
+                }
+                p.StartInfo.Arguments += @" > log\" + DateTime.Now.ToString("yyyy-MM-dd-HH:mm:ss.log");
+                MessageBox.Show("Debug mode is on! log will storage in log folder");
             }
-            else
-            {
-                p.StartInfo.UseShellExecute = false;
-                p.StartInfo.CreateNoWindow = true;
-            }
+            
+            p.StartInfo.UseShellExecute = false;
+            p.StartInfo.CreateNoWindow = true;
+            
             p.Start();
         }
 
