@@ -18,16 +18,16 @@ namespace TCS.Util
 
         public static ProxyMode ProxyModeParser(string proxyMode)
         {
+            if (proxyMode is null) return ProxyMode.Full;
             switch (proxyMode.ToLower())
             {
+                default:
                 case "full":
                     return ProxyMode.Full;
                 case "gfwlist":
                     return ProxyMode.GFWList;
                 case "clash":
                     return ProxyMode.Clash;
-                default:
-                    throw new System.ArgumentException(proxyMode + " is not a valid proxymode");
             }
 
         }
